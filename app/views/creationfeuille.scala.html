@@ -1,0 +1,431 @@
+@(creationForm: Form[Feuille],listeExos :List[Exercice],listeFeuilles :List[Feuille], creationOrUpdate : Boolean)(implicit flash: Flash , request :RequestHeader)
+
+@main("Création d'une feuille d'exercices") {
+
+    <div id="totalcontainer">
+
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-10" id="errorcontainer">
+
+                @if(creationForm.hasErrors ) {
+                    <div  class="alert alert-danger text-center">
+                        <i class="fa fa-warning"></i>
+                        @if(creationForm("inputtitle").hasErrors) {
+                            Titre non renseigné !
+                        }
+
+                        @if(creationForm("inputmodule").hasErrors) {
+                            Module non renseigné !
+                        }
+
+                        @if(creationForm("inputmatiere").hasErrors) {
+                            Matière non renseignée !
+                        }
+
+                        @if(creationForm("inputpromo").hasErrors){
+                            @creationForm("inputpromo").error.map(error => error.message)
+                        }
+
+                        @if(creationForm("carac").hasErrors){
+                            @creationForm("carac").error.map(error => error.message)
+                        }
+                        @if(creationForm("listeExos").hasErrors) {
+                            @creationForm("listeExos").error.map(error => error.message)
+                        }
+                        @if(creationForm("realtempsimparti").hasErrors) {
+                            @creationForm("realtempsimparti").error.map(error => error.message)
+                        }
+                        @if(creationForm("listeExosNumber").hasErrors) {
+                            @creationForm("listeExosNumber").error.map(error => error.message)
+                        }
+                    </div>
+                }
+                @if(flash.get("success").isDefined){
+                    <div class="alert alert-info text-center"  id="success">
+                        <i class="fa fa-check"></i> @flash.get("success").get
+                    </div>
+                }
+
+            </div>
+        </div>
+
+
+        <div class="row" id="step1">
+        <div style="zoom: 1;" class="col-md-offset-2 col-md-8 maincontainer" >
+            <div class="row">
+            <h3 class="col-md-6">Choix des exercices <button class="btn btn-primary" id="step2boutton">Suivant</button></h3>
+            <h3 class="col-lg-offset-2 col-md-4">Durée indicative : <span class=" span-carac-tempsimparti"></span></h3>
+
+            </div>
+            <table id="exostable" class="  table table-responsive table-striped table-bordered table-hover ">
+                <thead>
+                    <tr>
+                        <th class="exoIdTable"></th>
+                        <th class="exoIdTable"></th>
+                        <th></th>
+                        <th></th>
+                        <th>Titre</th>
+                        <th>Module </th>
+                        <th>Matière</th>
+                        <th>Durée</th>
+                        <th>Dernière utilisation</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @for((exo, index) <- listeExos.zipWithIndex) {
+                    <tr>
+                        <td class="exoIdTable">@exo._id.get.stringify</td>
+                        <td class="exoIdTable"><input type="hidden" name="listeExos[@index]" value="@exo._id.get.stringify"></td>
+                        <td>
+                            <input class="checkboxexo" type="checkbox" name="listeExos[@index]" value="@exo._id.get.stringify"
+                            @if(creationForm.data.filter(test => test._1.contains("listeExos")).map(_._2).toList.contains(exo._id.get.stringify)) {checked}
+                            />
+                        </td>
+                        <td>
+                            <a class="modalLink" href="#titreModal"
+                            data-titre="@exo.titre"
+                            @if( exo.corrige.isDefined ){
+                                data-corrige="oui"
+                            }else{
+                                data-corrige="non"
+                            }
+                            data-date-creation="@exo.dateCreation.dayOfMonth().get()/@exo.dateCreation.monthOfYear().get()/@exo.dateCreation.year().get() à  @exo.dateCreation.hourOfDay().get() h @exo.dateCreation.minuteOfHour().get()"
+                            data-date-modification="@exo.dateModification.dayOfMonth().get()/@exo.dateModification.monthOfYear().get()/@exo.dateModification.year().get() à  @exo.dateModification.hourOfDay().get() h @exo.dateModification.minuteOfHour().get()"
+                            @if(exo.lastUsed.isDefined){
+                                data-last-used="Dernière utilisation : @exo.lastUsed.get.dayOfMonth().get()/@exo.lastUsed.get.monthOfYear().get()/@exo.lastUsed.get.year().get() à  @exo.lastUsed.get.hourOfDay().get() h @exo.lastUsed.get.minuteOfHour().get()"
+                            } else {
+                                data-last-used="non"
+                            }
+                            data-module="@exo.module"
+                            data-matiere="@exo.matiere"
+                            @if(exo.chapitre.isDefined){
+                                data-chapitre="Chapitre : @exo.chapitre.get"
+                            }else {
+                                data-chapitre="non"
+                            }
+                            data-type="@exo.typeExercice"
+                            data-duree="@exo.duree.get"
+                            @if( listeFeuilles.filter( feuille => feuille.listeExos.contains(exo._id.get)).length !=0 ) {
+                                data-size="@listeFeuilles.filter( feuille => feuille.listeExos.contains(exo._id.get)).length"
+                                @for((feuille,index) <- listeFeuilles.filter( feuille => feuille.listeExos.contains(exo._id.get)).zipWithIndex){
+                                    data-feuille-@index="<li>@feuille.titre</li>"
+                                }
+                            }
+                            data-contenu="@exo.contenu"
+
+                            data-toggle="modal" data-target="#myModal" ><span class="fa fa-plus"></span> </a>
+                        </td>
+                        <td> @exo.titre</td>
+                        <td >@exo.module</td>
+                        <td class="exoMatiere">@exo.matiere</td>
+                        <td id="exoDuree[@index]" >@exo.duree</td>
+                        <td> @if(exo.lastUsed.isDefined) { @exo.lastUsed.get.dayOfMonth().get()/@exo.lastUsed.get.monthOfYear().get()/@exo.lastUsed.get.year().get()}</td>
+
+                    </tr>
+                }
+                </tbody>
+
+            </table>
+        </div>
+        </div>
+
+
+
+        <div class="row">
+        <form action=" @if(creationOrUpdate){ @routes.FeuilleControllerBdd.submit } else {@routes.FeuilleControllerBdd.updateForm }" method="POST" class="form-horizontal " role="form" id="creationfeuille">
+            <div class="row">
+                <div class="col-md-3 col-lg-offset-1 maincontainer " >
+
+                        <h3>Création d'une feuille d'exercices</h3>
+
+                        <div class="form-group @if(creationForm("_id").hasErrors) {has-error}" id="idgroup">
+
+                            <div class="col-md-10">
+                                <input type="hidden" class="form-control " name="_id" id="_id"
+                                value="@creationForm("_id").value.getOrElse("")">
+                            </div>
+                        </div>
+
+                        <div class="form-group @if(creationForm("inputtitle").hasErrors) {has-error}" id="titregroup">
+
+                            <label for="inputtitle" class="col-md-2 control-label">Titre</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control " name="inputtitle" id="inputtitle" placeholder="Titre"
+                                value="@creationForm("inputtitle").value.getOrElse("")">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group @if(creationForm("inputmodule").hasErrors) {has-error}" id="modulegroup">
+                            <label for="inputmodule" class="col-md-2  control-label">Module</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="inputmodule" id="inputmodule" placeholder="Module"
+                                value="@creationForm("inputmodule").value.getOrElse("")">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group @if(creationForm("inputmatiere").hasErrors) {has-error}" id="matieregroup">
+                            <label for="inputmatiere" class="col-md-2 control-label">Matière</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="inputmatiere" id="inputmatiere" placeholder="Matière"
+                                value="@creationForm("inputmatiere").value.getOrElse("")">
+                            </div>
+                        </div>
+
+                        <div class="form-group @if(creationForm("inputpromo.classe").hasErrors) {has-error}">
+                            <label for="inputpromo.classe" class="col-md-2 control-label">Promo</label>
+                            <div  class="col-md-5">
+                                <select  class="form-control" id="inputpromo.classe" name="inputpromo.classe">
+                                @for(option <- FormulairesValeurs.listpromo) {
+                                    @option match {
+                                        case el if(creationForm("inputpromo.classe").value.getOrElse("") == el) => {
+                                            <option selected="true">@el</option>
+                                        }
+                                        case el => {
+                                            <option>@el</option>
+                                        }
+                                    }
+                                }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group @if(creationForm("inputpromo.option").hasErrors)  {has-error}" id="optiongroup">
+                            <label  for="inputpromo.option" class="col-md-2  control-label" id="labeloption">Option</label>
+                            <div class="col-md-5" >
+                                <select  class="form-control" id="inputpromo.option" name="inputpromo.option">
+                                @for(option <- FormulairesValeurs.listoptions) {
+                                    @option match {
+                                        case el if(creationForm("inputpromo.option").value.getOrElse("") == el) => {
+                                            <option selected="true">@el</option>
+                                        }
+                                        case el => {
+                                            <option>@el</option>
+                                        }
+                                    }
+                                }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group @if(creationForm("carac.typefeuille").hasErrors) {has-error}" >
+                            <label for="carac.typefeuille" class="col-md-2 control-label">Type</label>
+                            <div class="col-md-7">
+
+                                <select  class="form-control" id="carac.typefeuille" name="carac.typefeuille">
+                                @for(option <- FormulairesValeurs.listtypes) {
+                                    @option match {
+                                        case el if(creationForm("carac.typefeuille").value.getOrElse("") == el) => {
+                                            <option selected="true">@el</option>
+                                        }
+                                        case el => {
+                                            <option>@el</option>
+                                        }
+                                    }
+                                }
+                                </select>
+                            </div>
+                        </div>
+
+                    <div class="form-group @if(creationForm("dateexamen").hasErrors) {has-error}" id="dateexamengroup">
+                        <label for="dateexamen" class="col-md-2 control-label">Date</label>
+                        <div class="col-md-7" >
+                            <div class="input-group date" id="datetimepicker">
+                            <input type="text" class="form-control" value="@creationForm("dateexamen").value.getOrElse("")" name="dateexamen" readonly>
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                        <fieldset>
+                        <legend>Durée :</legend>
+                        <div class="form-group @if(creationForm("realtempsimparti").hasErrors) {has-error} " id="realdureegroup">
+                            <label  for="realtempsimparti" class="col-md-2  control-label " id="lduree2">Réelle</label>
+                            <div class="col-md-offset-1 col-md-5">
+                                <input type="text" class="form-control" id="realtempsimparti" name="realtempsimparti"
+                                value="@creationForm("realtempsimparti").value.getOrElse("0 h 00 min")"
+                                data-container="body" data-toggle="popover" data-placement="right"
+                                data-content="Le format est le suivant :  x h xx min">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group " id="dureegroup">
+                            <label  for="carac.tempsimparti" class="col-md-2  control-label" id="lduree">Indicative</label>
+                            <div class="col-md-offset-1 col-md-5">
+                                <label  class="span-carac-tempsimparti control-label">@if(creationForm.data.filter(test => test._1.contains("listeExos")).map(_._2).toList.isEmpty){0 h 00 min}else {@creationForm("carac.tempsimparti").value.getOrElse("0 h 00 min")}</label>
+                                <input type="hidden" class="form-control" readonly id="input-carac-tempsimparti" name="carac.tempsimparti"
+                                value="@if(creationForm.data.filter(test => test._1.contains("listeExos")).map(_._2).toList.isEmpty){0 h 00 min} else {@creationForm("carac.tempsimparti").value.getOrElse("0 h 00 min")}">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-2">
+                                <button type="submit" class="btn btn-primary" id="submitbouton">Création</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div id="tabtocreate" class="col-md-6 col-md-offset-1 maincontainer">
+                <h3>Exercices choisis </h3>
+                    @if(creationForm.hasErrors) {
+                        <script type="text/javascript">
+                        $(document).ready(function () {
+
+                           $('#step1' ).hide();
+                            $('#creationfeuille').show();
+
+                        });
+                        </script>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                            <th class="exoIdTable"></th>
+                            <th></th>
+                            <th>Titre</th>
+                            <th>Module </th>
+                            <th>Matière</th>
+                            <th>Durée</th>
+                            <th>Dernière utilisation</th>
+                            <th>Ordre des exercices</th>
+                            </tr>
+
+                        @for((exo,index)<-listeExos.zipWithIndex){
+                            @if(creationForm.data.filter(test => test._1.contains("listeExos")).map(_._2).toList.contains(exo._id.get.stringify)){
+                            <tr>
+                                <td class="exoIdTable"><input type="hidden" name="listeExos[@index]" value="@exo._id.get.stringify"></td>
+
+                                <td>
+                                    <a class="modalLink" href="#titreModal"
+                                    data-titre="@exo.titre"
+                                    @if( exo.corrige.isDefined ){
+                                        data-corrige="oui"
+                                    }else{
+                                        data-corrige="non"
+                                    }
+                                    data-date-creation="@exo.dateCreation.dayOfMonth().get()/@exo.dateCreation.monthOfYear().get()/@exo.dateCreation.year().get() à  @exo.dateCreation.hourOfDay().get() h @exo.dateCreation.minuteOfHour().get()"
+                                    data-date-modification="@exo.dateModification.dayOfMonth().get()/@exo.dateModification.monthOfYear().get()/@exo.dateModification.year().get() à  @exo.dateModification.hourOfDay().get() h @exo.dateModification.minuteOfHour().get()"
+                                    @if(exo.lastUsed.isDefined){
+                                        data-last-used="Dernière utilisation : @exo.lastUsed.get.dayOfMonth().get()/@exo.lastUsed.get.monthOfYear().get()/@exo.lastUsed.get.year().get() à  @exo.lastUsed.get.hourOfDay().get() h @exo.lastUsed.get.minuteOfHour().get()"
+                                    } else {
+                                        data-last-used="non"
+                                    }
+                                    data-module="@exo.module"
+                                    data-matiere="@exo.matiere"
+                                    @if(exo.chapitre.isDefined){
+                                        data-chapitre="Chapitre : @exo.chapitre.get"
+                                    }else {
+                                        data-chapitre="non"
+                                    }
+                                    data-type="@exo.typeExercice"
+                                    data-duree="@exo.duree.get"
+                                    @if( listeFeuilles.filter( feuille => feuille.listeExos.contains(exo._id.get)).length !=0 ) {
+                                        data-size="@listeFeuilles.filter( feuille => feuille.listeExos.contains(exo._id.get)).length"
+                                        @for((feuille,index) <- listeFeuilles.filter( feuille => feuille.listeExos.contains(exo._id.get)).zipWithIndex){
+                                            data-feuille-@index="<li>@feuille.titre</li>"
+                                        }
+                                    }
+                                    data-contenu="@exo.contenu"
+
+                                    data-toggle="modal" data-target="#myModal" ><span class="fa fa-plus"></span></a>
+                                </td>
+                                <td>@exo.titre</td>
+                                <td >@exo.module</td>
+                                <td class="exoMatiere">@exo.matiere</td>
+                                <td id="exoDuree[@index]" >@exo.duree</td>
+                                <td> @if(exo.lastUsed.isDefined) { @exo.lastUsed.get.dayOfMonth().get()/@exo.lastUsed.get.monthOfYear().get()/@exo.lastUsed.get.year().get()}</td>
+                                <td><input type="number" class="form-control" name="listeExosNumber[@index]" value="@creationForm("listeExosNumber[" + index + "]").value.getOrElse("")"></td>
+                            </tr>
+
+                            }
+
+                        }
+                       </table>
+
+                    }else {
+                        <script type="text/javascript">
+                        $(document).ready(function () {
+
+                        $('#step1' ).show();
+                        $('#creationfeuille').hide();
+
+                        });
+                        </script>
+                    }
+                </div>
+            </div>
+        </form>
+        </div>
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="max-height: 730px;" >
+                    <div class="modal-header" style="max-height: 300px; overflow-y: scroll;">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 style="margin-bottom: 0px;"class="modal-title" id="myModalLabel"><span id="idTitreModal"></span></h4>
+                        <hr style="margin-top: 0px; margin-bottom: 0px;">
+                        <span> Corrigé :</span>
+                        <span id="idIconeCorrige"></span>
+                        <span>Date de création :
+                            <span id="datecreation"></span>
+
+                        </span> <br/>
+                        <span>Date dernière modification :
+                            <span id="datemodification"></span>
+                        </span><br/>
+
+                        <span id="lastused"></span>
+                        <span>Module :  <span id="module"></span></span> <br/>
+                        <span>Matière :  <span id="matiere"></span></span>  <br/>
+                        <span id="chapitre"></span>
+                        <span>Type :  <span id="type"></span></span> <br/>
+                        <span>Durée :  <span id="duree"></span></span>  <br/>
+                        <span id="presentfeuilles"></span>
+                         <ul id="listefeuille">
+
+                         </ul>
+                    </div>
+                    <div class="modal-body">
+
+                        <div style=" max-width: 600px; word-wrap: break-word; max-height:300px; overflow-y: scroll;">
+                                <div id="exoContenuModal"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    @*Css spécifique à la page*@
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/formcreation.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/dataTables.bootstrap.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap-datetimepicker.min.css")">
+
+    @*Script spécifique à la page*@
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/perso/creationFeuilleForm.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/moment.min.js")"> </script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.dataTables.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/dataTables.bootstrap.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/bootstrap-datetimepicker.min.js")"></script>
+
+
+
+
+
+
+
+
+
+
+
+}

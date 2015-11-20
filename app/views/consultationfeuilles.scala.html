@@ -1,0 +1,138 @@
+@(listeFeuilles :List[Feuille], listeExos: List[Exercice])
+
+
+@main("Consultation des feuilles d'exercices") {
+
+
+            <div id="totalcontainer">
+
+            <div id="errorcontainer"></div>
+            <div class="col-lg-offset-1 col-md-10 maincontainer">
+
+              <h3>Consultation des feuilles d'exercices </h3>
+
+                <table id="exostable" class="table table-striped table-bordered table-hover ">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Titre</th>
+                            <th>Module </th>
+                            <th>Matière</th>
+                            <th>Promo / option </th>
+                            <th>Duree</th>
+                            <th>Date de création </th>
+                            <th>Dernière modification</th>
+                            <th>Accès</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    @for((feuille, index) <- listeFeuilles.zipWithIndex) {
+                        <tr>
+                            <td>
+
+                                <a class="modalLink" href="#titreModal"
+
+                                data-titre="@feuille.titre"
+                                data-date-creation="@feuille.dateCreation.dayOfMonth().get()/@feuille.dateCreation.monthOfYear().get()/@feuille.dateCreation.year().get() à  @feuille.dateCreation.hourOfDay().get() h @feuille.dateCreation.minuteOfHour().get()"
+                                data-date-modification="@feuille.dateModification.dayOfMonth().get()/@feuille.dateModification.monthOfYear().get()/@feuille.dateModification.year().get() à  @feuille.dateModification.hourOfDay().get() h @feuille.dateModification.minuteOfHour().get()"
+
+                                data-module="@feuille.module"
+                                data-matiere="@feuille.matiere"
+                                data-promo="@feuille.promo"
+                                @if(feuille.option.isDefined){data-option="@feuille.option.get"} else {data-option="non"}
+                                data-module="@feuille.module"
+                                data-matiere="@feuille.matiere"
+                                data-type="@feuille.typefeuille"
+                               @if(feuille.dateExamen.isDefined){data-date-examen="@feuille.dateExamen"}else {data-date-examen="non"}
+                                data-duree-indicative="@feuille.duree.get"
+                                @if(feuille.realDuree.isDefined){data-duree-reelle="@feuille.realDuree.get"}
+                                data-size="@feuille.listeExos.length"
+                                @for((id,index) <- feuille.listeExos.zipWithIndex) {
+                                    @for(exo <- listeExos.filter(_._id.get.stringify == id.stringify)) {
+                                        data-exo-@index="@exo.contenu"
+                                        data-exo-titre-@index="@exo.titre"
+                                    }
+                                }
+
+                                data-toggle="modal" data-target="#myModal" ><span class="fa fa-plus"></span></a>
+
+
+
+
+                            </td>
+                            <td>@feuille.titre</td>
+                            <td>@feuille.module</td>
+                            <td>@feuille.matiere</td>
+                            <td>@feuille.promo  @if( ! feuille.option.isEmpty ) { - @feuille.option} </td>
+                            <td>@feuille.duree</td>
+                            <td> @feuille.dateCreation.dayOfMonth().get() / @feuille.dateCreation.monthOfYear().get() / @feuille.dateCreation.year().get()</td>
+                            <td> @feuille.dateModification.dayOfMonth().get() / @feuille.dateModification.monthOfYear().get() / @feuille.dateModification.year().get()</td>
+
+                            <td>
+                                <a class="link" data-toggle="tooltip" data-placement="top" title="Mettre à jour" style="margin-left:15px;margin-right : 15px;" href="@routes.FeuilleControllerBdd.update(feuille._id.get.stringify)"><span class="glyphicon glyphicon-pencil"></span></a>
+                                <a  class="link" data-toggle="tooltip" data-placement="top" title="Supprimer la feuille d'exercices" style="margin-right : 15px;color:rgb(209, 91, 71);"href="@routes.FeuilleControllerBdd.delete(feuille._id.get.stringify)"><span class="fa fa-trash-o fa-lg"></span></a>
+                                <a class="link" data-toggle="tooltip" data-placement="top" title="Publier" style="margin-right : 15px;color:rgb(248, 148, 6);" href="@routes.FeuilleControllerBdd.generation(feuille._id.get.stringify)"><span class="fa fa-download fa-lg"></span></a>
+                                <a class="link" data-toggle="tooltip" data-placement="top" title="Publier un corrigé" style="color: rgb( 12, 160, 76 );" href="@routes.FeuilleControllerBdd.generationCorrige(feuille._id.get.stringify)"><span class="fa fa-cloud-download fa-lg"></span></a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+
+                 </table>
+
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="max-height: 730px;" >
+                            <div class="modal-header" style="max-height: 300px; overflow-y: scroll;">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 style="margin-bottom: 0px;"class="modal-title" id="myModalLabel"><span id="idTitreModal"></span></h4>
+                                <hr style="margin-top: 0px; margin-bottom: 0px;">
+
+                                <span>Date de création :
+                                    <span id="datecreation"></span>
+
+                                </span> <br/>
+                                <span>Date dernière modification :
+                                    <span id="datemodification"></span>
+                                </span><br/>
+
+                                <span>Promo :  <span id="promo"></span></span> <br/>
+                                <span>Module :  <span id="module"></span></span> <br/>
+                                <span>Matière :  <span id="matiere"></span></span>  <br/>
+                                <span>Type :  <span id="type"></span></span> <br/>
+                                <span><span id="dateexamen"></span></span>
+                                <span>Durée indicative :  <span id="dureeindicative"></span></span>  <br/>
+                                <span>Durée  réelle:  <span id="dureereelle"></span></span>  <br/>
+
+                            </div>
+                            <div class="modal-body">
+
+                                <div style=" max-width: 600px; word-wrap: break-word; max-height:300px; overflow-y: scroll; overflow-x: scroll;">
+                                    <div id="exoContenuModal"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+
+
+    @*Css spécifique à la page*@
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/formcreation.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/dataTables.bootstrap.css")">
+
+    @*Script spécifique à la page*@
+
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.dataTables.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/dataTables.bootstrap.js")"></script>
+
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/perso/consultationFeuilles.js")"> </script>
+
+}

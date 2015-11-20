@@ -1,0 +1,61 @@
+@(updateExercice: Form[Exercice], id : String)(implicit flash: Flash, request : RequestHeader)
+
+@update(updateExercice, id)
+<script defer type="text/javascript">
+
+// affiche le bouton "supprimer" (icône poubelle rouge) correspondant à l'onglet affiché
+function changeCurrentTab() {
+var id = $(this ).attr('href');
+$("#buttonDeleteTabs a[id^='delete']" ).hide();
+$("#delete"+id.substring(4)).show();
+}
+
+// On récupère le nombre d'onglets existants
+var nbCorrige = $("#myTab li" ).size();
+// On crée les nouveaux id pour le titre de l'onglet (li) pour le conteu (textarea), pour le bouton "supprimer" (icône poubelle)
+var idNewCorrige = 'tabcorrige_'+parseInt(nbCorrige - 1)+"_";
+var idTextArea = 'corrige_'+parseInt(nbCorrige - 1)+"_";
+var idDelete = 'deletecorrige_'+parseInt(nbCorrige - 1)+"_";
+$("#myTab li" ).removeClass('active');
+// Création du nouveau titre
+var tabTitle = '<li class="active"><a href="#'+idNewCorrige+'" data-toggle="tab">Corrige N°'+nbCorrige+'</a></li>';
+// Création du nouveau contenu
+var tabContent = '<div class="tab-pane active" id="'+idNewCorrige+'">'+
+'<textarea name="corrige['+parseInt(nbCorrige-1)+']" id="'+idTextArea+'">' +
+'Corrige : </textarea></div>';
+
+$("#myTab" ).append(tabTitle);
+// Permet de changer le bouton "supprimer" lors du changement d'onglets
+$("#myTab li a" ).click(changeCurrentTab);
+$("#myTabContent div" ).removeClass('active');
+$("#myTabContent" ).append(tabContent);
+
+// Création du bouton "supprimer"
+$("#buttonDeleteTabs a[id^='delete']" ).hide();
+var buttonDelete = '<a id="'+idDelete+'" style="background-color: #DD4B39;"' +
+'class="btn btn-link pull-right exo-bouton-validation">' +
+'<i class="fa fa-lg fa-trash-o"></i></a>';
+
+$("#buttonDeleteTabs").append(buttonDelete);
+// Clic sur le bouton supprimer
+$("#"+idDelete ).click(function () {
+
+// rend l'onglet de l'exercice visible
+$("#myTabContent div:first-child" ).addClass('active');
+// supprime le titre de l'onglet de cet élément
+$('#myTab li:last-child').remove();
+$("#myTab li:first-child" ).addClass('active');
+// supprime le contenu
+$('#'+idNewCorrige).remove();
+// affiche le bouton supprimer de l'exercice
+$("#buttonDeleteTabs a[id^='delete']:first-child" ).show();
+// supprime le bouton
+$(this).remove();
+});
+
+// ajoute un ckeditor
+CKEDITOR.replace (idTextArea, {
+customConfig : 'myConfigUpdate.js'
+});
+
+</script>

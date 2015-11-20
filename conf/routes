@@ -1,0 +1,52 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+
+GET         /                                            controllers.Application.homePage
+
+#Homepage pour utilisateur authentifié (authentification non implémentée)
+GET         /synthese                                    controllers.Application.synthese
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                                controllers.Assets.at(path="/public", file)
+
+GET         /creationfeuillemanuelle                     controllers.FeuilleControllerBdd.creationFeuilleMan
+POST        /creationfeuillemanuelle                     controllers.FeuilleControllerBdd.submit
+
+GET         /creationfeuilleautomatique                  controllers.FeuilleControllerBdd.creationFeuilleAuto
+
+GET         /generation/:id                              controllers.FeuilleControllerBdd.generation(id :String)
+
+GET         /generationcorrige/:id                       controllers.FeuilleControllerBdd.generationCorrige(id :String)
+POST        /generationcorrige/:id                       controllers.FeuilleControllerBdd.submitChoixCorriges(id : String)
+GET         /visualisationcorrige                        controllers.FeuilleControllerBdd.visualisationCorrige
+
+GET         /deletefeuille/:id                           controllers.FeuilleControllerBdd.delete(id:String)
+
+GET         /consultationfeuilles                        controllers.FeuilleControllerBdd.consultation
+
+POST        /updatefeuille                               controllers.FeuilleControllerBdd.updateForm
+GET         /updatefeuille/:id                           controllers.FeuilleControllerBdd.update(id: String)
+
+GET         /creation                                    controllers.ExerciceControllerBdd.creation
+POST        /creation                                    controllers.ExerciceControllerBdd.submit
+
+POST        /update/:id                                  controllers.ExerciceControllerBdd.update(id : String)
+GET         /update/:id                                  controllers.ExerciceControllerBdd.updateForm(id : String)
+
+GET         /corrige/:id/                                controllers.ExerciceControllerBdd.addCorrige(id : String)
+
+GET         /delete/:id                                  controllers.ExerciceControllerBdd.delete(id : String)
+GET         /removeCorrige/:idExercise/:idCorrige        controllers.ExerciceControllerBdd.removeCorrige(idExercise: String, idCorrige : String)
+
+GET         /consultationexercices                       controllers.ExerciceControllerBdd.consultation
+POST        /consultationexercices                       controllers.ExerciceControllerBdd.uploadCorrigeSubmit
+
+
+GET         /upload                                      controllers.UploadController.upload
+POST        /upload                                      controllers.UploadController.uploadsubmit
+
+
+GET         /download/generatedTex.pdf                   controllers.DownloadController.downloadPdf
+

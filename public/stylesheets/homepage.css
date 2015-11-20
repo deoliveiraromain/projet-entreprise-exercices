@@ -1,0 +1,352 @@
+body,html{
+    height: 100%;
+    display: block;
+}
+
+
+h1{
+    color: rgb(18,98,130) !important;
+}
+
+.exo-login{
+    padding-top: 150px;
+    padding-bottom: 200px;
+    width: 100%;
+    background-color:rgb(216,227,236);
+}
+
+.exo-login .row {
+    margin-right: 0;
+}
+
+#colexologin1 {
+    padding-left: 120px;
+
+}
+
+#colexologin2 h1{
+   font-size: 60px; padding-bottom: 10px;
+}
+
+#formail{
+    padding-top: 40px;
+}
+
+#formpass{
+    padding-top: 5px;
+}
+#formboutton{
+    padding-top: 10px;
+}
+
+#createboutton{
+    margin-left: 10px;
+}
+
+#exo-plus-info{
+    padding-top: 10px;
+}
+
+#exo-plus-info i {
+    position: absolute; left: 16px; top:7px;
+}
+.exo-services{
+    width: 100%;
+    background-color: #34495e;
+    padding-bottom: 100px;
+}
+
+.exo-services-title{
+    padding-top: 60px;
+    text-align: center;
+}
+
+
+.exo-services-title h2{
+ color: #ffffff;
+}
+
+.exo-fonctionnalite{
+    color: #ffffff;
+    text-align: center;
+    padding-right: 50px;
+}
+
+#exo-fonctionnalite-hr{
+    width: 30%;
+}
+
+.exo-fonctionnalite h3{
+    color: #ffffff;
+    text-align: center;
+}
+
+.exo-ligne-fonctionnalite{
+    padding-top: 70px;
+}
+
+#exo-link-services{
+    text-decoration: none;
+    padding-left: 70px;
+}
+
+/* Footer */
+
+#exo-footer{
+    color: #CACACA;
+    background-color: #2e2f2f;
+    padding-top: 50px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.exo-footer-section{
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.exo-footer-campus{
+    text-align: center;
+    padding-top: 25px;
+}
+
+#exo-footer h2{
+    color: #D6D6D6;
+    padding-bottom: 10px;
+}
+
+#exo-footer h4{
+    color: #D6D6D6;
+}
+
+#exo-footer-hr{
+    width: 40%;
+    padding-bottom: 30px;
+}
+
+#exo-footer ul li{
+    display: inline-block;
+    text-decoration: none;
+    padding-right: 20px;
+    color: #979797;
+}
+
+#exo-footer ul li a{
+    color: #979797;
+}
+
+#exo-logo-fb:hover{
+    color: #3B5998;
+}
+
+#exo-logo-linkedin:hover{
+    color: #4875B4;
+}
+
+#exo-logo-git:hover{
+    color: #ffffff;
+}
+
+#exo-logo-html5:hover{
+    color: orangered;
+}
+
+#exo-logo-css3:hover{
+    color: green;
+}
+
+#exo-logo-play:hover{
+    color: #61dd45;
+}
+
+#exo-logo-twitter:hover{
+    color: #4099FF;
+}
+
+#exo-footer ul{
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+
+
+
+
+/* Logged user home */
+
+#exo-userInfos{
+    text-align: center;
+    overflow-x: hidden;
+    padding-bottom: 50px;
+}
+
+
+#exo-userInfos-content{
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 60px;
+}
+
+#exo-userInfos-content h1{
+    text-align: left;
+    padding-left: 20px;
+}
+
+
+#exo-table-recap-uploads, #exo-table-recap-generation,#exo-table-recap-corrige{
+    text-align: left;
+}
+
+#exo-table-recap-uploads, #exo-table-recap-generation{
+    padding-top: 50px;
+}
+
+#exo-table-recap-corrige{
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+
+
+#exo-table-recap-uploads h2{
+    text-align: center;
+}
+
+
+#exo-table-recap-generation h2{
+    text-align: center;
+}
+
+#exo-table-recap-corrige h2{
+    text-align: center;
+}
+
+.exo-table-stat{
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.exo-table-stat td{
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#exo-panel-chart-exercises{
+    padding-top: 50px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding-left: 30px;
+}
+
+#exo-panel-resume-activity{
+    padding-top: 50px;
+    padding-left: 30px;
+    padding-right: 40px;
+}
+
+.exo-resume-name{
+    padding-left: 30px !important;
+    text-align: left;
+    font-size: 12pt;
+}
+
+.exo-resume-value{
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.panel-primary > .panel-heading {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #e9e9e9)) !important;
+    background-color: #fafafa;
+    border-color: #D5D5FC !important;
+    color: #3c3c3c !important;
+    font-size: 15pt !important;
+    text-align: left !important;
+}
+
+
+.panel-primary{
+    border: 1px solid #D5D5D5 !important;
+    box-shadow: 3px 3px 2px #ccc !important;
+    transition: 0.5s !important;
+}
+
+.panel-primary:hover{
+    box-shadow: 3px 3px 0 !important;
+    transition: 0.5s !important;
+}
+
+/* Visualisation feuille */
+#exo-template-feuille-table,#exo-template-feuille-table th,#exo-template-feuille-table td{
+    border:1px solid black;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:5px;
+}
+
+
+#exo-template-feuille-container{
+    margin-left: 200px;
+    width: 1140px;
+    margin-right: 50px;
+}
+
+#exo-template-feuille-table{
+    margin-top: 20px;
+    border:1px solid black;
+    border-collapse:collapse;
+    margin-left: auto;
+    margin-right: auto;
+    height: 200px;
+    width: 1000px;
+}
+
+#exo-template-feuille-logo{
+    width: 50px;
+}
+
+#exo-template-feuille-prof{
+    font-size: 10pt;
+    margin-top: -18pt;
+    text-align: right;
+    padding-right: 10px;
+}
+
+#exo-template-feuille-instruc{
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 24px;
+}
+
+.exo-template-feuille-col-g{
+    height: 20px;
+    width: 400px;
+    text-align: left !important;
+}
+
+.exo-template-feuille-col-d{
+    height: 20px;
+    width: 200px;
+    text-align: left !important;
+}
+
+.exo-value{
+    font-weight: bold;
+    color: #000000;
+}
+
+.exo-template-feuille-exo{
+    padding-bottom: 20px;
+}
+
+.exo-template-feuille-exercise-title{
+    font-weight: bold;
+    color: #000000;
+    padding-bottom: 10px;
+}

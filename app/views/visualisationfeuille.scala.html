@@ -1,0 +1,60 @@
+@(feuille: Feuille, listeExos : List[Exercice])
+
+@main("Visualisation Feuille"){
+        <div class="panel panel-primary" id="exo-template-feuille-container">
+            <div class="panel-heading">
+                Prévisualisation
+                <span style="padding-left: 835px;"><a class="btn btn-primary" id="exo-download" href="@routes.DownloadController.downloadPdf">Publier</a></span>
+            </div>
+            <div class="panel-body" style="padding: 0;" id="exo-template-feuille-content">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <table id="exo-template-feuille-table">
+                        <tr style="text-align: center;">
+                            <td rowspan=4 id="exo-template-feuille-logo"><img width="100px" src="@routes.Assets.at("images/eisti-logo-jpg.jpg")"></td>
+                            <td colspan=2><h2>@feuille.promo<br>@feuille.titre</h2> <br> <p id="exo-template-feuille-prof">@feuille.prof</p></td>
+                        </tr>
+                        <tr>
+                            <td class="exo--template-feuille-col-g">Matière: <span class="exo-value">@feuille.matiere</span></td>
+                            <td>Date: <span class="exo-value">
+                            @if(feuille.dateExamen.isDefined){
+                                @feuille.dateExamen
+                            }else{
+                                @feuille.dateModification.dayOfMonth().get()/@feuille.dateModification.monthOfYear().get()/@feuille.dateModification.year().get()
+                            }
+                            </span></td>
+                        </tr>
+                        <tr>
+                            <td class="exo-template-feuille-col-g"><span class="exo-value">Appareils électroniques et documents interdits</span></td>
+                            <td class="exo-template-feuille-col-d">Durée: <span class="exo-value">@feuille.realDuree</span></td>
+                        </tr>
+                        <tr>
+                            <td class="exo-template-feuille-col-g"></td>
+                            <td class="exo-template-feuille-col-d">Nombre de pages: <span class="exo-value">-</span></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="col-xs-offset-2 col-xs-8 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8" style="text-align: center;">
+                    <h4 id="exo-template-feuille-instruc">Le barême est donné à titre indicatif<br>
+                    Il sera tenu compte de la qualité de la rédaction et de la précision des justifications.</h4>
+                    <p style="font-size: 11pt;font-style: italic;margin-bottom: 60px">Si vous êtes amené à repérer ce qui peut vous sembler être une erreur d’énoncé, vous la signalerez sur votre copie et devrez
+                    poursuivre votre composition en expliquant les raisons des initiatives que vous êtes amené à prendre.</p>
+                </div>
+
+                <div class="col-xs-offset-2 col-xs-8 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8" style="margin-bottom: 50px;">
+                    @for((exo, pos) <- listeExos.zipWithIndex){
+                       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 exo-template-feuille-exo">
+                           <div class="exo-template-feuille-exercise-title">Exercice n°@{pos+1}</div>
+                           @Html(exo.contenu)
+                       </div>
+                    }
+                </div>
+            </div>
+        </div>
+    <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+    @*Css spécifique à la page*@
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/creation.css")">
+}

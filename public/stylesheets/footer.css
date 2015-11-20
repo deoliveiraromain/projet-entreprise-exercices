@@ -1,0 +1,77 @@
+#exo-footer{
+    color: #CACACA;
+    background-color: #2e2f2f;
+    padding-top: 50px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+#exo-footer-section{
+    padding-right: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+#exo-footer-campus{
+    text-align: center;
+    padding-top: 25px;
+}
+
+#exo-footer h2{
+    color: #D6D6D6;
+    padding-bottom: 10px;
+}
+
+#exo-footer h4{
+    color: #D6D6D6;
+}
+
+#exo-footer-hr{
+    width: 40%;
+    padding-bottom: 30px;
+}
+
+#exo-footer ul li{
+    display: inline-block;
+    text-decoration: none;
+    padding-right: 20px;
+    color: #979797;
+}
+
+#exo-footer ul li a{
+    color: #979797;
+}
+
+#exo-logo-fb:hover{
+    color: #3B5998;
+}
+
+#exo-logo-linkedin:hover{
+    color: #4875B4;
+}
+
+#exo-logo-git:hover{
+    color: #ffffff;
+}
+
+#exo-logo-html5:hover{
+    color: orangered;
+}
+
+#exo-logo-css3:hover{
+    color: green;
+}
+
+#exo-logo-play:hover{
+    color: #61dd45;
+}
+
+#exo-logo-twitter:hover{
+    color: #4099FF;
+}
+
+#exo-footer ul{
+    text-align: center;
+    padding-bottom: 30px;
+}

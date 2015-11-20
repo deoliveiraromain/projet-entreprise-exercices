@@ -1,0 +1,114 @@
+@(uploadForm: Form[Exercice] )(implicit flash: Flash , request :RequestHeader)
+@main("Téléchargement d'une feuille d'exercices") {
+
+
+    <div id="totalcontainer">
+    <div class="container" id="errorcontainer">
+        @if(uploadForm.hasErrors ) {
+            <div  class="alert alert-danger text-center">
+                <i class="fa fa-warning"></i>
+                @if(uploadForm("inputtitle").hasErrors) {
+                    Titre non renseigné !
+                }
+
+                @if(uploadForm("inputmatiere").hasErrors) {
+                    Matière non renseignée !
+                }
+                @if(uploadForm("inputmodule").hasErrors) {
+                    Module non renseigné !
+                }
+                @if(uploadForm("contenu").hasErrors) {
+                    Contenu non renseigné !
+                }
+            </div>
+        }
+
+        @if(flash.get("success").isDefined){
+            <div class="alert alert-info text-center" >
+                <i class="fa fa-check"></i> @flash.get("success").get
+            </div>
+        }
+
+
+    </div>
+
+    <div class="container maincontainer">
+        <form action="@routes.UploadController.upload" enctype="multipart/form-data" method="post" class="form-horizontal" role="form" id="creationfeuille">
+            <fieldset>
+                <h3>Téléchargement d'une feuille d'exercices </h3>
+
+                <div class="form-group @if(uploadForm("inputtitle").hasErrors) {has-error}" id="titregroup">
+
+                    <label for="inputtitle" class="col-md-2 col-md-offset-1 control-label">Titre Exercice :</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control " name="inputtitle" id="inputtitle" placeholder="Titre"
+                        value="@uploadForm("inputtitle").value.getOrElse("")">
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group @if(uploadForm("inputmodule").hasErrors) {has-error}" id="moduleegroup">
+
+                    <label for="inputmodule" class="col-md-2 col-md-offset-1 control-label">Module :</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control " name="inputmodule" id="inputmodule" placeholder="Module"
+                        value="@uploadForm("inputmodule").value.getOrElse("")">
+                    </div>
+
+                </div>
+
+                <div class="form-group @if(uploadForm("inputmatiere").hasErrors) {has-error}" id="matieregroup">
+
+                    <label for="inputmatiere" class="col-md-2 col-md-offset-1 control-label">Matiere :</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control " name="inputmatiere" id="inputmatiere" placeholder="Matière"
+                        value="@uploadForm("inputmatiere").value.getOrElse("")">
+                    </div>
+
+                </div>
+
+                <div class="form-group @if(uploadForm("chapitre").hasErrors) {has-error}" id="chapitregroup">
+
+                    <label for="chapitre" class="col-md-2 col-md-offset-1 control-label">Chapitre :</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control " name="chapitre" id="chapitre" placeholder="Chapitre"
+                        value="@uploadForm("chapitre").value.getOrElse("")">
+                    </div>
+
+                </div>
+
+                <div class="form-group @if(uploadForm("motcles").hasErrors) {has-error}" id="motclesgroup">
+
+                    <label for="motcles" class="col-md-2 col-md-offset-1 control-label">Mots clefs : </label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control " name="motcles" id="motcles" placeholder="mots cles"
+                        value="@uploadForm("motcles").value.getOrElse("")">
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="inputfile" class="col-md-2 col-md-offset-1 control-label">Fichier tex :</label>
+                    <div class="col-md-6">
+                    <input type="file" name="inputfile"  class="form-control col-md-2 "id="inputfile" required="true">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-10">
+                        <button type="submit" class="btn btn-primary" id="submitbouton">Téléchargement</button>
+                    </div>
+                </div>
+
+
+            </fieldset>
+        </form>
+    </div>
+    </div>
+
+    @*Css spécifique à la page*@
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/formcreation.css")">
+
+}

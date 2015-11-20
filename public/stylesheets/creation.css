@@ -1,0 +1,145 @@
+
+.exo-container {
+    margin-top:-20px;
+}
+
+.exo-barre-bleu {
+    background: none repeat scroll 0 0 #4B8EAB;
+    padding-bottom: 7px;
+    padding-top : 6px;
+}
+
+.exo-alert {
+    margin-bottom:0;
+    padding: 9px;
+}
+
+.exo-bouton-validation {
+    color:#ECEDED;
+}
+
+.exo-bouton-validation:hover, .exo-bouton-validation:focus, .exo-bouton-validation:active  {
+    color:#ECEDED;
+}
+
+.exo-panel-gauche {
+    background-color:rgb(241,241,242);
+    border-radius: 4px 4px 0 0;
+    border: 1px solid #b1c1d1;
+    padding-top:10px;
+    padding-bottom: 9px;
+    margin-bottom:40px;
+}
+
+.exo-panel-gauche legend {
+    font-size: 19px;
+}
+
+.exo-rotation-icon {
+    transform: rotate(135deg);
+    width: 30px;
+    margin-top: 7px;
+}
+
+.exo-link-panel-gauche-minified {
+    color:white;
+
+}
+
+.exo-link-panel-gauche-minified:hover {
+    text-decoration: none;
+    color:#ECEDED;
+    cursor:pointer;
+}
+
+.exo-padding-ckeditor {
+    padding-right:0;
+    padding-left: 1px;
+}
+
+.exo-padding-ckeditor label {
+    display: block;
+}
+
+.exo-panel-droite {
+    background-color:rgb(251,251,252);
+    padding: 0;
+}
+
+.exo-panel-droite > .panel-group > .panel > .panel-heading {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.exo-latex {
+    color:#428BCA;
+}
+
+.exo-latex:hover, .exo-latex:focus {
+    cursor : pointer;
+    color: #2A6496;
+}
+
+.exo-matrix-latex {
+    color:#428BCA;
+}
+
+.exo-matrix-latex:hover, .exo-matrix-latex:focus {
+    cursor : pointer;
+    color: #2A6496;
+}
+
+.exo-panel-droite > .panel-group > .panel > .panel-body > .panel-group > .panel > .panel-heading  {
+    border-left: 4px solid #65c465;
+}
+
+.exo-panel-droite > .panel-group > .panel  > .panel-body > .panel-group > .panel > .panel-collapse > .panel-body > .panel-group > .panel > .panel-heading {
+    border-left: 4px solid #98b3fa;
+}
+
+.panel-body .table {
+    margin-bottom: 0;
+}
+
+.exo-panel-droite table {
+    text-align: center;
+}
+
+.exo-panel-droite .table td {
+    vertical-align: middle;
+}
+
+.exo-close-panel {
+    margin-top: -10px;
+    margin-right: -10px;
+}
+.exo-close-panel .fa {
+    padding: 5px;
+}
+
+.exo-close-panel a {
+   color:inherit;
+}
+
+.exo-tabs-corriges {
+    /*background-color: #B0CDD7;*/
+    background-color: #BFD5DE;
+}
+
+.exo-tabs-corriges a {
+    color:#1F4254;
+    font-size: 15px;
+}
+
+.exo-tabs-corriges .nav-tabs > li.active > a, .exo-tabs-corriges .nav-tabs > li.active > a:hover, .exo-tabs-corriges .nav-tabs > li.active > a:focus {
+    background-color: #6494AF;
+    color:#fff;
+}
+
+.exo-bouton-trash {
+    background-color: #DD4B39;
+}
+
+.exo-button-refresh {
+    padding-top: 10px;
+}

@@ -1,0 +1,80 @@
+%\include{preambule}
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Objectif}
+
+Ce premier rapport a pour but de présenter au client la manière dont l'équipe va gérer le projet et par conséquent les résultats présentés. Il énumérera également les outils et technologies qui seront utilisés afin de confirmer leur utilisation. Afin de fournir une prestation optimale le projet sera mené selon la méthode agile. Nous avons, suite à notre premier entretien, identifié et classé les fonctionnalités selon leur importance.
+
+\subsection{Vision}
+Dans ce projet, la saisie est essentielle car elle impacte les autres fonctionnalités~: elle doit être \enquote{la plus naturelle et la plus simple possible}.
+L'outil étant destiné à des utilisateurs variés, l'utilisation de balises latex ne nous semble pas pertinente. Nous avons donc souhaité rendre l'usage du latex entièrement transparente.
+
+Nous partons au final sur un éditeur de texte \enquote{classique} qui convertira le texte en HTML. C'est ce formalisme que nous stockerons en base de données. Lors d'une publication nous convertirons le HTML en latex afin de générer un ficher au format PDF. La procédure inverse se déroulera lors de l'\emph{upload} d'un document latex sur le poste utilisateur.\\
+
+Concernant l'interface de saisie, nous allons utiliser l'outil \textbf{CKEditor}, éditeur de texte complet. Il comprend un grand nombre de plugins (dont la gestion de l'environnement mathématique) qui nous permettront d'ajuster l'interface comme nous le souhaitons.
+
+\subsection{Livrables}
+
+Lors de chaque réunion, une de ces fonctionnalités, opérationnelle dans l'environnement final, sera présentée au client. Le but est d'obtenir un maximum de retours sur le produit afin de l'ajuster en cours de route.
+
+Au cours du sprint zéro nous avons identifié sept fonctionnalités majeures. Pour le premier sprint nous nous occuperons des trois les plus prioritaires~:
+\medskip
+
+\begin{itemize}
+\item \textbf{Design du site}~:~nous commencerons par définir l'aspect général du site selon les directives du client.  
+\smallskip
+
+\item \textbf{Saisie d'une feuille d'exercice}~:~cette partie comprend le développement d'un outil intégré dans le site (CKEditor) permettant à un enseignant de rédiger une feuille d'exercices. Cette saisie englobe la mise en page, l'insertion de formules mathématiques ainsi que d'éventuelles images.
+\smallskip
+
+\item \textbf{Stockage}~:~l'équipe mettra en place la base de données,  la génération/sauvegarde de l'exercice précédemment saisi ainsi que l'\emph{upload} d'un fichier latex.
+\smallskip
+\end{itemize}
+
+Une fois ces parties validées par le client, nous procéderons au développement des fonctionnalités suivantes~:
+\medskip
+
+\begin{itemize}
+\item \textbf{Génération de feuilles d'exercices}~:~cette fonctionnalité regroupe la génération manuelle, automatique et assistée de feuilles d'exercices.
+\smallskip
+
+\item \textbf{Consultation}~:~la consultation permettra de visualiser sur le site les feuilles d'exercices, par un enseignant dans un premier temps puis éventuellement par un élève.
+\smallskip
+
+\item \textbf{Suivi}~:~ce suivi permettra de tracer le téléchargement ou le visionnage d'un exercice.
+\smallskip
+
+\item \textbf{Sécurité}~:~cette section regroupe l'authentification d'un utilisateur mais également la protection des données par cryptage.\\
+\end{itemize}
+\newpage
+
+\section{Technologies utilisées}
+
+\subsection{Git}
+Dans le but de réduire les conflits de développement nous avons mis en place notre code source sur gitlab. De ce fait nous nous assurerons une évolution saine du projet sans problèmes de rétrocompatibilité. Si le client le souhaite, nous pourront l'ajouter dans l'équipe du projet afin qu'il puisse effectuer un suivi du travail effectué à tout moment.
+
+\subsection{Framework Play!}
+Conformément aux demandes du client, nous utiliserons le framework Play! associé au langage Scala pour la partie backend du produit.
+
+\subsection{Framework AngularJS}
+Cette décision n'est pas définitive mais nous envisageons le framework AngularJS pour la partie frontend. Ce dernier facilite la lisibilité du code source et permet entre autre une recherche optimale des exercices stockés sur le site web.
+
+\subsection{CKEditor}
+Cet éditeur de texte en ligne, opensource, est composé de plugins javascript.
+
+\subsection{Twitter Bootstrap}
+Twitter Bootstrap est une collection d'outils utile à la création de sites et d'applications web. C'est un projet open source sous licence Apache.
+
+\subsection{Base de données NoSQL}
+Concernant la technologie utilisée pour le stockage des exercices, l'équipe penche pour une base de données NoSQL en raison de sa forte compatibilité avec la structure des fichiers. La technologie exacte n'a pas encore été convenue.
+
+\newpage
+\section{Planning}
+
+En l'absence de date butoir, nous avons fixé la date du 21 février 2014 comme échéance finale. Si cette date vient à changer, nous modifierons notre planning en conséquence. Le premier livrable sera fixé au 31 janvier 2014 dans lequel nous présenterons les trois premières fonctionnalités. Nous rencontrerons également, une fois par semaine, le client pour statuer sur notre avancement.      
+
+\end{document}

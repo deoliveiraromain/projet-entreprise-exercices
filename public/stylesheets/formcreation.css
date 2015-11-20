@@ -1,0 +1,56 @@
+
+nav + #totalcontainer{
+
+    min-height: 100%;
+}
+
+#totalcontainer{
+
+
+}
+
+.maincontainer{
+
+
+
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    border : 2px solid  #CCC;
+    box-shadow: 0px 1px 1px rgba(0,0,0,0.075) inset;
+
+
+}
+
+.myClassePanel > .panel-heading > .panel-title > a {
+    color : #666;
+}
+#errorcontainer{
+
+    padding-left:0px;
+    padding-right:0px;
+    height: 60px;
+}
+h3, h4,h5,h6 {
+
+    margin-top:0px;
+    color: rgb(18,98,130);
+    margin-bottom: 30px;
+
+}
+
+input[type="checkbox"] {
+     width: 14px;
+}
+
+.alert-danger{
+
+}
+
+.hiddenRow {
+    padding: 0 !important;
+}
+.hidetd {
+
+    display:none;
+}

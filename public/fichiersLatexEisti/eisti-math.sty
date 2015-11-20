@@ -1,0 +1,146 @@
+%%
+%% This is file `eisti-math.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% eisti-math.dtx  (with options: `package')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2012-2013 by Romain DUJOL <romain.dujol@eisti.eu>
+%% 
+%% This file may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either
+%% version 1.3 of this license or (at your option) any later
+%% version. The latest version of this license is in:
+%% 
+%%    http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.2 or later is part of all distributions of
+%% LaTeX version 1999/12/01 or later.
+%% 
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{eisti-math}
+    [2013/01/29 v1.1 Package for math commands and environments]
+
+
+
+\input eisti-lang.clo
+\newif\ifthm
+\DeclareOption{thm}{\thmtrue}
+\DeclareOption{nothm}{\thmfalse}
+\DeclareOption{bb}{\let\math@set=\mathbb}
+\DeclareOption{bf}{\let\math@set=\mathbf}
+\ExecuteOptions{thm,bb}
+\ProcessOptions\relax
+\newcommand{\textmathbf}[1]{\textbf{\boldmath#1\unboldmath}}
+\RequirePackage{amsmath}
+\let\oldRe\Re
+\let\Re\relax
+\DeclareMathOperator{\Re}{\oldRe\mathrm{e}}
+
+\let\oldIm\Im
+\let\Im\relax
+\DeclareMathOperator{\Im}{\oldIm\mathrm{m}}
+
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Img}{Im}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\mat}{mat}
+
+\DeclareMathOperator{\cotan}{cotan}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\sh}{sh}
+\let\oldth\th
+\let\th\relax
+\DeclareMathOperator{\th}{th}
+
+\let\oldo\o
+\let\o\relax
+\DeclareMathOperator{\o}{o}
+\let\oldO\O
+\let\O\relax
+\DeclareMathOperator{\O}{O}
+
+\DeclareMathOperator{\Sp}{Sp}
+\newcommand{\Nset}{\math@set{N}}
+\newcommand{\Zset}{\math@set{Z}}
+\newcommand{\Qset}{\math@set{Q}}
+\newcommand{\Rset}{\math@set{R}}
+\newcommand{\Cset}{\math@set{C}}
+\newcommand{\Kset}{\math@set{K}}
+\RequirePackage{stmaryrd}
+\newcommand{\intSet}[2][1]{\ensuremath{\left\llbracket#1,#2\right\rrbracket}}
+\DeclareMathOperator{\Func}{\mathcal{F}}
+\DeclareMathOperator{\Cont}{\mathcal{C}}
+\DeclareMathOperator{\Lin}{\mathcal{L}}
+\DeclareMathOperator{\SEP}{\textsf{SEP}}
+\DeclareMathOperator{\Vect}{\textsf{Vect}}
+\DeclareMathOperator{\Mat}{\mathcal{M}}
+\newcommand{\dsum}{\displaystyle\sum}
+\newcommand{\dprod}{\displaystyle\prod}
+\newcommand{\dlim}{\displaystyle\lim}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\transpose}[1]{\,{^t\!#1}}
+\let\oldd\d
+\renewcommand{\d}{\mathrm{d}}
+\let\oldbar\bar
+\let\bar\overline
+\ifthm
+ \RequirePackage{framed}
+ \RequirePackage[amsmath,amsthm,thmmarks,framed]{ntheorem}
+ \RequirePackage{pstricks,xcolor}
+\else\fi
+\ifthm
+\theoremstyle{plain}
+\ifx\thechapter\undefined
+\newtheorem{Exercise}{\label@math@Exercise}[section]
+\else
+\newtheorem{Exercise}{\label@math@Exercise}[chapter]
+\fi
+\newtheorem*{Ex}{\label@math@Exercise}
+\theoremstyle{definition}
+\shadecolor{lightgray!15!white}
+\theoremstyle{definition}
+\ifx\thechapter\undefined
+  \newshadedtheorem{Def}{\label@math@Definition}[section]
+\else
+  \newshadedtheorem{Def}{\label@math@Definition}[chapter]
+\fi
+\newtheorem*{Defn}{\label@math@Definition}
+\ifx\thechapter\undefined
+\newframedtheorem{Thm}{\label@math@Theorem}[section]
+\else
+\newframedtheorem{Thm}{\label@math@Theorem}[chapter]
+\fi
+\newtheorem*{Th}{\label@math@Theorem}
+\ifx\thechapter\undefined
+\newtheorem{Prop}{\label@math@Proposition}[section]
+\else
+\newtheorem{Prop}{\label@math@Proposition}[chapter]
+\fi
+\newtheorem*{Cor}{\label@math@Corollary}
+\newtheorem*{Lem}{\label@math@Lemma}
+\let\oldproof=\proof
+\let\endoldproof=\endproof
+\renewenvironment{proof}{\small\begin{oldproof}}{\normalsize\end{oldproof}}
+\theoremstyle{remark}
+\newtheorem*{Warning}{\textsc{\label@math@Warning}}
+\newtheorem*{Important}{\textsc{\label@math@Important}}
+\newtheorem*{Example}{\label@math@Example}
+\newtheorem*{Rem}{\label@math@Remark}
+\newtheorem*{Solution}{\label@math@Solution}
+\newtheorem*{Method}{\textbf{\label@math@Method}}
+\else
+\fi
+\newenvironment{function}[4][x]%
+  {\begin{array}[t]{rccl}
+    #2 : & #3 &   \to   & #4 \\
+         & #1 & \mapsto &}
+  {\end{array}}
+
+\endinput
+%%
+%% End of file `eisti-math.sty'.

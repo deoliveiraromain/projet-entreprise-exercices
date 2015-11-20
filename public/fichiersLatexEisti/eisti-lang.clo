@@ -1,0 +1,258 @@
+%%
+%% This is file `eisti-lang.clo',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% eisti-lang.dtx  (with options: `options')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2012-2013 by Romain DUJOL <romain.dujol@eisti.eu>
+%% 
+%% This file may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either
+%% version 1.3 of this license or (at your option) any later
+%% version. The latest version of this license is in:
+%% 
+%%    http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.2 or later is part of all distributions of
+%% LaTeX version 1999/12/01 or later.
+%% 
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesFile{eisti-lang.clo}
+    [2013/01/18 v1.0 Multi-languages options]
+
+
+\def\label@CPIOne{Undergraduate level - First  year}
+\def\label@CPITwo{Undergraduate level - Second year}
+\def\label@INGOne {Postgraduate level - First  year}
+\def\label@INGTwo {Postgraduate level - Second year}
+\def\label@INGLast{Postgraduate level - Third  year}
+\def\label@INGOne@GI {\label@INGOne@short{} -- Computer Science Engineering}
+\def\label@INGOne@GM {\label@INGOne@short{} -- Mathematics      Engineering}
+\def\label@INGTwo@GSI{\label@INGTwo@short{} -- Computer Systems Engineering}
+\def\label@INGTwo@MI {\label@INGTwo@short{} -- Mathematics and Computer Science}
+\def\label@INGTwo@MF {\label@INGTwo@short{} -- Mathematics for Finance}
+\def\label@INGTwo@SIE{\label@INGTwo@short{} -- Business Information Systems}
+\def\label@INGLast@BI {\label@INGLast@short{} -- Business Intelligence}
+\def\label@INGLast@ERP{\label@INGLast@short{} -- Enterprise Resource Planing Engineering}
+\def\label@INGLast@GL {\label@INGLast@short{} -- Software Engineering}
+\def\label@INGLast@IAD{\label@INGLast@short{} -- Decision-making Engineering}
+\def\label@INGLast@ICC{\label@INGLast@short{} -- Cloud Computing Engineering}
+\def\label@INGLast@ICO{\label@INGLast@short{} -- Management Consulting Engineering}
+\def\label@INGLast@IFI{\label@INGLast@short{} -- Finance Engineering}
+\def\label@INGLast@III{\label@INGLast@short{} -- Image and User Interface}
+\providecommand{\label@campus}[1]{#1 campus}
+\def\label@subject         {Subject}
+\def\label@exam@dueDate    {Due date}
+\def\label@date            {Date}
+\def\label@exam@duration   {Duration}
+\def\label@pagesnumber     {Number of pages}
+\def\label@exam@Problem          {Problem}
+\def\label@exam@Exercise         {Exercise}
+\def\label@exam@TextbookQuestions{Textbook questions}
+\def\label@exam@Remark           {Remark}
+
+\def\label@algo@Algorithm   {Algorithm}
+\def\label@algo@And         {and}
+\def\label@algo@Array       {Array}
+\def\label@algo@ArrayOf     {Array of}
+\def\label@algo@Bit         {bit}
+\def\label@algo@Boolean     {boolean}
+\def\label@algo@By          {by}
+\def\label@algo@Case        {Case}
+\def\label@algo@Character   {character}
+\def\label@algo@Default     {Default}
+\def\label@algo@Do          {do}
+\def\label@algo@Edge        {Edge}
+\def\label@algo@EdgeOf      {Edge of}
+\def\label@algo@WEdge       {WeightedEdge}
+\def\label@algo@WEdgeOf     {WeightedEdge of}
+\def\label@algo@Element     {Element}
+\def\label@algo@Else        {Else}
+\def\label@algo@ElseIf      {ElseIf}
+\def\label@algo@End         {End}
+\def\label@algo@EndCase     {EndCase}
+\def\label@algo@EndFor      {EndFor}
+\def\label@algo@EndFunction {EndFunction}
+\def\label@algo@EndIf       {EndIf}
+\def\label@algo@EndLoop     {EndLoop}
+\def\label@algo@EndProcedure{EndProcedure}
+\def\label@algo@EndProgram  {EndProgram}
+\def\label@algo@EndType     {EndType}
+\def\label@algo@EndWhile    {EndWhile}
+\def\label@algo@Ensure      {Ensure:}
+\def\label@algo@Error       {Error}
+\def\label@algo@False       {FALSE}
+\def\label@algo@For         {For}
+\def\label@algo@ForAll      {ForAll}
+\def\label@algo@Function    {Function}
+\def\label@algo@Graph       {Graph}
+\def\label@algo@GraphOf     {Graph of}
+\def\label@algo@If          {If}
+\def\label@algo@Integer     {integer}
+\def\label@algo@List        {List}
+\def\label@algo@ListOf      {List of}
+\def\label@algo@Loop        {Loop}
+\def\label@algo@Map         {Map}
+\def\label@algo@Not         {not}
+\def\label@algo@Of          {of}
+\def\label@algo@Or          {or}
+\def\label@algo@Print       {Print}
+\def\label@algo@Procedure   {Procedure}
+\def\label@algo@Program     {Program}
+\def\label@algo@Queue       {Queue}
+\def\label@algo@QueueOf     {Queue of}
+\def\label@algo@Real        {real}
+\def\label@algo@Repeat      {Repeat}
+\def\label@algo@Require     {Require:}
+\def\label@algo@Return      {Return}
+\def\label@algo@Stack       {Stack}
+\def\label@algo@StackOf     {Stack of}
+\def\label@algo@String      {string}
+\def\label@algo@Structure   {structure}
+\def\label@algo@Then        {then}
+\def\label@algo@To          {to}
+\def\label@algo@Tree        {Tree}
+\def\label@algo@TreeOf      {Tree of}
+\def\label@algo@True        {TRUE}
+\def\label@algo@Type        {Type}
+\def\label@algo@Until       {Until}
+\def\label@algo@Where       {where}
+\def\label@algo@While       {While}
+\def\label@algo@Xor         {xor}
+
+\def\label@math@Exercise   {Exercise}
+\def\label@math@Definition {Definition}
+\def\label@math@Theorem    {Theorem}
+\def\label@math@Proposition{Proposition}
+\def\label@math@Corollary  {Corollary}
+\def\label@math@Lemma      {Lemma}
+\def\label@math@Warning    {Warning}
+\def\label@math@Important  {Important}
+\def\label@math@Example    {Example}
+\def\label@math@Remark     {Remark}
+\def\label@math@Solution   {Solution}
+\def\label@math@Method     {Method}
+\DeclareOption{english}{\def\eisti@language{english}}
+\DeclareOption{french}%
+  {
+    \def\eisti@language{french}
+
+    \def\label@CPIOne {Cycle pr\'eparatoire 1\textsuperscript{\`ere} ann\'ee}
+    \def\label@CPITwo {Cycle pr\'eparatoire 2\textsuperscript{\`eme} ann\'ee}
+    \def\label@INGOne {Cycle ing\'enieur    1\textsuperscript{\`ere} ann\'ee}
+    \def\label@INGTwo {Cycle ing\'enieur    2\textsuperscript{\`eme} ann\'ee}
+    \def\label@INGLast{Cycle ing\'enieur    3\textsuperscript{\`eme} ann\'ee}
+    \def\label@INGOne@GI  {\label@INGOne@short{}  -- G\'enie Informatique}
+    \def\label@INGOne@GM  {\label@INGOne@short{}  -- G\'enie Math\'ematique}
+    \def\label@INGTwo@GSI {\label@INGTwo@short{}  -- G\'enie des Syst\`emes Informatiques}
+    \def\label@INGTwo@MI  {\label@INGTwo@short{}  -- Math\'ematiques et Informatiques}
+    \def\label@INGTwo@SIE {\label@INGTwo@short{}  -- Syst\`emes d'Information d'Entreprise}
+    \def\label@INGLast@BI {\label@INGLast@short{} -- Business Intelligence}
+    \def\label@INGLast@ERP{\label@INGLast@short{} -- Ing\'eni\'erie \emph{Enterprise Resource Planing}}
+    \def\label@INGLast@GL {\label@INGLast@short{} -- G\'enie Logiciel}
+    \def\label@INGLast@IAD{\label@INGLast@short{} -- Ing\'eni\'erie d'Aide \`a la D\'ecision}
+    \def\label@INGLast@ICC{\label@INGLast@short{} -- Ing\'eni\'erie \emph{Cloud Computing}}
+    \def\label@INGLast@ICO{\label@INGLast@short{} -- Ing\'eni\'erie Conseil en Management}
+    \def\label@INGLast@IFI{\label@INGLast@short{} -- Ing\'eni\'erie Financi\`ere}
+    \def\label@INGLast@III{\label@INGLast@short{} -- Image, Interaction, Immersion}
+    \providecommand{\label@campus}[1]{Campus de #1}
+    \def\label@subject         {Mati\`ere}
+    \def\label@exam@dueDate    {\'Echeance}
+    \def\label@date            {Date}
+    \def\label@exam@duration   {Dur\'ee}
+    \def\label@pagesnumber     {Nombre de pages}
+    \def\label@exam@Problem          {Probl\`eme}
+    \def\label@exam@Exercise         {Exercice}
+    \def\label@exam@TextbookQuestions{Questions de cours}
+    \def\label@exam@Remark           {Remarque}
+
+    \def\label@algo@Algorithm   {Algorithme}
+    \def\label@algo@And         {et}
+    \def\label@algo@Array       {Tableau}
+    \def\label@algo@ArrayOf     {Tableau de}
+    \def\label@algo@Bit         {bit}
+    \def\label@algo@Boolean     {bool\'een}
+    \def\label@algo@By          {par}
+    \def\label@algo@Character   {caract\`ere}
+    \def\label@algo@Case        {choix}
+    \def\label@algo@Default     {d\'efaut}
+    \def\label@algo@Do          {faire}
+    \def\label@algo@Edge        {Ar\^ete}
+    \def\label@algo@EdgeOf      {Ar\^ete de}
+    \def\label@algo@WEdge       {Ar\^eteValu\'ee}
+    \def\label@algo@WEdgeOf     {Ar\^eteValu\'ee de}
+    \def\label@algo@Element     {\'{E}l\'ement}
+    \def\label@algo@Else        {sinon}
+    \def\label@algo@ElseIf      {sinon si}
+    \def\label@algo@End         {fin}
+    \def\label@algo@EndCase     {fin choix}
+    \def\label@algo@EndFor      {fin pour}
+    \def\label@algo@EndFunction {fin fonction}
+    \def\label@algo@EndIf       {fin si}
+    \def\label@algo@EndLoop     {fin boucle}
+    \def\label@algo@EndProcedure{fin procedure}
+    \def\label@algo@EndProgram  {fin programme}
+    \def\label@algo@EndType     {fin type}
+    \def\label@algo@EndWhile    {fin tant que}
+    \def\label@algo@Ensure      {postconditions~:}
+    \def\label@algo@Error       {erreur}
+    \def\label@algo@False       {FAUX}
+    \def\label@algo@For         {pour}
+    \def\label@algo@ForAll      {pour tout}
+    \def\label@algo@Function    {fonction}
+    \def\label@algo@Graph       {Graphe}
+    \def\label@algo@GraphOf     {Graphe de}
+    \def\label@algo@If          {si}
+    \def\label@algo@Integer     {entier}
+    \def\label@algo@List        {Liste}
+    \def\label@algo@ListOf      {Liste de}
+    \def\label@algo@Loop        {boucle}
+    \def\label@algo@Not         {non}
+    \def\label@algo@Of          {de}
+    \def\label@algo@Or          {ou}
+    \def\label@algo@Print       {\'ecrire}
+    \def\label@algo@Procedure   {procedure}
+    \def\label@algo@Program     {programme}
+    \def\label@algo@Queue       {File}
+    \def\label@algo@QueueOf     {File de}
+    \def\label@algo@Real        {r\'eel}
+    \def\label@algo@Repeat      {r\'ep\'eter}
+    \def\label@algo@Require     {pr\'econditions~:}
+    \def\label@algo@Return      {retourner}
+    \def\label@algo@Stack       {Pile}
+    \def\label@algo@StackOf     {Pile de}
+    \def\label@algo@String      {cha\^\i ne}
+    \def\label@algo@Structure   {structure}
+    \def\label@algo@Then        {alors}
+    \def\label@algo@To          {\`a}
+    \def\label@algo@Tree        {ArbreKAire}
+    \def\label@algo@TreeOf      {ArbreKAire de}
+    \def\label@algo@True        {VRAI}
+    \def\label@algo@Type        {type}
+    \def\label@algo@Until       {jusqu'\`a}
+    \def\label@algo@Where       {tel que}
+    \def\label@algo@While       {tant que}
+    \def\label@algo@Xor         {xor}
+
+    \def\label@math@Exercise   {Exercice}
+    \def\label@math@Definition {D\'efinition}
+    \def\label@math@Theorem    {Th\'eor\`eme}
+    \def\label@math@Proposition{Proposition}
+    \def\label@math@Corollary  {Corollaire}
+    \def\label@math@Lemma      {Lemme}
+    \def\label@math@Warning    {Attention}
+    \def\label@math@Important  {Important}
+    \def\label@math@Example    {Exemple}
+    \def\label@math@Remark     {Remarque}
+    \def\label@math@Solution   {Solution}
+    \def\label@math@Method     {M\'ethode}
+  }
+
+\endinput
+%%
+%% End of file `eisti-lang.clo'.

@@ -1,0 +1,194 @@
+#percentage{
+    text-align: left;
+}
+
+
+#exo-labels{
+    padding-top: 60px;
+}
+
+#exo-chart{
+    padding-bottom: 15px;
+}
+
+#labels ul, #percentage ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: #333333;
+}
+
+#labels li, #percentage li {
+    display: block;
+    margin: 0;
+    padding: 0 0 8px 0;
+}
+
+
+#labels span{
+    display: block;
+    float: left;
+    width:8px;
+    height: 8px;
+    margin: 5px 5px 0 0 ;
+    background: #FFFFFF;
+}
+
+
+#labels ul :nth-child(1) span{ background: #0092B9; }
+#labels ul :nth-child(2) span{ background: #86AD00; }
+#labels ul :nth-child(3) span{ background: #F2B705; }
+#labels ul :nth-child(4) span{ background: #D97904; }
+#labels ul :nth-child(5) span{ background: #BC3603; }
+
+
+#percentage p {
+    display: block;
+    width: 50px;
+    margin: 0;
+    padding: 0 0 8px 0;
+    float: left;
+}
+
+
+#percentage ul {
+    width: 300px;
+}
+
+
+#q2_2010:target #percentage ul { left: -0px; }
+#q1_2010:target #percentage ul { left: -50px; }
+#q4_2009:target #percentage ul { left: -100px; }
+#q3_2009:target #percentage ul { left: -150px; }
+#q2_2009:target #percentage ul { left: -200px; }
+#q1_2005:target #percentage ul { left: -250px; }
+/* Label and percentage data end */
+
+
+
+#pie_chart ul {
+    list-style-type: none;
+    width: 300px;
+    height: 300px;
+    padding: 0;
+    margin: 0;
+}
+
+
+#pie_chart li {
+    position: absolute;
+    top: 0px;
+    width: 300px;
+    height: 300px;
+    padding: 0;
+    margin: 0;
+}
+
+
+#pie_chart p {
+    width: 300px;
+    height: 300px;
+    padding: 0;
+    margin: 0;
+}
+
+
+#pie_chart li p { -webkit-transition: all .7s ease-out;}
+
+#pie_chart span { display: block; width: 150px; height: 300px;}
+
+#pie_chart ul :nth-child(odd) { clip: rect(0px, 300px, 300px, 150px);}
+
+#pie_chart ul :nth-child(even) { clip: rect(0px, 150px, 300px, 0px);}
+
+.pie_left{
+    -moz-border-radius-topleft: 150px;
+    -moz-border-radius-bottomleft: 150px;
+    -webkit-border-top-left-radius: 150px;
+    -webkit-border-bottom-left-radius: 150px;
+    border-top-left-radius: 150px;
+    border-bottom-left-radius: 150px;
+}
+
+.pie_right{
+    margin-left: 150px;
+    -moz-border-radius-topright: 150px;
+    -moz-border-radius-bottomright: 150px;
+    -webkit-border-top-right-radius: 150px;
+    -webkit-border-bottom-right-radius: 150px;
+    border-top-right-radius: 150px;
+    border-bottom-right-radius: 150px;
+}
+
+#c1_l span {
+    background: #BC3603;
+    background-image: -moz-radial-gradient(left 45deg, circle closest-corner, #de3d00 10%, #BC3603 100%);
+    background-image: -webkit-gradient(radial, left center, 10, left center, 150, from(#de3d00), to(#BC3603));
+}
+
+#c1_r span {
+    background: #BC3603;
+    background-image: -moz-radial-gradient(right 45deg, circle closest-corner, #de3d00 10%, #BC3603 100%);
+    background-image: -webkit-gradient(radial, right center, 10, right center, 150, from(#de3d00), to(#BC3603));
+}
+
+#c2_l span {
+    background: #D97904;
+    background-image: -moz-radial-gradient(left 45deg, circle closest-corner, #fb8a00 10%, #D97904 100%);
+    background-image: -webkit-gradient(radial, left center, 10, left center, 150, from(#fb8a00), to(#D97904));
+}
+
+#c2_r span {
+    background: #D97904;
+    background-image: -moz-radial-gradient(right 45deg, circle closest-corner, #fb8a00 10%, #D97904 100%);
+    background-image: -webkit-gradient(radial, right center, 10, right center, 150, from(#fb8a00), to(#D97904));
+}
+
+#c3_l span {
+    background: #F2B705;
+    background-image: -moz-radial-gradient(left 45deg, circle closest-corner, #ffc517 10%, #F2B705 100%);
+    background-image: -webkit-gradient(radial, left center, 10, left center, 150, from(#ffc517), to(#F2B705));
+}
+
+#c3_r span {
+    background: #F2B705;
+    background-image: -moz-radial-gradient(right 45deg, circle closest-corner, #ffc517 10%, #F2B705 100%);
+    background-image: -webkit-gradient(radial, right center, 10, right center, 150, from(#ffc517), to(#F2B705));
+}
+
+#c4_l span {
+    background: #86AD00;
+    background-image: -moz-radial-gradient(left 45deg, circle closest-corner, #9bc800 10%, #86AD00 100%);
+    background-image: -webkit-gradient(radial, left center, 10, left center, 150, from(#9bc800), to(#86AD00));
+}
+
+#c4_r span {
+    background: #86AD00;
+    background-image: -moz-radial-gradient(right 45deg, circle closest-corner, #9bc800 10%, #86AD00 100%);
+    background-image: -webkit-gradient(radial, right center, 10, right center, 150, from(#9bc800), to(#86AD00));
+}
+
+#c5_l span{
+    background: #0092B9;
+    background-image: -moz-radial-gradient(left 45deg, circle closest-corner, #00addb 10%, #0092B9 100%);
+    background-image: -webkit-gradient(radial, left center, 10, left center, 150, from(#00addb), to(#0092B9));
+}
+
+#c5_r span{
+    background: #0092B9;
+    background-image: -moz-radial-gradient(right 45deg, circle closest-corner, #00addb 10%, #0092B9 100%);
+    background-image: -webkit-gradient(radial, right center, 10, right center, 150, from(#00addb), to(#0092B9));
+}
+
+/*Pie chart data (degree value) */
+#pie_chart ul :nth-child(1) p, #q2_2010:target #pie_chart ul :nth-child(1) p{ -moz-transform: rotate(180deg); -webkit-transform: rotate(180deg); -o-transform: rotate(180deg);}
+#pie_chart ul :nth-child(2) p, #q2_2010:target #pie_chart ul :nth-child(2) p{ -moz-transform: rotate(180deg); -webkit-transform: rotate(180deg); -o-transform: rotate(180deg);}
+#pie_chart ul :nth-child(3) p, #q2_2010:target #pie_chart ul :nth-child(3) p{ -moz-transform: rotate(180deg); -webkit-transform: rotate(180deg); -o-transform: rotate(180deg);}
+#pie_chart ul :nth-child(4) p, #q2_2010:target #pie_chart ul :nth-child(4) p{ -moz-transform: rotate(170deg); -webkit-transform: rotate(126deg); -o-transform: rotate(170deg);}
+#pie_chart ul :nth-child(5) p, #q2_2010:target #pie_chart ul :nth-child(5) p{ -moz-transform: rotate(180deg); -webkit-transform: rotate(180deg); -o-transform: rotate(180deg);}
+#pie_chart ul :nth-child(6) p, #q2_2010:target #pie_chart ul :nth-child(6) p{ -moz-transform: rotate(152deg); -webkit-transform: rotate(36deg); -o-transform: rotate(152deg);}
+#pie_chart ul :nth-child(7) p, #q2_2010:target #pie_chart ul :nth-child(7) p{ -moz-transform: rotate(180deg); -webkit-transform: rotate(144deg); -o-transform: rotate(180deg);}
+#pie_chart ul :nth-child(8) p, #q2_2010:target #pie_chart ul :nth-child(8) p{ -moz-transform: rotate(126deg); -webkit-transform: rotate(0deg); -o-transform: rotate(126deg);}
+#pie_chart ul :nth-child(9) p, #q2_2010:target #pie_chart ul :nth-child(9) p{ -moz-transform: rotate(180deg); -webkit-transform: rotate(36deg); -o-transform: rotate(180deg);}
+#pie_chart ul :nth-child(10) p, #q2_2010:target #pie_chart ul :nth-child(10) p{ -moz-transform: rotate(36deg); -webkit-transform: rotate(0deg); -o-transform: rotate(36deg);}

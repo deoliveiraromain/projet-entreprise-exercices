@@ -1,0 +1,269 @@
+        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-4 exo-panel-droite">
+                <div class="panel-group">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading exo-panel-heading-droite">
+                            <h4 class="panel-title">
+
+                                    Mathématiques
+
+                            </h4>
+                        </div>
+
+                            <div class="panel-body">
+                                <label for="MathInput">Tapez votre formule : </label>
+                                <textarea id="MathInput"  rows="4" cols="50"></textarea>
+                                <br/>
+                                <div style="min-height:50px;text-align:center;overflow:auto;margin-top: 10px;" id="MathOutput">
+
+                                </div>
+                                <div style="padding-top:5px;" class="pull-right">
+                                    <button id="insertInEditor" class="btn btn-sm btn-warning">Ajouter</button>
+                                    <button id="buttonClearTextarea" class="btn btn-sm btn-warning">Effacer</button>
+                                </div>
+                                <br/>
+                                <br/>
+                                <div id="mathAccordion" class="panel-group">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading exo-sous-panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#mathAccordion" href="#collapseUtils">
+                                                    Utilitaires
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseUtils" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <div id="utilsAccordion" class="panel-group">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="idFraction" data-toggle="collapse" data-parent="#utilsAccordion" href="#collapseFraction">
+                                                                    Fraction
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseFraction" class="panel-collapse collapse">
+                                                            <div id="tableFraction" class="panel-body">
+
+                                                            </div>
+                                                         </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="idIntegrale" data-toggle="collapse" data-parent="#utilsAccordion" href="#collapseIntegrale">
+                                                                    Intégrale
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseIntegrale" class="panel-collapse collapse">
+                                                            <div id="tableIntegrale" class="panel-body"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="idIndiceExposant" data-toggle="collapse" data-parent="#utilsAccordion" href="#collapseIndicesExposants">
+                                                                    Indice et exposant
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseIndicesExposants" class="panel-collapse collapse">
+                                                            <div id="tableIndiceExposant" class="panel-body"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="idRadical" data-toggle="collapse" data-parent="#utilsAccordion" href="#collapseRadical">
+                                                                    Radical
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseRadical" class="panel-collapse collapse">
+                                                            <div id="tableRadical" class="panel-body"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="idGrandOperateur" data-toggle="collapse" data-parent="#utilsAccordion" href="#collapseGrandOperateur">
+                                                                    Grand opérateur
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseGrandOperateur" class="panel-collapse collapse">
+                                                            <div id="tableGrandOperateur" class="panel-body"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="idLimLogarithme" data-toggle="collapse" data-parent="#utilsAccordion" href="#collapseLimitLog">
+                                                                        Limite et logarithme
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseLimitLog" class="panel-collapse collapse">
+                                                            <div id="tableLimLogarithme" class="panel-body"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="iddnvb" data-toggle="collapse" data-parent="#utilsAccordion" href="#collapsednvb">
+                                                                        Dérivé, norme, vecteur, angle et binôme
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapsednvb" class="panel-collapse collapse">
+                                                            <div id="tablednvb" class="panel-body"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading exo-sous-panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#mathAccordion" href="#collapseSymbols">
+                                                    Symboles
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseSymbols" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <div id="symbolsAccordion" class="panel-group">
+                                                     <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="idOperateur" data-toggle="collapse" data-parent="#symbolsAccordion" href="#collapseOperator">
+                                                                    Opérateurs
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOperator" class="panel-collapse collapse">
+                                                            <div id="tableOperateur" class="panel-body"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="idDelimitor" data-toggle="collapse" data-parent="#symbolsAccordion" href="#collapseDelimitors">
+                                                                    Délimiteurs
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseDelimitors" class="panel-collapse collapse">
+                                                            <div id="tableDelimitor" class="panel-body"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="idArrow" data-toggle="collapse" data-parent="#symbolsAccordion" href="#collapseArrows">Flèches</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseArrows" class="panel-collapse collapse">
+                                                            <div id="tableArrow" class="panel-body"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="idGreek" data-toggle="collapse" data-parent="#symbolsAccordion" href="#collapseGreek">
+                                                                    Alphabet grec
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseGreek" class="panel-collapse collapse">
+                                                            <div id="tableGreek" class="panel-body"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a id="idDivers" data-toggle="collapse" data-parent="#symbolsAccordion" href="#collapseDivers">
+                                                                    Divers
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseDivers" class="panel-collapse collapse">
+                                                            <div id="tableDivers" class="panel-body"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a id="idFonctionMathematique" data-toggle="collapse" data-parent="#mathAccordion" href="#collapseFonctionMathematique">Fonctions mathématiques</a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseFonctionMathematique" class="panel-collapse collapse">
+                                            <div id="tablesMath" class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a id="idMatrix" data-toggle="collapse" data-parent="#mathAccordion" href="#collapseMatrice">
+                                                    Matrice
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseMatrice" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <div id="tableMatrix"></div>
+                                                <hr/>
+                                                <label for="selectRow">Lignes: </label>
+                                                <select id="selectRow">
+                                                    @for(i <- 1 to 10) {
+                                                        <option value="@i">@i</option>
+                                                    }
+                                                </select>
+                                                <label for="selectColumn">Colonnes: </label>
+                                                <select id="selectColumn">
+                                                    @for(i <- 1 to 10) {
+                                                        <option value="@i">@i</option>
+                                                    }
+                                                </select>
+                                                <label for="selectBorder">Bordures: </label>
+                                                <select id="selectBorder">
+                                                    <option value="">Sans</option>
+                                                    <option value="p"> ( ) </option>
+                                                    <option value="b"> [ ] </option>
+                                                    <option value="B"> { } </option>
+                                                    <option value="v"> | </option>
+                                                    <option value="V"> || </option>
+                                                </select>
+                                                <span style="margin-left: 10px;">
+                                                    <button id="createMatrix" class="btn btn-sm btn-warning">Créer</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a id="idEquation" data-toggle="collapse" data-parent="#mathAccordion" href="#collapseEquation">
+                                                    Equation
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseEquation" class="panel-collapse collapse">
+                                            <div id="tableEquation" class="panel-body text-center"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+           <script defer src="@routes.Assets.at("javascripts/perso/math.min.js")" type="text/javascript"></script>
+

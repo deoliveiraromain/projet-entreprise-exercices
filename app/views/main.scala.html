@@ -1,0 +1,133 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>@title</title>
+        @*CSS général à garder plus tard*@
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/homepage.css")">
+
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        @*Inclusions css communs à toutes les pages*@
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap-spacelab.css")">
+
+
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        @* Inclusion FONT AWESOME *@
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/font-awesome/css/font-awesome.min.css")">
+
+        @*Inclusions css et icones pour le footer*@
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/footer.css")">
+
+        @*Scripts javascripts : inclusion de jquery, de boostrap js et de ckeditor*@
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("ckeditor/ckeditor.js")" type="text/javascript"></script>
+
+        @* Pour le syntax highlighter *@
+        <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
+        <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+        <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+        <script type="text/x-mathjax-config">
+                      MathJax.Hub.Config({
+                        tex2jax: {
+                          inlineMath: [["$","$"],["\\(","\\)"]]
+                        }
+                      });
+                      MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+                      var TEX = MathJax.InputJax.TeX;
+                      var PREFILTER = TEX.prefilterMath;
+                      TEX.Augment({
+                        prefilterMath: function (math,displaymode,script) {
+                          math = "\\displaystyle{"+math+"}";
+                          return PREFILTER.call(TEX,math,displaymode,script);
+                        }
+                      });
+                    });
+        </script>
+
+        @* Pour les diagrammes *@
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/charts.css")">
+
+    </head>
+    <body>
+        @*****************************NAVBAR QUI REVIENT SUR CHAQUE PAGE*****************************************************@
+    <nav  id="navbar"  class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@routes.Application.homePage"><img width="100px" src="@routes.Assets.at("images/LogoNicoMaxime_ICC3.png")"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav" style="padding-left: 50px;">
+                    <li>
+                        <a href="@routes.Application.homePage">
+                            <span class="fa fa-home exo-icon"></span>
+                            <span class="exo-text">Accueil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@routes.Application.synthese">
+                            <span class="fa fa-bookmark-o"></span>
+                            <span class="exo-text">Synthèse</span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="@routes.ExerciceControllerBdd.creation">
+                            <span class="fa fa-edit exo-icon"></span>
+                            <span class="exo-text">Création</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@routes.UploadController.upload">
+                            <span class="fa fa-cloud-upload exo-icon"></span>
+                            <span class="exo-text">Upload d'un fichier</span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="fa fa-book exo-icon"></span>
+                            <span class="exo-text">Consultation</span> <b class="caret"></b></a>
+
+                        <ul class="dropdown-menu">
+                            <li><a href="@routes.ExerciceControllerBdd.consultation">Consultation des exercices</a></li>
+                            <li><a href="@routes.FeuilleControllerBdd.consultation">Consultation des feuilles d'exercices</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="fa fa-cog exo-icon"></span>
+                            <span class="exo-text">Génération de feuilles d'exercices</span><b class="caret"></b></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="@routes.FeuilleControllerBdd.creationFeuilleMan">Génération manuelle</a></li>
+                                <li><a href="@routes.FeuilleControllerBdd.creationFeuilleAuto">Génération automatique</a></li>
+                            </ul>
+
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+        @******************************INSERTION CONTENT SPECIFIQUE A LA PAGE*****************************************************@
+        @content
+
+
+
+        @*****************************FOOTER QUI REVIENT SUR CHAQUE PAGE*****************************************************@
+    @footer()
+
+    </body>
+</html>

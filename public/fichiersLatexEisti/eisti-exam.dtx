@@ -1,0 +1,746 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2012-2013 by Romain DUJOL <romain.dujol@eisti.eu>
+% ---------------------------------------------------------------
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3 of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+%     http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of
+% LaTeX version 1999/12/01 or later.
+%
+% \fi
+
+% \iffalse
+%<*driver>
+\ProvidesFile{eisti-exam.dtx}
+%</driver>
+%<class>\NeedsTeXFormat{LaTeX2e}
+%<class>\ProvidesClass{eisti-exam}
+%<*class>
+    [2013/01/22 v2.5b Class for exam sheets]
+%</class>
+
+%<*driver>
+\documentclass[a4paper,oneside,10pt]{ltxdoc}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\usepackage{geometry}
+\usepackage[utopia,sfscaled=true,ttscaled=true]{mathdesign}
+  \renewcommand{\sfdefault}{phv}
+  \renewcommand{\ttdefault}{fvm}
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{morefloats}
+\usepackage{varioref}
+\begin{document}
+  \DocInput{eisti-exam.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{329}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+% \changes{v0.1}{2011/10/31}{Initial version with no doc (\texttt{.cls} file)}
+% \changes{v1.0}{2012/09/18}{Conversion to \texttt{.dtx} format with doc}
+% \changes{v2.0}{2012/10/15}{Handling variable page geometry and font size}
+% \changes{v2.2}{2012/10/17}{Documentation fully completed}
+% \changes{v2.3}{2013/01/18}{Added multilingual support}
+% \DoNotIndex{\\,\',\`,\AtBeginDocument,\begin,\bf,\bigskip,\boolean,\cfoot,\ClassError,\ClassWarning,\cline,\cr,\DeclareOption,\def,\em,\emph,\end,\ExecuteOptions,\fancyhf,\fancypagestyle,\headrulewidth,\hline,\hspace,\ifthenelse,\includegraphics,\isundefined,\Large,\lengthtest,\let,\LoadClassWithOptions,\minof,\multicolumn,\multirow,\newboolean,\newcommand,\newcounter,\newenvironment,\newsavebox,\newtheorem,\noindent,\pageref,\pagestyle,\par,\ProcessOptions,\protect,\providecommand,\raisebox,\real,\relax,\renewcommand,\RequirePackage,\setboolean,\setcounter,\settototalheight,\settowidth,\sfdefault,\sl,\space,\textit,\textsuperscript,\textwidth,\theheader@rows,\theoremstyle,\thepage,\today,\ttdefault,\usebox}
+
+% \GetFileInfo{eisti-exam.dtx}
+% \title{The \textsf{eisti-exam} class\thanks{This document corresponds to
+%        version~\fileversion{} of \textsf{eisti-exam} dated~\filedate.}}
+% \author{Romain \textsc{Dujol} \\ \texttt{romain.dujol@eisti.eu}}
+%
+%
+% \maketitle
+%
+% \begin{abstract}
+%   The \textsf{eisti-exam} class sets the apparence for EISTI written exams.
+% \end{abstract}
+%
+% \addtocounter{tocdepth}{-1}
+% \tableofcontents\vfill~
+%
+% \pagebreak
+%
+% \section{Usage}
+%
+% \subsection{Calling class \texttt{eisti-exam}}
+%
+% \noindent
+% Call of |eisti-exam| class is done using \LaTeX{} command |\documentclass| :
+% \begin{quote}
+%   |\documentclass|\oarg{options}|{eisti-exam}|
+% \end{quote}
+% Here follows a list of allowed values for \meta{options}.
+% \begin{itemize}
+%  \item[$\bullet$]
+%        \meta{grade} sets the grade concerned by the exam and prepares the
+%        corresponing title for header : see \textsf{eisti-common}
+%        documentation for details.
+%  \item[$\bullet$]
+%        \meta{campus} sets the campus concerned by the exam : see
+%        \textsf{eisti-common} documentation for details.
+%  \item[$\bullet$]
+%        \meta{header} sets which header to display ; two values are
+%        supported : |plain| and |special| (default value). Should the
+%        |plain| option be chosen, a \LaTeX-style title may be generated and 
+%        used via |\maketitle| command (see details below).
+%  \item[$\bullet$]
+%        \meta{type} sets the type of document ; two values are supported :
+%        |project| and |exam| (default value).
+%  \item[$\bullet$]
+%        \meta{lang} sets the language of the document (default is English) :
+%        see \textsf{eisti-lang} documentation for details.
+%  \item any option allowed in \textsf{article} standard \LaTeX{} class.
+% \end{itemize}
+%
+% \subsection{Processing header information}
+%
+% All the \LaTeX{} commands in this subsection \textbf{are to be used in the
+% preamble}.
+%
+% \bigskip
+%
+% \noindent\DescribeMacro{\grade}
+%          \DescribeMacro{\campus}
+%          \DescribeMacro{\logo}
+% Commands |\grade|, |\campus| and |\logo| are fully described in
+% \textsf{eisti-common} documentation.
+%
+% \bigskip
+% \bigskip
+% \bigskip
+%
+% \noindent\DescribeMacro{\subject}
+% The |\subject| command sets the subject concerned by the exam. Syntax is :
+% \begin{quote}
+%  |\subject|\marg{subject}
+% \end{quote}
+% Any call to |\subject| overrides preceding |\subject| calls.
+%
+% \bigskip
+%
+% \noindent\DescribeMacro{\title}
+% The |\title| command (as in |article| class) sets the exam title. Syntax is :
+% \begin{quote}
+%  |\title|\marg{title}
+% \end{quote}
+% Any call to |\title| overrides preceding |\title| calls.
+%
+% \bigskip
+%
+% \noindent\DescribeMacro{\author}
+% The |\author| command (as in |article| class) sets the exam author(s). Syntax
+% is :
+% \begin{quote}
+%  |\author|\marg{author}
+% \end{quote}
+% Any call to |\author| overrides preceding |\author| calls.
+%
+% \bigskip
+%
+% \noindent\DescribeMacro{\date}
+% The |\date| command (as in |article| class) sets the exam date. If |project|
+% option is set, value is used as the due date of project. Syntax is :
+% \begin{quote}
+%  |\date|\marg{date}
+% \end{quote}
+% Any call to |\date| overrides preceding |\date| calls.
+%
+% If there is no |\date| call, current formatted date (|\today|) will be used.
+%
+% \pagebreak
+%
+% \noindent\DescribeMacro{\duration}
+% The |\duration| command sets exam duration. If |project| option is set, value
+% is left unused. Syntax is :
+% \begin{quote}
+%  |\duration|\marg{duration}
+% \end{quote}
+% Any call to |\duration| overrides preceding |\duration| calls.
+%
+% \bigskip
+%
+% \noindent\DescribeMacro{\docs}
+% The |\docs| command sets information about exam authorized documents. Syntax
+% is :
+% \begin{quote}
+%  |\docs|\marg{docs}
+% \end{quote}
+% Any call to |\docs| overrides preceding |\docs| calls.
+%
+% \bigskip
+%
+% \noindent\DescribeMacro{\nota}
+% The |\nota| command sets additional information for the exam. Syntax is :
+% \begin{quote}
+%  |\nota|\marg{nota}
+% \end{quote}
+% Any call to |\nota| overrides preceding |\nota| calls.
+%
+% \bigskip
+% \bigskip
+%
+% \subsection{Plain title setup}
+%
+% \noindent\DescribeMacro{\plaintitle}
+%          \DescribeMacro{\plainauthor}
+%          \DescribeMacro{\plaindate}
+% If the |plain| option is chosen, one can make its own title in \LaTeX{} style.
+% Since |\title|, |\author| and |\date| commands have been overwritten, the
+% original \LaTeX{} commands are available as |\plaintitle|, |\plainauthor| and
+% |\plaindate|.
+%
+% \bigskip
+%
+% \noindent\DescribeMacro{\insertsubject}
+%          \DescribeMacro{\inserttitle}
+%          \DescribeMacro{\insertauthor}
+%          \DescribeMacro{\insertdate}
+%          \DescribeMacro{\insertduration}
+%          \DescribeMacro{\insertdocs}
+%          \DescribeMacro{\insertnota}
+% All elements describing the exam (subject, title, \ldots) may be used within
+% |\plaintitle|, |\plainauthor| and |\plaindate| commands. These elements are
+% available with \textsc{Beamer}-like |\insert|\meta{element} commands shown in
+% table~\vref{Table:Plain:InsertCommands}.
+%
+% \bigskip
+%
+% \begin{table}[!h]
+% \begin{center}
+%  \begin{tabular}{|>{\tt}l|l|}
+%   \hline
+%    \multicolumn{1}{|c|}{Command} &
+%    \multicolumn{1}{ c|}{Inserted text} \\
+%   \hline\hline
+%    |\insertsubject|    & \meta{subject} \\
+%    |\inserttitle|      & \meta{title}   \\
+%    |\insertauthor|     & \meta{author}
+%                          \emph{(if value is provided)} \\
+%    |\insertdate|       & \meta{date}
+%                          \emph{(if value is provided, }
+%                          |\today|\emph{ otherwise)} \\
+%    |\insertduration|   & \meta{duration} \\
+%    |\insertdocs|       & \meta{docs}
+%                          \emph{(if value is provided)} \\
+%    |\insertnota|       & \meta{nota}
+%                          \emph{(if value is provided)} \\
+%   \hline
+%  \end{tabular}
+%  \caption{Possible \texttt{\textbackslash insert}\meta{element} commands and
+%           corresponding inserted text \label{Table:Plain:InsertCommands}}
+% \end{center}
+% \end{table}
+%
+% \pagebreak
+%
+% \subsection{Environments for exercises and questions}
+%
+% The class \textsf{eisti-exam} provides some environments to present exercices
+% and questions in the exam sheet.
+%
+% \subsubsection{Main environments}
+%
+% \noindent\DescribeEnv{Exercise}\DescribeEnv{Exercise*}
+%          \DescribeEnv{Problem} \DescribeEnv{Problem*}
+% Environments |Exercise| and |Problem| are both \LaTeX{} numbered theorem-like
+% environments designed for exercises and problems respectively. Starred
+% versions |Exercise*| and |Problem*| are their unnumbered counterparts.
+%
+% \vspace{1.5\bigskipamount}
+%
+% \noindent\DescribeEnv{TextbookQuestions}
+% Environment |TextbookQuestions| is a \LaTeX{} unnumbered theorem-like
+% environment designed for containing textbook questions.
+%
+% \bigskip
+%
+% \noindent\DescribeEnv{Remark}
+% Environment |Remark| is a \LaTeX{} unnumbered theorem-like environment
+% designed for containing some remarks.
+%
+% \subsubsection{Subenvironments}
+%
+% \noindent\DescribeEnv{questions}\DescribeEnv{subquestions}
+% Environments |questions| and |subquestions| are both \LaTeX{} enumerate-like
+% environments. These environments should be used inside |Exercise|, |Problem|
+% and |TextbookQuestions|.
+%
+% \subsection{Other commands and environments}
+%
+% Since \textsf{eisti-exam} class is derived from standard \LaTeX{} class
+% \textsf{article}, any command or environment available in the \textsf{article}
+% class is available in the \textsf{eisti-exam} class.
+%
+% \medskip
+%
+% Moreover, any class option for \textsf{article} class is supported in
+% \textsf{eisti-exam} class.
+%
+% \bigskip
+%
+% Since \textsf{eisti-exam} uses \textsf{eisti-lang} facilities which requires
+% the \textsf{babel} package, any command or environment from the latter package
+% is available.
+%
+% \pagebreak
+%
+% \section{Some basic examples}
+%
+% \subsection{An example with predefined header}
+% \verbatiminput{exam-basic.tex}
+%
+% \pagebreak
+%
+% \subsection{An example using plain header}
+% \verbatiminput{exam-plain.tex}
+%
+% \section*{Acknowledgements}
+%
+% I am indebted to my colleague Florent \textsc{Devin} for thoroughly testing
+% this class and giving insightful remarks to improve it.
+%
+%\StopEventually{\PrintChanges\PrintIndex}
+%
+% \pagebreak
+%
+% \section{Implementation}
+%
+% \makeatletter
+% \renewcommand{\macro@font}{\fontencoding\encodingdefault
+%                            \fontfamily        \ttdefault
+%                            \fontseries        \mddefault
+%                            \fontshape         \updefault
+%                            \footnotesize}
+% \makeatother
+%
+% \subsection{Loading necessary packages}
+%
+% Packages \textsf{ifthen} and \textsf{calc} are used to perform \LaTeX-like
+% if-then-else statements and arithmetic computations on \LaTeX{} counters and
+% lengths.
+%    \begin{macrocode}
+\RequirePackage{ifthen,calc}
+%    \end{macrocode}
+%
+% Packages \textsf{tabularx} and \textsf{multirow} are used to design the
+% special header.
+% Package \textsf{graphicx} is used to insert the logo in this header.
+%    \begin{macrocode}
+\RequirePackage{tabularx,multirow,graphicx}
+%    \end{macrocode}
+%
+% Packages \textsf{fancyhdr} and \textsf{lastpage} are used to design the page
+% footer.
+%    \begin{macrocode}
+\RequirePackage{lastpage,fancyhdr}
+%    \end{macrocode}
+%
+% Package \textsf{amsthm} is used to define |TextbookQuestions|, |Exercise| and
+% |Problem| environments (along with their starred versions if any).
+% Package \textsf{enumerate} is used to define |questions| and |subquestions|
+% sub-environments.
+%    \begin{macrocode}
+\RequirePackage{amsthm,enumerate}
+%    \end{macrocode}
+%
+%\changes{v2.5}{2013/01/18}{Moved font definition to separate options definition file \textsf{eisti-common}}
+%
+% \subsection{Declaration of options}
+%
+%\changes{v2.5b}{2013/01/22}{Added multilingual support from \textsf{eisti-lang}}
+% We now insert definitions of options from \textsf{eisti-common}.
+%    \begin{macrocode}
+\input eisti-common.clo
+%    \end{macrocode}
+% \vspace*{-.8\baselineskip}
+%
+%\changes{v2.5}{2013/01/18}{Moved grade options to separate options definition file \textsf{eisti-common}}
+%
+%\changes{v1.02}{2012/10/12}{Options \texttt{cergy}/\texttt{pau}/\texttt{all} added}
+%\changes{v2.5}{2013/01/18}{Moved campus options to separate options definition file \textsf{eisti-common}}
+%
+% \subsubsection{Header options}
+%\changes{v1.01}{2012/10/03}{Options \texttt{header}/\texttt{noheader} added}
+%
+% Option sets a boolean (see \textsf{ifthen} package) named |plainHeader|
+% accordingly.
+%    \begin{macrocode}
+\newboolean{plainHeader}
+\DeclareOption{special}{\setboolean{plainHeader}{false}}
+\DeclareOption{plain}  {\setboolean{plainHeader} {true}}
+%    \end{macrocode}
+%
+% \subsubsection{Exam/project options}
+% \changes{v2.1}{2012/10/16}{Options \texttt{exam}/\texttt{project} added}
+%
+% Option sets a boolean (see \textsf{ifthen} package) named |isProject|
+% accordingly.
+%    \begin{macrocode}
+\newboolean{isProject}
+\DeclareOption{exam   }{\setboolean{isProject}{false}}
+\DeclareOption{project}{\setboolean{isProject} {true}}
+%    \end{macrocode}
+%
+% \changes{v2.0}{2012/10/15}{Options \texttt{calc}/\texttt{nocalc} removed (replaced by \texttt{docs}/\texttt{nodocs} options)}
+% \changes{v2.3}{2013/01/11}{Options \texttt{docs}/\texttt{nodocs} removed (replaced by \cmd{\docs} command)}
+%
+% \subsubsection{Default options}
+%
+% The default behaviour is the following :
+% \begin{itemize}
+%  \item Grade and campus are left undefined.
+%  \item Special header is used.
+%  \item The sheet is intended for an exam.
+%  \item Default logo file is |eisti-logo.pdf| (if |pdflatex| is used)
+%                          or |eisti-logo.ps|  (if    |latex| is used).
+%  \item Default language is English.
+% \end{itemize}
+%    \begin{macrocode}
+\ExecuteOptions{nograde,all,special,exam}
+\logo{eisti-logo}
+%    \end{macrocode}
+% Boolean variables |plainHeader|, |isProject| along with |\exam@|\meta{element}
+% variables must be set so we process options now.
+%    \begin{macrocode}
+\ProcessOptions\relax
+%    \end{macrocode}
+%
+% \pagebreak
+%
+% \subsection{Other commands and environments}
+%
+% Since an exam sheet is a very short document, class \textsf{eisti-exam} is
+% derived from standard \LaTeX{} class \textsf{article}. Command
+% |\LoadClassWithOptions| is used to enable all \textsf{article} class options.
+%    \begin{macrocode}
+\ifx\eisti@language\@undefined
+\else\RequirePackage{babel}\fi
+\LoadClassWithOptions{article}
+%    \end{macrocode}
+%
+% \subsection{Macros for header setting}
+%
+%\changes{v1.1}{2012/10/12}{Forcing clash when multiple calls}
+%\changes{v2.3b}{2013/01/16}{Added short grade definition}
+%\changes{v2.5}{2013/01/18}{Moved \cmd{\grade}  to separate options definition file \textsf{eisti-common}}
+%\changes{v2.5}{2013/01/18}{Moved \cmd{\campus} to separate options definition file \textsf{eisti-common}}
+%
+% \subsubsection{Setting title, author and date}
+%
+%\begin{macro}{\title}
+%\begin{macro}{\author}
+%\begin{macro}{\date}
+%\begin{macro}{\plaintitle}
+%\begin{macro}{\plainauthor}
+%\begin{macro}{\plaindate}
+%\begin{macro}{\exam@title}
+%\begin{macro}{\exam@author}
+%\begin{macro}{\exam@date}
+% Commands |\title|, |\author| and |\date| are the most obvious commands for a
+% \LaTeX{} user, so we use them as to define the exam title, author(s) and date
+% respectively. These commands sets respectively the |\exam@title|,
+% |\exam@author| and |\exam@date| variables\footnote{Using internal variables
+% |\textbackslash@title|, |\textbackslash@author| and |\textbackslash@date| may
+% interfere with natural |\textbackslash maketitle| behaviour, especially if the
+% plain header is used.}.
+% Since the original \LaTeX{} commands may be needed when using the plain
+% header, they are saved in |plain|-prefixed version.
+%    \begin{macrocode}
+\let\plaintitle =\title
+\let\plainauthor=\author
+\let\plaindate  =\date
+\renewcommand{\title   }[1]{\def\exam@title   {#1}}
+\renewcommand{\author  }[1]{\def\exam@author  {#1}}
+\renewcommand{\date    }[1]{\def\exam@date    {#1}}
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%
+% \subsubsection{Setting other info}
+%\changes{v2.5b}{2013/01/22}{Moved \cmd{\logo} to separate options definition file \textsf{eisti-common}}
+%
+%\begin{macro}{\subject}
+%\begin{macro}{\duration}
+%\begin{macro}{\nota}
+%\begin{macro}{\exam@subject}
+%\begin{macro}{\exam@duration}
+%\begin{macro}{\exam@docs}
+%\begin{macro}{\exam@nota}
+% Remaining commands set their associated variables accordingly.
+%    \begin{macrocode}
+\newcommand{\subject }[1]{\def\exam@subject {#1}}
+\newcommand{\duration}[1]{\def\exam@duration{#1}}
+\newcommand{\docs    }[1]{\def\exam@docs    {#1}}
+\newcommand{\nota    }[1]{\def\exam@nota    {#1}}
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%
+% \subsection{Macros for display}
+%
+%\begin{macro}{\insertsubject}
+%\begin{macro}{\inserttitle}
+%\begin{macro}{\insertauthor}
+%\begin{macro}{\insertdate}
+%\begin{macro}{\insertduration}
+%\begin{macro}{\insertdocs}
+%\begin{macro}{\insertnota}
+% Since variables |\@campus|, |\exam@author|, |\exam@date|, |\exam@nota|
+% may be undefined, macros to display these variables must their existence
+% beforehand.
+%    \begin{macrocode}
+\newcommand{\insertsubject }{\exam@subject }
+\newcommand{\inserttitle   }{\exam@title   }
+\newcommand{\insertauthor}
+  {
+    \ifthenelse{\isundefined{\exam@author}}{}{\exam@author}
+  }
+\newcommand{\insertdate}
+  {
+    \ifthenelse{\isundefined{\exam@date}}{\today}{\exam@date}
+  }
+\newcommand{\insertduration}{\exam@duration}
+\newcommand{\insertdocs}
+  {
+    \ifthenelse{\isundefined{\exam@docs}}{}{\exam@docs}
+  }
+\newcommand{\insertnota}
+  {
+    \ifthenelse{\isundefined{\exam@nota}}{}{\exam@nota}
+  }
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%
+% \vfill
+%
+% \subsection{Header design}
+%
+% \subsubsection{Plain header}
+%
+% If plain header is chosen, |\insert|\meta{element} commands, |\plaintitle|,
+% |\plainauthor| and |\plaindate| have been defined previously so do nothing.
+% to set elements for plain title header.
+%
+% \subsubsection{Special header design}
+%
+% If the special header is chosen, the internal |\exam@maketitle| is defined to
+% generate the header on call. This command will be automatically called on
+% each document via the |\AtBeginDocument| directive (see below).
+%
+% \noindent
+% The |\exam@maketitle| command :
+% \begin{enumerate}
+%  \item disables |\and| command to prevent clash with |\author| command.
+%  \item disables |\maketitle| command to prevent a \LaTeX{} error if used.
+%  \item calls |\header@right| command to store the header with no logo in the
+%        box |\header@rightbox|.
+%        The dimensions of |\header@rightbox| are stored in length variables
+%        |\header@width| and\linebreak |\header@height| and considered as
+%        references for final header.
+%  \item stores in |\logo@width| the width of the logo when it has height set
+%        to |\header@height|.
+%  \item calls |\header@full| command to store the full header in the box
+%        |\header@fullbox|
+%  \item regenerates accordingly the header via |\header@full| command if the
+%        width of the header generated in previous step exceeds |\textwidth|.
+% \end{enumerate}
+%\pagebreak
+%\begin{macro}{\exam@maketitle}
+%\begin{macro}{\header@right}
+%\begin{macro}{\header@width}
+%\begin{macro}{\header@height}
+%\begin{macro}{\header@full}
+%\begin{macro}{\header@rightbox}
+%\begin{macro}{\header@fullbox}
+%    \begin{macrocode}
+\ifthenelse{\boolean{plainHeader}}%
+  {}
+  {
+    \let\and\relax
+    \let\maketitle\relax
+
+    \newsavebox{\header@rightbox}
+    \newcommand{\header@right}
+      {
+        \begin{lrbox}{\header@rightbox}
+        \begin{tabular}{|l|l|}
+         \hline \multicolumn{2}{|c|}{\raisebox{0pt}[2em][0em]{\Large\bf \insertgrade \insertcampus}} \\
+                \multicolumn{2}{|c|}{\raisebox{0pt}[2em][1em]{\Large\bf \exam@title}}
+           \ifthenelse{\isundefined{\exam@author}}%
+             {\cr}{\cr\multicolumn{2}{|r|}{\raisebox{0pt}[0em][.75em]{\sl\exam@author}}\cr}
+         \hline \textit{\label@subject} : {\bf\exam@subject}
+              & \textit{\ifthenelse{\boolean{isProject}}{\label@exam@dueDate}{\label@date}} : {\bf\insertdate}
+         \ifthenelse{\boolean{isProject}}%
+           {\cr}{\cr\hline {\bf\insertdocs} & \textit{\label@exam@duration}    : {\bf\exam@duration}\cr}
+                    \hline {\bf\insertnota} & \textit{\label@pagesnumber} : {\bf 0} \\
+         \hline
+        \end{tabular}
+        \end{lrbox}
+      }
+    \newsavebox{\header@fullbox}
+    \newcounter{header@rows}
+    \newcommand{\header@full}[1]
+      {
+        \setcounter{header@rows}{5}
+        \ifthenelse{\isundefined{\exam@author}}{}{\stepcounter{header@rows}}
+        \begin{lrbox}{\header@fullbox}
+        \begin{tabularx}{\textwidth}{|p{#1}|X|l|}
+         \hline \multirow{\theheader@rows}{*}{\includegraphics[width=#1]{\logo@file}}
+              & \multicolumn{2}{c|}{\raisebox{0pt}[2em][0em]{\Large\bf \insertgrade \insertcampus}} \\
+              & \multicolumn{2}{c|}{\raisebox{0pt}[2em][1em]{\Large\bf \exam@title}}
+           \ifthenelse{\isundefined{\exam@author}}%
+             {\cr}{\cr&\multicolumn{2}{r|}{\raisebox{0pt}[0em][.75em]{\sl\exam@author}}\cr}
+         \cline{2-3} & \textit{\label@subject} : {\bf\exam@subject}
+                     & \textit{\ifthenelse{\boolean{isProject}}{\label@exam@dueDate}{\label@date}} : {\bf\insertdate}
+         \ifthenelse{\boolean{isProject}}%
+           {\cr}{\cr\cline{2-3} & {\bf\insertdocs} & \textit{\label@exam@duration}    : {\bf\exam@duration}\cr}
+                    \cline{2-3} & {\bf\insertnota} & \textit{\label@pagesnumber} : {\bf\pageref{LastPage}} \\
+         \hline
+        \end{tabularx}
+        \end{lrbox}
+      }
+    \newcommand{\exam@maketitle}%
+      {
+        \header@right
+        \newlength{\header@height}\settototalheight{\header@height}{\usebox{\header@rightbox}}
+        \newlength{\header@width }\settowidth      {\header@width }{\usebox{\header@rightbox}}
+        \newlength{  \logo@width }\settowidth      {  \logo@width }{\includegraphics[height=0.9\header@height]{\logo@file}}
+        \ifthenelse{\lengthtest{\header@width < \textwidth}}%
+          {\header@full{\minof{\textwidth - \header@width}{\logo@width} * \real{0.9}}}
+          {
+            \ClassWarning{eisti-exam}{Natural header without logo is too wide so final header will be ugly...}
+            \header@full{0.9\logo@width}
+          }
+        \noindent\usebox{\header@fullbox}\par
+      }
+  }
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%
+% \subsection{Environments}
+%
+% \subsubsection{\texttt{Remark}, \texttt{TextbookQuestions}, \texttt{Exercise}
+%             and \texttt{Problem} environments}
+%\changes{v1.01}{2012/10/03}{\texttt{Rem} environment added}
+%
+% \vspace*{-1.5\baselineskip}
+%
+%\begin{environment}{Problem}
+%\begin{environment}{Problem*}
+%\begin{environment}{Exercise}
+%\begin{environment}{Exercise*}
+%\begin{environment}{TextbookQuestions}
+%\begin{environment}{Remark}
+%    \begin{macrocode}
+\theoremstyle{definition}
+\newtheorem*{TextbookQuestions}{\bf \label@exam@TextbookQuestions}
+\newtheorem {Exercise} {\bf \label@exam@Exercise}
+\newtheorem*{Exercise*}{\bf \label@exam@Exercise}
+\newtheorem {Problem}  {\bf \label@exam@Problem}
+\newtheorem*{Problem*} {\bf \label@exam@Problem}
+\theoremstyle{remark}
+\newtheorem*{Remark}{\label@exam@Remark}
+%    \end{macrocode}
+%\end{environment}
+%\end{environment}
+%\end{environment}
+%\end{environment}
+%\end{environment}
+%\end{environment}
+%
+% \vspace*{-1\baselineskip}
+%
+% \subsubsection{\texttt{questions} and \texttt{subquestions} environments}
+%
+%\begin{environment}{questions}
+%\begin{environment}{subquestions}
+% These environments are altered |enumerate| environments using
+% \textsf{enumerate} package.
+%    \begin{macrocode}
+\newenvironment   {questions}{\begin{enumerate}[\hspace{.5em}a.]}{\end{enumerate}}
+\newenvironment{subquestions}{\begin{enumerate}[\em(i)]}         {\end{enumerate}}
+%    \end{macrocode}
+%\end{environment}
+%\end{environment}
+%
+% \subsection{Page settings}
+%
+% Page setting is defined using \textsf{fancyhdr} package : no page header
+% (since we spent time to define it !) and a simple footer indicating the
+% current page and the page grand total.
+%    \begin{macrocode}
+\fancypagestyle{plain}%
+  {
+    \fancyhf{}
+    \cfoot{-~\thepage~/~\pageref{LastPage}~-}
+    \renewcommand{\headrulewidth}{0pt}
+  }
+%    \end{macrocode}
+% At |\begin{document}| call :
+% \begin{itemize}
+%  \item if special header is asked, put it by calling |\exam@maketitle| command
+%  \item if plain   header is asked, do nothing directly and wait for user to
+%        call |\maketitle| (if he wants so).
+% \end{itemize}
+%    \begin{macrocode}
+\AtBeginDocument%
+  {
+    \pagestyle{plain}
+    \ifthenelse{\boolean{plainHeader}}%
+      {}{\exam@maketitle\bigskip\par}
+  }
+%    \end{macrocode}
+%
+
+%\Finale
+\endinput

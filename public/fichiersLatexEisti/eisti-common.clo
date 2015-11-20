@@ -1,0 +1,104 @@
+%%
+%% This is file `eisti-common.clo',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% eisti-common.dtx  (with options: `options')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2012-2013 by Romain DUJOL <romain.dujol@eisti.eu>
+%% 
+%% This file may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either
+%% version 1.3 of this license or (at your option) any later
+%% version. The latest version of this license is in:
+%% 
+%%    http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.2 or later is part of all distributions of
+%% LaTeX version 1999/12/01 or later.
+%% 
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesFile{eisti-common.clo}
+    [2013/01/18 v1.0 Main options]
+
+
+\RequirePackage[utopia,sfscaled=true,ttscaled=true]{mathdesign}
+  \renewcommand{\sfdefault}{phv}
+  \renewcommand{\ttdefault}{fvm}
+\newcommand{\grade}[2][\@empty]%
+  {
+    \ifthenelse{\isundefined{\@grade}}%
+      {
+        \newcommand{\@grade      }{{#2}}
+        \newcommand{\@grade@short}{\ifx\@empty#1\relax{#2}\else{#1}\fi}
+      }
+      {
+        \ClassError{eisti-common}{Grade is already set to '\@grade'.}%
+                   {The grade has already been defined either by class option or \protect\grade\space call.}
+      }
+  }
+\newcommand{\campus}[1]
+  {
+    \ifthenelse{\isundefined{\@campus}}
+      { \newcommand{\@campus}{{#1}} }
+      {
+        \ClassError{eisti-common}{Campus is already set to '\@campus'.}%
+                   {The campus has already been defined either by class option or \protect\campus\space call.}
+      }
+  }
+\def\logo#1{\def\logo@file{#1}}
+\def\label@CPIOne@short {CPI1}
+\def\label@CPITwo@short {CPI2}
+\def\label@INGOne@short {ING1}
+\def\label@INGOne@GI@short {ING1-GI}
+\def\label@INGOne@GM@short {ING1-GM}
+\def\label@INGTwo@short {ING2}
+\def\label@INGTwo@GSI@short {ING2-GSI}
+\def\label@INGTwo@MI@short  {ING2-MI}
+\def\label@INGTwo@SIE@short {ING2-SIE}
+\def\label@INGLast@short{ING3}
+\def\label@INGLast@BI@short {ING3-BI}
+\def\label@INGLast@ERP@short{ING3-ERP}
+\def\label@INGLast@GL@short {ING3-GL}
+\def\label@INGLast@IAD@short{ING3-IAD}
+\def\label@INGLast@ICC@short{ING3-ICC}
+\def\label@INGLast@ICO@short{ING3-ICOM}
+\def\label@INGLast@IFI@short{ING3-IFI}
+\def\label@INGLast@III@short{ING-I3}
+\input eisti-lang.clo
+\DeclareOption{cpi1}    {\grade[\label@CPIOne@short]     {\label@CPIOne}}
+\DeclareOption{cpi2}     {\grade[\label@CPITwo@short]     {\label@CPITwo}}
+\DeclareOption{ing1}     {\grade[\label@INGOne@short]     {\label@INGOne}}
+\DeclareOption{ing1-gi}  {\grade[\label@INGOne@GI@short]  {\label@INGOne@GI}}
+\DeclareOption{ing1-gm}  {\grade[\label@INGOne@GM@short]  {\label@INGOne@GM}}
+\DeclareOption{ing2}     {\grade[\label@INGTwo@short]     {\label@INGTwo}}
+\DeclareOption{ing2-gsi} {\grade[\label@INGTwo@GSI@short] {\label@INGTwo@GSI}}
+\DeclareOption{ing2-mi}  {\grade[\label@INGTwo@MI@short]  {\label@INGTwo@MI}}
+\DeclareOption{ing2-sie} {\grade[\label@INGTwo@SIE@short] {\label@INGTwo@SIE}}
+\DeclareOption{ing3}     {\grade[\label@INGLast@short]    {\label@INGLast}}
+\DeclareOption{ing3-bi}  {\grade[\label@INGLast@BI@short] {\label@INGLast@BI}}
+\DeclareOption{ing3-erp} {\grade[\label@INGLast@ERP@short]{\label@INGLast@ERP}}
+\DeclareOption{ing3-gl}  {\grade[\label@INGLast@GL@short] {\label@INGLast@GL}}
+\DeclareOption{ing3-iad} {\grade[\label@INGLast@IAD@short]{\label@INGLast@IAD}}
+\DeclareOption{ing3-icc} {\grade[\label@INGLast@ICC@short]{\label@INGLast@ICC}}
+\DeclareOption{ing3-icom}{\grade[\label@INGLast@ICC@short]{\label@INGLast@ICO}}
+\DeclareOption{ing3-ifi} {\grade[\label@INGLast@IFI@short]{\label@INGLast@IFI}}
+\DeclareOption{ing3-i3}  {\grade[\label@INGLast@III@short]{\label@INGLast@III}}
+\DeclareOption{nograde  }{\ClassWarning{eisti-common}{No grade is provided.}}
+\DeclareOption{cergy}{\campus{Cergy}}
+\DeclareOption{pau  }{\campus{Pau}}
+\DeclareOption{all  }{}
+\newcommand{\insertgrade     }{\@grade      }
+\newcommand{\insertshortgrade}{\@grade@short}
+\newcommand{\insertcampus}
+  {
+    \ifthenelse{\isundefined{\@campus}}{}{\space (\label@campus{\@campus})}
+  }
+
+\endinput
+%%
+%% End of file `eisti-common.clo'.

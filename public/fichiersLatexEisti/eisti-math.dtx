@@ -1,0 +1,814 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2012-2013 by Romain DUJOL <romain.dujol@eisti.eu>
+% ---------------------------------------------------------------
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3 of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+%     http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of
+% LaTeX version 1999/12/01 or later.
+%
+% \fi
+
+% \iffalse
+%<*driver>
+\ProvidesFile{eisti-math.dtx}
+%</driver>
+%<package>\NeedsTeXFormat{LaTeX2e}
+%<package>\ProvidesPackage{eisti-math}
+%<*package>
+    [2013/01/29 v1.1 Package for math commands and environments]
+%</package>
+
+%<*driver>
+\documentclass[a4paper,oneside,10pt,english]{ltxdoc}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\usepackage{geometry}
+\usepackage[utopia,sfscaled=true,ttscaled=true]{mathdesign}
+  \renewcommand{\sfdefault}{phv}
+  \renewcommand{\ttdefault}{fvm}
+\usepackage{morefloats}
+\usepackage{eisti-math}
+\begin{document}
+  \DocInput{eisti-math.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{253}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+% \DoNotIndex{\\,\',\`,\!,\,,\bar,\bbfalse,\bbtrue,\begin,\boldmath,\DeclareMathOperator,\displaystyle,\else,\end,\endoldproof,\endproof,\ensuremath,\fi,\ifx,\left,\let,\llbracket,\mapsto,\math@set,\mathbb,\mathbf,\mathcal,\mathrm,\newcommand,\newenvironment,\newframedtheorem,\newif,\newshadedtheorem,\newtheorem,\normalsize,\oldproof,\overline,\ProcessOptions,\prod,\proof,\relax,\renewcommand,\renewenvironment,\RequirePackage,\right,\rrbracket,\shadecolor,\small,\sum,\textbf,\textsc,\textsf,\thechapter,\theoremstyle,\thmfalse,\thmtrue,\to,\unboldmath,\undefined}
+
+% \GetFileInfo{eisti-math.dtx}
+% \title{The \textsf{eisti-math} package\thanks{This document corresponds to
+%        version~\fileversion{} of \textsf{eisti-math} dated~\filedate.}}
+% \author{Romain \textsc{Dujol} \\ \texttt{romain.dujol@eisti.eu}}
+%
+% \maketitle
+%
+% \begin{abstract}
+%   The \textsf{eisti-math} package gives some commands for mathematics in
+%   documents.
+% \end{abstract}
+%
+% \tableofcontents\vfill~
+%
+% \section{Usage}
+%
+% \subsection{Calling package \texttt{eisti-math}}
+%
+% \noindent
+% Call of |eisti-math| package is done in the preamble using \LaTeX{} command
+% |\usepackage| :
+% \begin{quote}
+%   |\usepackage|\oarg{options}|{eisti-math}|
+% \end{quote}
+% Here follows a list of allowed values for \meta{options}.
+% \begin{itemize}
+%  \item[$\bullet$]
+%        \meta{setsFont} sets the font used to design numeric sets ; two values
+%        are possible : |bf| (for full bold design via \cmd{\mathbf}) and |bb|
+%        (for ``~poor man's bold~'' design via \cmd{\mathbb} : this is the
+%        default value).
+%  \item[$\bullet$]
+%        \meta{thm} sets whether new theorem environments are loaded with
+%        package \textsf{ntheorem} ; two values are possibles : |nothm| and
+%        |thm| (default value). \\
+%        \textbf{WARNING!} Using \textsf{eisti-math} with option |thm| set
+%        within is known to conflict with \textsf{eisti-exam} class, so |nothm|
+%        option must be set while using this class.
+%  \item[$\bullet$]
+%        \meta{lang} sets the language of the document (default is English) :
+%        see \textsf{eisti-lang} documentation for details.
+% \end{itemize}
+%
+% \subsection{New commands}
+%
+% \DescribeMacro{\textmathbf}
+% |\textmathbf| is one-argument command whose argument must be in text mode
+% (it may contain inline math elements nonetheless). This command applies bold
+% face to font to every glyph (even the ones in math mode).
+% \begin{center}
+%  \begin{tabular}{cp{.5cm}c}
+%    \verb+\textbf{Let $n = 0$.} \textmathbf{Let $n = 0$.}+ &&
+%          \textbf{Let $n = 0$.} \hspace{1em} \textmathbf{Let $n = 0$.}
+%  \end{tabular}
+% \end{center}
+%
+% \subsubsection{Mathematical operators}
+%
+% \DescribeMacro{\cotan}
+% \DescribeMacro{\ch}
+% \DescribeMacro{\Ker}
+% \DescribeMacro{\id}
+% \DescribeMacro{\Im}
+% \DescribeMacro{\Img}
+% \DescribeMacro{\mat}
+% \DescribeMacro{\o}
+% \DescribeMacro{\O}
+% \DescribeMacro{\Re}
+% \DescribeMacro{\sh}
+% \DescribeMacro{\Sp}
+% \DescribeMacro{\th}
+% Some additional mathematical operators are available and listed in
+% table~\ref{Table:Operators}.
+% \begin{table}[!h]
+% \begin{minipage}{\linewidth}
+% \renewcommand*{\thefootnote}{\em\alph{footnote}}
+% \renewcommand{\footnoterule}{}
+% \begin{center}
+%  \begin{tabular}{cc*{2}{p{1cm}cc}}
+%    |\cotan| & $\cotan$ && |\ch|  & $\ch$  && |\Ker|  & $\Ker$  \\
+%    |\id|    & $\id$    && |\Im|\footnotemark[1]
+%                                  & $\Im$  && |\Img|  & $\Img$  \\
+%    |\mat|   & $\mat$   && |\o| \footnotemark[1]
+%                                  & $\o$   && |\O|\footnotemark[1]
+%                                                      & $\O$    \\
+%    |\Re|\footnotemark[1]
+%             & $\Re$    && |\sh|  & $\sh$  && |\Sp|   & $\Sp$   \\
+%    |\th|\footnotemark[1]
+%             & $\th$
+%  \end{tabular}
+%  \caption{New mathematical operators provided by \textsf{eisti-math} package}
+%  \label{Table:Operators}
+% \end{center}
+% \footnotetext[1]{These commands overwrite previous \LaTeX{} definitions so
+%    their original counterparts are stored in \cmd{\old}-prefixed commands
+%    (\cmd{\oldIm}, \cmd{\oldo}, \cmd{\oldO}, \cmd{\oldRe} and \cmd{\oldth}).}
+% \end{minipage}
+% \end{table}
+%
+% \vspace*{-.5\baselineskip}
+%
+% \subsubsection{Numeric sets}
+%
+% \DescribeMacro{\Nset}
+% \DescribeMacro{\Zset}
+% \DescribeMacro{\Qset}
+% \DescribeMacro{\Rset}
+% \DescribeMacro{\Cset}
+% \DescribeMacro{\Kset}
+% Some additional shortcut to numeric sets are also available (see
+% table~\ref{Table:Sets}).
+% \begin{table}[!h]
+% \begin{center}
+%  \begin{tabular}{cc*{2}{p{1cm}cc}}
+%    |\Nset| & $\Nset$ && |\Zset| & $\Zset$ && |\Qset| & $\Qset$ \\
+%    |\Rset| & $\Rset$ && |\Cset| & $\Cset$ && |\Kset| & $\Kset$ \\
+%  \end{tabular}
+%  \caption{Shortcuts for numeric sets}
+%  \label{Table:Sets}
+% \end{center}
+% \end{table}
+%
+% \pagebreak
+%
+% \DescribeMacro{\intSet}
+% A two-parameter |\intSet| command is also provided to present integer
+% intervals (see table~\ref{Table:Sets:Integer}).
+% \begin{table}[!h]
+% \begin{center}
+%  \begin{tabular}{cc*{1}{p{1cm}cc}}
+%   \verb+\intSet[2]{n}+ & \intSet[2]{n} \\
+%   \verb+\intSet{n}+    & \intSet[1]{n}
+%  \end{tabular}
+%  \caption{\texttt{\textbackslash intSet} usage}
+%  \label{Table:Sets:Integer}
+% \end{center}
+% \end{table}
+%
+% \vspace*{-1.5\baselineskip}
+%
+% \subsubsection{Vector spaces}
+%
+% \DescribeMacro{\Func}
+% \DescribeMacro{\Cont}
+% \DescribeMacro{\Lin}
+% \DescribeMacro{\SEP}
+% \DescribeMacro{\Vect}
+% \DescribeMacro{\Mat}
+% Some additional shortcut to special vector spaces are also available (see
+% table~\ref{Table:Sets:VectorSpaces}).
+% \begin{table}[!h]
+% \begin{center}
+%  \begin{tabular}{cc*{2}{p{1cm}cc}}
+%    |\Func| & $\Func$ && |\Cont| & $\Cont$ && |\Lin|  & $\Lin$  \\
+%    |\SEP|  & $\SEP$  && |\Vect| & $\Vect$ && |\Mat|  & $\Mat$  \\
+
+%  \end{tabular}
+%  \caption{Shortcuts for vector spaces}
+%  \label{Table:Sets:VectorSpaces}
+% \end{center}
+% \end{table}
+%
+% \vspace*{-.5\baselineskip}
+%
+% \subsubsection{Displaystyle operators}
+%
+% \DescribeMacro{\dsum}
+% \DescribeMacro{\dprod}
+% \DescribeMacro{\dlim}
+% \DescribeMacro{\dint}
+% The widely used \textsf{amsmath} package provides a |\dfrac| command to force
+% displaystyle fractions in mathematical inline mode.
+%
+% In the same way, we provide in this package commands |\dsum|, |\dprod|,
+% |\dlim| and |\dint| that force displaystyle sum, product, limit and integral
+% symbols in mathematical inline mode. Some examples are shown in
+% table~\ref{Table:Displaystyle}.
+%
+% \begin{table}[!h]
+% \begin{center}
+%  \begin{tabular}{cp{1cm}c}
+%    \verb+$\sum_{k = 0}^n$ $\dsum_{k = 0}^n$+   &
+%          $\sum_{k = 0}^n \qquad \dsum_{k = 0}^n$    \\
+%    \verb+$\prod_{k = 0}^n$ $\dprod_{k = 0}^n$+ &
+%          $\prod_{k = 0}^n \qquad \dprod_{k = 0}^n$  \\
+%    \verb+$\lim_{x \to 0}$ $\dlim_{x \to 0}$+   &
+%          $\lim_{x \to 0} \qquad \dlim_{x \to 0}$    \\
+%    \verb+$\int_0^1$ $\dint_0^1$+ &
+%          $\int_0^1 \qquad \dint_0^1$
+%  \end{tabular}
+%  \caption{Normal operators and their displaystyle-forced versions}
+%  \label{Table:Displaystyle}
+% \end{center}
+% \end{table}
+%
+% \vspace{-2em}
+%
+% \subsubsection{Other operators}
+%
+% \DescribeMacro{\transpose}
+% \DescribeMacro{\d}
+% The \textsf{eisti-math} package provides (see table~\ref{Table:Other}) :
+% \\[-1.25\baselineskip]
+% \begin{itemize}
+%  \setlength{\itemsep}{-.25em}
+%  \item a \cmd{\transpose} command to represent the matrix transposition
+%        operator in French notation
+%  \item a \cmd{\d} command to design the differentation operator seen in
+%        full derivatives or integrals. The original \cmd{\d} command is
+%        available with \cmd{\oldd} command.
+% \end{itemize}
+%
+% \begin{table}[!h]
+% \begin{center}
+%  \begin{tabular}{cc*{2}{p{1cm}cc}}
+%   \verb+\transpose{M}+ & $\transpose{M}$ &&
+%   \verb+\dint_0^1 f(t)\,\d{t}+ & $\dint_0^1 f(t)\,\d{t}$ &&
+%  \end{tabular}
+%  \caption{Other operators provided by \textsf{eisti-math} package}
+%  \label{Table:Other}
+% \end{center}
+% \end{table}
+%
+% \DescribeMacro{\bar}
+% The package also redefines \cmd{\bar} a an alias of \cmd{\overline}. Previous
+% definition is available with \cmd{\oldbar} command.
+%
+% \subsection{New environments}
+%
+% If option |nothm| is not given, new theorem-like environments are provided.
+%
+% For every numbered environment, the associated is reset to zero at each
+% chapter change (or at each section change if chapters are not defined).
+%
+% \subsubsection{Definitions}
+%
+% \DescribeEnv{Def}
+% \DescribeEnv{Defn}
+% |Def| and |Defn| are respectively the numbered and the unnumbered definition
+% environments.
+%
+% \newcounter{fncnt}
+% \setcounter{fncnt}{\thefootnote}\stepcounter{fncnt}
+% While |Def| is a framed theorem, |Defn| is not\footnotemark[\thefncnt].
+% \footnotetext[\thefncnt]{Should someone know how to define a unnumbered framed
+% theorem with \textsf{ntheorem} package, please feel free to tell me !}
+%
+%\begin{verbatim}
+%\begin{Def}[Definition]
+% This is a definition with number.
+%\end{Def}
+%\end{verbatim}
+% \begin{Def}[Definition]
+%  This is a definition with number.
+% \end{Def}
+%
+%\begin{verbatim}
+%\begin{Defn}[Definiton]
+% This is a definition with no number.
+%\end{Defn}
+%\end{verbatim}
+% \begin{Defn}[Definition]
+%  This is a definition with no number.
+% \end{Defn}
+%
+% \subsubsection{Theorems}
+%
+% \DescribeEnv{Thm}
+% \DescribeEnv{Th}
+% |Thm| and |Th| are respectively the numbered and the unnumbered theorem
+% environments.
+%
+% While |Thm| is a framed theorem, |Th| is not\footnotemark[\thefncnt].
+%
+%\begin{verbatim}
+%\begin{Thm}[Theorem]
+% This is a theorem with number.
+%\end{Thm}
+%\end{verbatim}
+% \begin{Thm}[Theorem]
+%  This is a theorem with number.
+% \end{Thm}
+%
+%\begin{verbatim}
+%\begin{Th}[Theorem]
+% This is a theorem with no number.
+%\end{Th}
+%\end{verbatim}
+% \begin{Th}[Theorem]
+%  This is a theorem with no number.
+% \end{Th}
+%
+% \clearpage
+%
+% \subsubsection{Propositions, corollaries and lemmas}
+%
+% \DescribeEnv{Prop}
+% \noindent |Prop| is a standard numbered theorem environment.
+%\begin{verbatim}
+%\begin{Prop}[Proposition]
+% This is a proposition.
+%\end{Prop}
+%\end{verbatim}
+% \begin{Prop}[Proposition]
+%  This is a proposition.
+% \end{Prop}
+%
+% \DescribeEnv{Cor}
+% \DescribeEnv{Lem}
+% \noindent |Cor| and |Lem| are standard unnumbered theorem environments.
+%\begin{verbatim}
+%\begin{Cor}[Corollary]
+% This is a corollary.
+%\end{Cor}
+%\end{verbatim}
+% \begin{Cor}[Corollary]
+%  This is a corollary.
+% \end{Cor}
+%
+%\begin{verbatim}
+%\begin{Lem}[Lemma]
+% This is a lemma.
+%\end{Lem}
+%\end{verbatim}
+% \begin{Lem}[Lemma]
+%  This is a lemma.
+% \end{Lem}
+%
+% \subsubsection{Exercises, examples, remarks}
+%
+% \DescribeEnv{Exercise}
+% \DescribeEnv{Ex}
+% |Exercise| and |Ex| are respectively the numbered and the unnumbered exercise
+% environments.
+%
+%\begin{verbatim}
+%\begin{Exercise}[Exercise]
+% This is an exercise with number.
+%\end{Exercise}
+%\end{verbatim}
+% \begin{Exercise}[Exercise]
+%  This is an exercise with number.
+% \end{Exercise}
+%
+%\begin{verbatim}
+%\begin{Ex}[Exercise]
+% This is an exercise with no number.
+%\end{Ex}
+%\end{verbatim}
+% \begin{Ex}[Exercise]
+%  This is an exercise with no number.
+% \end{Ex}
+%
+% \noindent\DescribeEnv{Example}
+% |Example| is an unnumbered example environment.
+%
+%\begin{verbatim}
+%\begin{Example}[Example]
+% This is an example.
+%\end{Example}
+%\end{verbatim}
+% \begin{Example}[Example]
+%  This is an example.
+% \end{Example}
+%
+% \noindent\DescribeEnv{Rem}
+% \noindent |Rem| is an unnumbered remark environment.
+%
+%\begin{verbatim}
+%\begin{Rem}[Remark]
+% This is an example.
+%\end{Rem}
+%\end{verbatim}
+% \begin{Rem}[Remark]
+%  This is an example.
+% \end{Rem}
+%
+% \pagebreak
+%
+% \subsubsection{Function}
+%
+% \DescribeEnv{function}
+% The |function| environment designs the extended way to define mathematical
+% function. Some examples can be seen in table~\ref{Table:Function}.
+% \begin{table}[!h]
+%  \begin{center}
+%\begin{minipage}{.5\linewidth}
+%\begin{verbatim}
+%\begin{function}{f}{E}{F}
+% f(x)
+%\end{function}
+%\end{verbatim}
+%\end{minipage}
+%\begin{minipage}{.25\linewidth}
+%$\begin{function}{f}{E}{F}
+% f(x)
+%\end{function}$
+%\end{minipage}\\[\baselineskip]
+%\begin{minipage}{.5\linewidth}
+%\begin{verbatim}
+%\begin{function}[(x,y)]{\rho}{\Rset^2}{\Rset}
+% x^2 + y^2
+%\end{function}
+%\end{verbatim}
+%\end{minipage}
+%\begin{minipage}{.25\linewidth}
+%$\begin{function}[(x,y)]{\rho}{\Rset^2}{\Rset}
+% x^2 + y^2
+%\end{function}$
+%\end{minipage}
+%   \caption{\texttt{function} environment usage}
+%   \label{Table:Function}
+%  \end{center}
+% \end{table}
+%
+%\StopEventually{\PrintChanges\PrintIndex}
+%
+% \section{Implementation}
+%
+% \makeatletter
+% \renewcommand{\macro@font}{\fontencoding\encodingdefault
+%                            \fontfamily        \ttdefault
+%                            \fontseries        \mddefault
+%                            \fontshape         \updefault
+%                            \footnotesize}
+% \makeatother
+%
+% \subsection{Declaration of options}
+%
+% \subsubsection{Multilingual options}
+%
+% Multilingual options and labels names are imported from \textsf{eisti-lang}.
+% The \textsf{babel} package is loaded only if necessary.
+%\changes{v1.1}{2013/01/29}{Moved labels definitions to \textsf{eisti-lang} options definition file}
+%    \begin{macrocode}
+\input eisti-lang.clo
+%    \end{macrocode}
+%
+% \subsubsection{Loading theorem environments}
+%\changes{v1.1}{2013/01/29}{Added |thm| option}
+%
+% A new \LaTeX{} test named |\ifthm| is defined according to chosen option.
+%    \begin{macrocode}
+\newif\ifthm
+\DeclareOption{thm}{\thmtrue}
+\DeclareOption{nothm}{\thmfalse}
+%    \end{macrocode}
+% \LaTeX test variables |\ifthm| and |\ifbb| must be set so we process options
+% now.
+%
+% \subsubsection{Numeric sets design}
+%\changes{v1.1}{2013/01/29}{Replaced |nobb| option by |bf| option}
+%
+% Font command |\math@set| is defined accordingly.
+%    \begin{macrocode}
+\DeclareOption{bb}{\let\math@set=\mathbb}
+\DeclareOption{bf}{\let\math@set=\mathbf}
+%    \end{macrocode}
+%
+% \subsubsection{Default options}
+%
+% The default behaviour is the following :
+% \begin{itemize}
+%  \item Theorem environments are imported.
+%  \item Poor man's bold \cmd{\mathbb} is used to design numeric sets.
+%  \item Default language is English.
+% \end{itemize}
+%
+%    \begin{macrocode}
+\ExecuteOptions{thm,bb}
+\ProcessOptions\relax
+%    \end{macrocode}
+%
+% \subsection{Declaration of commands}
+%
+% Command |\textmathbf| uses |\boldmath|\ldots|\unboldmath| commands to ensure
+% that bold face is applied math glyphs.
+% \begin{macro}{\textmathbf}
+%    \begin{macrocode}
+\newcommand{\textmathbf}[1]{\textbf{\boldmath#1\unboldmath}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection{Mathematical operators}
+%
+% \noindent
+% Math operators are declared with \cmd{\DeclareMathOperator} command from
+% \textsf{amsmath} package.
+%    \begin{macrocode}
+\RequirePackage{amsmath}
+%    \end{macrocode}
+%
+% Should one of following commands exists before, its original version is stored
+% in a |\old...|-prefixed command.
+%\begin{macro}{\Im}\begin{macro}{\Re}
+%\begin{macro}{\id}
+%\begin{macro}{\Ker}\begin{macro}{\Img}
+%\begin{macro}{\mat}
+%\begin{macro}{\cotan}
+%\begin{macro}{\ch}\begin{macro}{\sh}\begin{macro}{\th}
+%\begin{macro}{\o}\begin{macro}{\O}
+%\begin{macro}{\Sp}
+%    \begin{macrocode}
+\let\oldRe\Re
+\let\Re\relax
+\DeclareMathOperator{\Re}{\oldRe\mathrm{e}}
+
+\let\oldIm\Im
+\let\Im\relax
+\DeclareMathOperator{\Im}{\oldIm\mathrm{m}}
+
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Img}{Im}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\mat}{mat}
+
+\DeclareMathOperator{\cotan}{cotan}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\sh}{sh}
+%    \end{macrocode}
+%    \begin{macrocode}
+\let\oldth\th
+\let\th\relax
+\DeclareMathOperator{\th}{th}
+
+\let\oldo\o
+\let\o\relax
+\DeclareMathOperator{\o}{o}
+\let\oldO\O
+\let\O\relax
+\DeclareMathOperator{\O}{O}
+
+\DeclareMathOperator{\Sp}{Sp}
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}\end{macro}
+%\end{macro}\end{macro}\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}\end{macro}
+%\end{macro}
+%\end{macro}\end{macro}
+%
+% \subsubsection{Numeric sets}
+%
+% \vspace{-\baselineskip}
+%
+%\begin{macro}{\Nset}
+%\begin{macro}{\Zset}
+%\begin{macro}{\Qset}
+%\begin{macro}{\Rset}
+%\begin{macro}{\Cset}
+%\begin{macro}{\Kset}
+%    \begin{macrocode}
+\newcommand{\Nset}{\math@set{N}}
+\newcommand{\Zset}{\math@set{Z}}
+\newcommand{\Qset}{\math@set{Q}}
+\newcommand{\Rset}{\math@set{R}}
+\newcommand{\Cset}{\math@set{C}}
+\newcommand{\Kset}{\math@set{K}}
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%
+% Command |\intSet| uses |\llbracket| and |\rrbracket| delimiters from
+% \textsf{stmaryrd} package.
+%
+% \vspace{-\baselineskip}
+%
+%\begin{macro}{\intSet}
+%    \begin{macrocode}
+\RequirePackage{stmaryrd}
+\newcommand{\intSet}[2][1]{\ensuremath{\left\llbracket#1,#2\right\rrbracket}}
+%    \end{macrocode}
+%\end{macro}
+%
+% \pagebreak
+%
+% \subsubsection{Vector spaces}
+%
+%\begin{macro}{\Func}
+%\begin{macro}{\Cont}
+%\begin{macro}{\Lin}
+%\begin{macro}{\SEP}
+%\begin{macro}{\Sp}
+%\begin{macro}{\Vect}
+%\begin{macro}{\Mat}
+%    \begin{macrocode}
+\DeclareMathOperator{\Func}{\mathcal{F}}
+\DeclareMathOperator{\Cont}{\mathcal{C}}
+\DeclareMathOperator{\Lin}{\mathcal{L}}
+\DeclareMathOperator{\SEP}{\textsf{SEP}}
+\DeclareMathOperator{\Vect}{\textsf{Vect}}
+\DeclareMathOperator{\Mat}{\mathcal{M}}
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%
+% \subsubsection{Displaystyle operators}
+%
+% \noindent
+% |\dsum|, |\dprod|, |\dlim| and |\dint| commands are shortcuts to their full
+% extended versions (defined via |\displaystyle|).
+%\begin{macro}{\dsum}
+%\begin{macro}{\dprod}
+%\begin{macro}{\dlim}
+%\begin{macro}{\dint}
+%    \begin{macrocode}
+\newcommand{\dsum}{\displaystyle\sum}
+\newcommand{\dprod}{\displaystyle\prod}
+\newcommand{\dlim}{\displaystyle\lim}
+\newcommand{\dint}{\displaystyle\int}
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%
+% \subsubsection{Other operators}
+%
+% \noindent
+% Since |\d| and |\bar| already exists, their counterparts are stored in |\oldd|
+% and |\oldbar| respectively.
+%\begin{macro}{\transpose}
+%\begin{macro}{\d}
+%\begin{macro}{\bar}
+%    \begin{macrocode}
+\newcommand{\transpose}[1]{\,{^t\!#1}}
+\let\oldd\d
+\renewcommand{\d}{\mathrm{d}}
+\let\oldbar\bar
+\let\bar\overline
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%
+% \subsection{Declaration of environments}
+%
+% \noindent
+% Previously defined test |\ifthm| is called and package \textsf{ntheorem} is
+% used to design theorem environments.
+%    \begin{macrocode}
+\ifthm
+ \RequirePackage{framed}
+ \RequirePackage[amsmath,amsthm,thmmarks,framed]{ntheorem}
+ \RequirePackage{pstricks,xcolor}
+\else\fi
+%    \end{macrocode}
+%
+%
+%\begin{environment}{Exercise}\begin{environment}{Ex}
+%\begin{environment}{Def}\begin{environment}{Defn}
+%    \begin{macrocode}
+\ifthm
+\theoremstyle{plain}
+\ifx\thechapter\undefined
+\newtheorem{Exercise}{\label@math@Exercise}[section]
+\else
+\newtheorem{Exercise}{\label@math@Exercise}[chapter]
+\fi
+\newtheorem*{Ex}{\label@math@Exercise}
+\theoremstyle{definition}
+\shadecolor{lightgray!15!white}
+\theoremstyle{definition}
+\ifx\thechapter\undefined
+  \newshadedtheorem{Def}{\label@math@Definition}[section]
+\else
+  \newshadedtheorem{Def}{\label@math@Definition}[chapter]
+\fi
+\newtheorem*{Defn}{\label@math@Definition}
+%    \end{macrocode}
+%\end{environment}\end{environment}
+%\end{environment}\end{environment}
+%
+%\begin{environment}{Thm}\begin{environment}{Th}
+%\begin{environment}{Prop}
+%\begin{environment}{Cor}
+%\begin{environment}{Lem}
+%\begin{environment}{proof}\begin{environment}{oldproof}
+%    \begin{macrocode}
+\ifx\thechapter\undefined
+\newframedtheorem{Thm}{\label@math@Theorem}[section]
+\else
+\newframedtheorem{Thm}{\label@math@Theorem}[chapter]
+\fi
+\newtheorem*{Th}{\label@math@Theorem}
+\ifx\thechapter\undefined
+\newtheorem{Prop}{\label@math@Proposition}[section]
+\else
+\newtheorem{Prop}{\label@math@Proposition}[chapter]
+\fi
+\newtheorem*{Cor}{\label@math@Corollary}
+\newtheorem*{Lem}{\label@math@Lemma}
+\let\oldproof=\proof
+\let\endoldproof=\endproof
+\renewenvironment{proof}{\small\begin{oldproof}}{\normalsize\end{oldproof}}
+%    \end{macrocode}
+%\end{environment}\end{environment}
+%\end{environment}
+%\end{environment}
+%\end{environment}
+%\end{environment}\end{environment}
+%
+%\begin{environment}{Warning}
+%\begin{environment}{Important}
+%\begin{environment}{Example}
+%\begin{environment}{Rem}
+%\begin{environment}{Solution}
+%\begin{environment}{Method}
+%    \begin{macrocode}
+\theoremstyle{remark}
+\newtheorem*{Warning}{\textsc{\label@math@Warning}}
+\newtheorem*{Important}{\textsc{\label@math@Important}}
+\newtheorem*{Example}{\label@math@Example}
+\newtheorem*{Rem}{\label@math@Remark}
+\newtheorem*{Solution}{\label@math@Solution}
+\newtheorem*{Method}{\textbf{\label@math@Method}}
+\else
+\fi
+%    \end{macrocode}
+%\end{environment}
+%\end{environment}
+%\end{environment}
+%\end{environment}
+%\end{environment}
+%\end{environment}
+%
+%\begin{environment}{function}
+%    \begin{macrocode}
+\newenvironment{function}[4][x]%
+  {\begin{array}[t]{rccl}
+    #2 : & #3 &   \to   & #4 \\
+         & #1 & \mapsto &}
+  {\end{array}}
+%    \end{macrocode}
+%\end{environment}
+%
+
+%\Finale
+\endinput

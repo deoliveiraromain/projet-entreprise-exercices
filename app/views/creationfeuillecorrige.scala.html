@@ -1,0 +1,82 @@
+@(feuille: Feuille,listeExos :List[Exercice])(implicit flash: Flash , request :RequestHeader)
+
+    @main("Création d'une feuille d'exercices") {
+        <div id="totalcontainer">
+
+            <div class="row">
+                <div class="col-lg-offset-1 col-md-10" id="errorcontainer">
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-offset-1 col-md-10 maincontainer">
+                    <form action="@routes.FeuilleControllerBdd.submitChoixCorriges(feuille._id.get.stringify)" method="post">
+
+                    <h3>Choix des corrigés  <button type="submit" class="btn btn-primary" id="submitbouton">Suivant</button></h3>
+
+                        @for((exo,index) <- listeExos.zipWithIndex){
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">@exo.titre</div>
+                                <div class="panel-body" >
+                                    @Html(exo.contenu)
+                                    @if(exo.corrige.isDefined){
+                                        <div class="panel-group" id="accordion@index">
+                                        @for((corrige,index2)<-exo.corrige.get.zipWithIndex){
+
+
+                                                <div class="panel panel-default myClassePanel">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion@index" href="#collapse@index@index2">
+                                                                Corrigé n° @(index2+1)
+                                                            </a>
+                                                            <input type="radio" name="group@index" value="@corrige">
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapse@index@index2" class="panel-collapse collapse">
+                                                        <div class="panel-body">
+                                                            @Html(corrige)
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        }
+                    </form>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+        @*Css spécifique à la page*@
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/formcreation.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/dataTables.bootstrap.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap-datetimepicker.min.css")">
+
+        @*Script spécifique à la page*@
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/perso/creationFeuilleForm.js")"></script>
+        <script type="text/javascript"  src="@routes.Assets.at("javascripts/moment.min.js")"> </script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.dataTables.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/dataTables.bootstrap.js")"></script>
+
+
+
+
+
+
+
+
+
+    }

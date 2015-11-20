@@ -1,0 +1,122 @@
+@(creationForm: Form[Exercice] )(implicit flash: Flash, request : RequestHeader)
+@main("Création des exercices") {
+
+        <div class="exo-container">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+                <div class="row">
+                    <form action="@routes.ExerciceControllerBdd.submit" method="post" role="form" id="creationfeuille">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 exo-barre-bleu">
+                            <div class="row">
+                                <div id="exoPanelGaucheMinified" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-right">
+                                    <div class="exo-rotation-icon">
+                                        <a id="showPanelGauche" class="exo-link-panel-gauche-minified">
+                                            <i class="fa fa-arrow-left"></i> <i class="fa fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xs-9 col-sm-9 col-md-offset-1 col-md-8 col-lg-offset-1 col-lg-8">
+                                    @if(creationForm.hasErrors ) {
+                                    <div class="alert alert-danger text-center exo-alert" id="alertform">
+                                        <i class="fa fa-warning"></i>
+                                        @if(creationForm("inputtitle").hasErrors) {
+                                            Titre non renseigné !
+                                        }
+                                        @if(creationForm("inputmatiere").hasErrors) {
+                                            Matière non renseignée !
+                                        }
+                                        @if(creationForm("inputmodule").hasErrors) {
+                                            Module non renseigné !
+                                        }
+                                        @if(creationForm("contenu").hasErrors) {
+                                            Contenu non renseigné !
+                                        }
+                                    </div>
+                                }
+
+                               @if(flash.get("success").isDefined){
+                                        <div class="alert alert-info text-center exo-alert" id="alertform">
+                                            <i class="fa fa-check"></i> @flash.get("success").get
+                                        </div>
+                               }
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-right">
+                                    <button data-toggle="tooltip" data-placement="bottom" title="Enregister"
+                                        id="buttonSend" type="submit" class="btn btn-info btn-link exo-bouton-validation">
+                                        <i class="fa fa-lg fa-save"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div id="exoPanelGauche" class="col-xs-12 col-sm-12 col-md-3 col-lg-3 exo-panel-gauche">
+                                <div class="exo-close-panel pull-right">
+                                    <a href="#" id="hidePanelGauche"><i class="fa fa-times"></i></a>
+                                </div>
+                                <fieldset>
+                                        <legend>Création des exercices</legend>
+                                        <div class="form-group @if(creationForm("inputtitle").hasErrors) {has-error}" id="titleegroup">
+                                            <label for="inputtitle" class="control-label">Titre de l'exercice :</label>
+                                            <input type="text" class="form-control " name="inputtitle" id="inputtitle" placeholder="Titre" value="@if(creationForm.hasErrors){ @creationForm("inputtitle").value.getOrElse("")}">
+                                        </div>
+
+                                        <div class="form-group @if(creationForm("inputmodule").hasErrors) {has-error}" id="moduleegroup">
+                                            <label for="inputmodule" class="control-label">Module :</label>
+                                            <input type="text" class="form-control " name="inputmodule" id="inputmodule" placeholder="Module" value="@creationForm("inputmodule").value.getOrElse("")">
+                                        </div>
+
+                                        <div class="form-group @if(creationForm("inputmatiere").hasErrors) {has-error}" id="matieregroup">
+                                            <label for="inputmatiere" class="control-label">Matière :</label>
+                                            <input type="text" class="form-control " name="inputmatiere" id="inputmatiere" placeholder="Matière" value="@creationForm("inputmatiere").value.getOrElse("")">
+                                        </div>
+
+                                        <div class="form-group" id="chapitregroup">
+                                            <label for="chapitre" class="control-label">Chapitre :</label>
+                                            <input type="text" class="form-control " name="chapitre" id="chapitre" placeholder="Chapitre" value="@creationForm("chapitre").value.getOrElse("")">
+                                        </div>
+                                        <div class="form-group" id="motclesgroup">
+                                            <label for="motcles" class="control-label">Mots-clés (séparés par des virgules) :</label>
+                                            <input type="text" class="form-control " name="motcles" id="motcles" placeholder="Mots-clés" value="@creationForm("motcles").value.getOrElse("")">
+                                        </div>
+                                        <div class="form-group" id="typegroup">
+                                            <label  for="inputtype" class="control-label" id="labeloption">Type :</label>
+                                            <select  class="form-control" id="inputtype" name="inputtype">
+                                            @for(typeExo <- FormulairesValeurs.exercicestypes) {
+                                                @if(typeExo == creationForm("inputtype").value.getOrElse("")) {
+                                                    <option selected="selected">@typeExo</option>
+                                                } else {
+                                                    <option>@typeExo</option>
+                                                }
+                                            }
+                                            </select>
+                                        </div>
+                                        <div class="form-group" id="dureegroup">
+                                        <label  for="inputduree" class="control-label" id="labeloption">Durée :</label>
+                                            <select  class="form-control" id="inputduree" name="inputduree">
+                                            @for(duree <- FormulairesValeurs.listdureesexercice) {
+                                                @if(duree == creationForm("inputduree").value.getOrElse("")) {
+                                                    <option selected="selected">@duree</option>
+                                                } else {
+                                                    <option>@duree</option>
+                                                }
+                                            }
+                                            </select>
+                                        </div>
+                                    </fieldset>
+                            </div>
+                            <div id="exoCkeditor" class="col-xs-12 col-sm-12 col-md-9 col-lg-9 exo-padding-ckeditor">
+                                <label for="editorA"><textarea name="contenu" id="editorA">
+                                    @if(creationForm.hasErrors){@creationForm("contenu").value.getOrElse("")}
+                                </textarea></label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @math()
+        </div>
+
+        <script>hljs.initHighlightingOnLoad();</script>
+        <script defer src="@routes.Assets.at("javascripts/perso/creation.min.js")" type="text/javascript"></script>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/creation.css")">
+
+}

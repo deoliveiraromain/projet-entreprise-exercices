@@ -1,0 +1,29 @@
+body {
+
+    background-color:rgb(216,227,236);
+}
+
+#navbar{
+
+  border-radius: 0px;
+}
+
+#lienimage{
+    padding:5px;
+}
+
+.exo-question-format{
+    list-style-type:lower-alpha;
+    font-weight:bold;
+}
+
+.exo-question-format ol {
+    list-style-type:lower-roman;
+    font-style:italic;
+    font-weight:normal;
+}
+
+.exo-sous-question-format {
+    list-style-type: lower-roman;
+    font-style:italic;
+}

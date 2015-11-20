@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <title>Accueil</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/homepage.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap-spacelab.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/font-awesome/css/font-awesome.min.css")">
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("bootstrap/js/bootstrap.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/perso/homepage.js")"></script>
+    </head>
+    <body>
+
+        <nav  id="navbar"  class="navbar navbar-inverse" role="navigation" style="margin-bottom: 0;">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#exo-login"><img width="100px" src="@routes.Assets.at("images/LogoNicoMaxime_ICC3.png")"></a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav" style="padding-left: 50px;">
+                        <li>
+                            <a href="@routes.Application.homePage">
+                                <span class="fa fa-home exo-icon"></span>
+                                <span class="exo-text">Accueil</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@routes.Application.synthese">
+                                <span class="fa fa-bookmark-o"></span>
+                                <span class="exo-text">Synthèse</span>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="@routes.ExerciceControllerBdd.creation">
+                                <span class="fa fa-edit exo-icon"></span>
+                                <span class="exo-text">Création</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@routes.UploadController.upload">
+                                <span class="fa fa-cloud-upload exo-icon"></span>
+                                <span class="exo-text">Upload d'un fichier</span>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="fa fa-book exo-icon"></span>
+                                <span class="exo-text">Consultation</span> <b class="caret"></b></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="@routes.ExerciceControllerBdd.consultation">Consultation des exercices</a></li>
+                                <li><a href="@routes.FeuilleControllerBdd.consultation">Consultation des feuilles d'exercices</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="fa fa-cog exo-icon"></span>
+                                <span class="exo-text">Génération de feuilles d'exercices</span><b class="caret"></b></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="@routes.FeuilleControllerBdd.creationFeuilleMan">Génération manuelle</a></li>
+                                <li><a href="@routes.FeuilleControllerBdd.creationFeuilleAuto">Génération automatique</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="exo-login" id="exo-login">
+            <div class="row">
+                <div class="col-lg-6" id="colexologin1">
+                    <img src="@routes.Assets.at("images/mac-book.png")"/>
+                </div>
+                <div class="col-lg-6" id="colexologin2">
+                    <div class="row">
+                        <h1>Gestion des exercices</h1>
+                        <h4>La nouvelle manière de gérer son programme éducatif c'est aussi simple qu'un clic.</h4>
+                        <div class="form-group"  id="formmail">
+                            <div class="form-group">
+                                <div class="col-lg-7">
+                                    <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="col-lg-7" id="formpass">
+                                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                            </div>
+                            <div class="col-lg-7" id="formboutton">
+                                <a class="btn btn-primary col-lg-4" href="#">Commencer</a>
+                                <button class="btn btn-success col-lg-5" id="createboutton" type="button">Créer un compte</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4" id="exo-plus-info">
+                            <a class="btn-lg btn-default col-lg-12" href="#exo-services" id="exo-link-services"><i class="fa fa-arrow-circle-down fa-2x" ></i>En savoir plus</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- Partie fonctionnalités -->
+
+        <div class="exo-services col-lg-12" id="exo-services">
+            <div class="exo-services-title">
+                <h2>Fonctionnalités</h2>
+                <hr id="exo-fonctionnalite-hr">
+            </div>
+            <div class="row col-lg-offset-1 col-lg-10 exo-ligne-fonctionnalite">
+                <div class="col-lg-4 col-md-6 col-xs-12 exo-fonctionnalite">
+                    <i class="fa fa-pencil-square-o fa-5x exo-fonctionnalite-icon"></i>
+                    <h3>Saisie interactive</h3>
+                    <p>Vous pouvez saisir depuis le site web vos feuilles d'exercices ou examens grâce à un éditeur aussi puissant que simple d'utilisation.</p>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-xs-12 exo-fonctionnalite">
+                    <i class="fa fa-cloud-upload fa-5x exo-fonctionnalite-icon"></i>
+                    <h3>Stockage de vos documents</h3>
+                    <p>Disposez d'une base de données NoSQL optimisée pour le stockage de fichiers. Rapide et entièrement transparent.</p>
+                </div>
+                <div class="col-lg-4 col-md-12 col-xs-12 exo-fonctionnalite">
+                    <i class="fa fa-folder-open-o fa-5x exo-fonctionnalite-icon"></i>
+                    <h3>Upload d'une feuille existante</h3>
+                    <p>Vous possedez déjà une feuille d'exercices au format Latex? On s'occupe de tout.</p>
+                </div>
+            </div>
+            <div class="row col-lg-offset-1 col-lg-10 exo-ligne-fonctionnalite">
+                <div class="col-lg-offset-2 col-lg-4 col-md-6 col-xs-12 exo-fonctionnalite">
+                    <i class="fa fa-cogs fa-5x exo-fonctionnalite-icon"></i>
+                    <h3>Génération d'exercices</h3>
+                    <p>Soulagez votre travail. Générez de manière automatique vos exercices suivant une difficulté ou encore une date de dernière parution.</p>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-xs-12 exo-fonctionnalite">
+                    <i class="fa fa-bookmark-o fa-5x exo-fonctionnalite-icon"></i>
+                    <h3>Suivi personnalisé</h3>
+                    <p>Suivez en un clic l'historique des modifications d'un exercice (énoncé, corrections, sujet).</p>
+                </div>
+            </div>
+        </div>
+        @footer()
+    </body>
+</html>

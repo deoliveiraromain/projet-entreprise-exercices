@@ -1,0 +1,350 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2013 by Romain DUJOL <romain.dujol@eisti.eu>
+% ----------------------------------------------------------
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3 of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+%     http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of
+% LaTeX version 1999/12/01 or later.
+%
+% \fi
+
+% \iffalse
+%<*driver>
+\ProvidesFile{eisti-common.dtx}
+%</driver>
+%<options>\NeedsTeXFormat{LaTeX2e}
+%<options>\ProvidesFile{eisti-common.clo}
+%<*options>
+    [2013/01/18 v1.0 Main options]
+%</options>
+
+%<*driver>
+\documentclass[a4paper,oneside,10pt]{ltxdoc}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\usepackage{geometry}
+\usepackage[utopia,sfscaled=true,ttscaled=true]{mathdesign}
+  \renewcommand{\sfdefault}{phv}
+  \renewcommand{\ttdefault}{fvm}
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{morefloats}
+\usepackage{varioref}
+\makeatletter
+\input eisti-common.clo
+\makeatother
+\begin{document}
+  \DocInput{eisti-common.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{171}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+% \DoNotIndex{\\,\',\`,\ClassError,\ClassWarning,\DeclareOption,\def,\else,\fi,\ifthenelse,\ifx,\input,\isundefined,\newcommand,\protect,\relax,\renewcommand,\RequirePackage,\sfdefault,\space,\ttdefault}
+
+% \GetFileInfo{eisti-common.dtx}
+% \title{Common options management for \textsf{eisti-tools} bundle\thanks{This
+%        document corresponds to version~\fileversion{} of \textsf{eisti-common}
+%        dated~\filedate.}}
+% \author{Romain \textsc{Dujol} \\ \texttt{romain.dujol@eisti.eu}}
+%
+%
+% \maketitle
+%
+% \begin{abstract}
+%   We present the way common options are designed for \textsf{eisti-XXX}
+%   classes and packages. \\
+%   The reader should be aware that this is neither a \LaTeX{} class nor a
+%   \LaTeX{} package : it is a mere common options file (\texttt{.clo}).
+% \end{abstract}
+%
+% \addtocounter{tocdepth}{-1}
+% \tableofcontents\vfill~
+%
+% \pagebreak
+%
+% \section{Usage}
+%
+% \subsection{Common options}
+%
+% Every class or package in \textsf{eisti} bundle calls \textsf{eisti-common}
+% definition file and therefore supports the following options :
+% \begin{itemize}
+%  \item \meta{grade} sets the grade concerned by the exam and prepares the
+%        corresponing title for header~: possible values for grades and
+%        corresponding abbreviations are given in
+%        table~\vref{Table:Option:Grades}. Language-dependent long titles are
+%        also provided.
+%        \begin{table}[!h]
+%        \begin{center}
+%         \begin{tabular}{|>{\tt}l|l|}
+%          \hline
+%           \multicolumn{1}{|c|}{\meta{grade}} &
+%           \multicolumn{1}{ c|}{Short title} \\
+%          \hline\hline
+%           cpi1     & \makeatletter\label@CPIOne@short     \makeatother \\
+%           cpi2     & \makeatletter\label@CPITwo@short     \makeatother \\
+%           ing1     & \makeatletter\label@INGOne@short     \makeatother \\
+%           ing1-gi  & \makeatletter\label@INGOne@GI@short  \makeatother \\
+%           ing1-gm  & \makeatletter\label@INGOne@GM@short  \makeatother \\
+%           ing2     & \makeatletter\label@INGTwo@short     \makeatother \\
+%           ing2-gsi & \makeatletter\label@INGTwo@GSI@short \makeatother \\
+%           ing2-mi  & \makeatletter\label@INGTwo@MI@short  \makeatother \\
+%           ing2-sie & \makeatletter\label@INGTwo@SIE@short \makeatother \\
+%           ing3     & \makeatletter\label@INGLast@short    \makeatother \\
+%           ing3-bi  & \makeatletter\label@INGLast@BI@short \makeatother \\
+%           ing3-erp & \makeatletter\label@INGLast@ERP@short\makeatother \\
+%           ing3-gl  & \makeatletter\label@INGLast@GL@short \makeatother \\
+%           ing3-iad & \makeatletter\label@INGLast@IAD@short\makeatother \\
+%           ing3-icc & \makeatletter\label@INGLast@ICC@short\makeatother \\
+%           ing3-icom& \makeatletter\label@INGLast@ICO@short\makeatother \\
+%           ing3-ifi & \makeatletter\label@INGLast@IFI@short\makeatother \\
+%           ing3-i3  & \makeatletter\label@INGLast@III@short\makeatother \\
+%         \hline
+%         \end{tabular}
+%         \caption{Possible grade values and corresponding abbreviations 
+%                  \label{Table:Option:Grades}}
+%        \end{center}
+%        \end{table}
+%
+%        Should two distinct grades be provided, an error is issued.
+%
+%        Giving no grade as an option is possible. Then one may set the grade
+%        title on his own with command |\grade| (see its description later in
+%        this document).
+%  \item \meta{campus} sets the campus concerned by the exam ; three values are
+%        supported : |cergy|, |pau| and |all| (default value).
+%        Should two distinct campuses be provided, an error is issued.
+% \end{itemize}
+%
+% \subsection{Commands}
+%
+% Every class or package in \textsf{eisti} bundle uses \textsf{eisti-common}
+% supports the following commands. These \LaTeX{} commands in this subsection
+% \textbf{are to be used in the preamble}.
+%
+% \noindent\DescribeMacro{\logo}
+% The |\logo| command sets the institution logo. Syntax is :
+% \begin{quote}
+%  |\logo|\marg{logo}
+% \end{quote}
+% where \meta{logo} is the file name of the image to insert.
+%
+% Any call to |\logo| overrides preceding |\logo| calls.
+%
+% \pagebreak
+%
+% \subsection{Macros for display}
+%
+% Grade, short grade and campus are available with \textsc{Beamer}-like
+% |\insert|\meta{element} commands shown in
+% table~\vref{Table:Plain:InsertCommands}.
+%
+% \begin{table}[!h]
+% \begin{center}
+%  \begin{tabular}{|>{\tt}l|l|}
+%   \hline
+%    \multicolumn{1}{|c|}{Command} &
+%    \multicolumn{1}{ c|}{Inserted text} \\
+%   \hline\hline
+%    |\insertgrade|      & Full  version of \meta{grade} \\
+%    |\insertshortgrade| & Short version of \meta{grade} \\
+%    |\insertcampus|     & \meta{campus} \\
+%   \hline
+%  \end{tabular}
+%  \caption{Possible \texttt{\textbackslash insert}\meta{element} commands and
+%           corresponding inserted text \label{Table:Plain:InsertCommands}}
+% \end{center}
+% \end{table}
+%
+%\StopEventually{\PrintChanges\PrintIndex}
+%
+% \vfill
+%
+% \section{Implementation}
+%
+% \makeatletter
+% \renewcommand{\macro@font}{\fontencoding\encodingdefault
+%                            \fontfamily        \ttdefault
+%                            \fontseries        \mddefault
+%                            \fontshape         \updefault
+%                            \footnotesize}
+% \makeatother
+%
+% \subsection{Loading necesary class and packages}
+%
+% \noindent
+% Any document font will be prescribed and set as the current document, i.e. :
+% \begin{itemize}
+%  \item      Serif : \textrm{Utopia}
+%  \item Sans serif : \textsf{Helvetica}
+%  \item Monospaced : \texttt{Bera mono}
+% \end{itemize}
+%    \begin{macrocode}
+\RequirePackage[utopia,sfscaled=true,ttscaled=true]{mathdesign}
+  \renewcommand{\sfdefault}{phv}
+  \renewcommand{\ttdefault}{fvm}
+%    \end{macrocode}
+%
+% \subsection{Macros for title setting}
+%
+% \subsubsection{Setting grade}
+%
+%\begin{macro}{\grade}
+%\begin{macro}{\@grade}
+%\begin{macro}{\@grade@short}
+% The |\grade| sets |\@grade| and |\@grade@short| variables if not
+% already defined. Otherwise, an meaningful error is issued.
+%    \begin{macrocode}
+\newcommand{\grade}[2][\@empty]%
+  {
+    \ifthenelse{\isundefined{\@grade}}%
+      {
+        \newcommand{\@grade      }{{#2}}
+        \newcommand{\@grade@short}{\ifx\@empty#1\relax{#2}\else{#1}\fi}
+      }
+      {
+        \ClassError{eisti-common}{Grade is already set to '\@grade'.}%
+                   {The grade has already been defined either by class option or \protect\grade\space call.}
+      }
+  }
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+%
+% \pagebreak
+%
+% \subsubsection{Setting campus}
+%
+%\begin{macro}{\campus}
+%\begin{macro}{\@campus}
+% The |\campus| sets the |\@campus| variable if not already defined.
+% Otherwise, an meaningful error is issued.
+%    \begin{macrocode}
+\newcommand{\campus}[1]
+  {
+    \ifthenelse{\isundefined{\@campus}}
+      { \newcommand{\@campus}{{#1}} }
+      {
+        \ClassError{eisti-common}{Campus is already set to '\@campus'.}%
+                   {The campus has already been defined either by class option or \protect\campus\space call.}
+      }
+  }
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}
+%
+% \subsubsection{Setting logo}
+%
+%\begin{macro}{\logo@file}
+%~\vspace*{-1.05\baselineskip}
+%    \begin{macrocode}
+\def\logo#1{\def\logo@file{#1}}
+%    \end{macrocode}
+%\end{macro}
+%
+% \subsection{Declaration of options}
+%
+% \subsubsection{Grade options}
+%
+% Here, grade options are declared as per table~\vref{Table:Option:Grades}.
+% Options definition file \textsf{eisti-lang} is included to use long titles
+% for grades.
+%    \begin{macrocode}
+\def\label@CPIOne@short {CPI1}
+\def\label@CPITwo@short {CPI2}
+\def\label@INGOne@short {ING1}
+\def\label@INGOne@GI@short {ING1-GI}
+\def\label@INGOne@GM@short {ING1-GM}
+\def\label@INGTwo@short {ING2}
+\def\label@INGTwo@GSI@short {ING2-GSI}
+\def\label@INGTwo@MI@short  {ING2-MI}
+\def\label@INGTwo@SIE@short {ING2-SIE}
+\def\label@INGLast@short{ING3}
+\def\label@INGLast@BI@short {ING3-BI}
+\def\label@INGLast@ERP@short{ING3-ERP}
+\def\label@INGLast@GL@short {ING3-GL}
+\def\label@INGLast@IAD@short{ING3-IAD}
+\def\label@INGLast@ICC@short{ING3-ICC}
+\def\label@INGLast@ICO@short{ING3-ICOM}
+\def\label@INGLast@IFI@short{ING3-IFI}
+\def\label@INGLast@III@short{ING-I3}
+\input eisti-lang.clo
+\DeclareOption{cpi1}    {\grade[\label@CPIOne@short]     {\label@CPIOne}}
+\DeclareOption{cpi2}     {\grade[\label@CPITwo@short]     {\label@CPITwo}}
+\DeclareOption{ing1}     {\grade[\label@INGOne@short]     {\label@INGOne}}
+\DeclareOption{ing1-gi}  {\grade[\label@INGOne@GI@short]  {\label@INGOne@GI}}
+\DeclareOption{ing1-gm}  {\grade[\label@INGOne@GM@short]  {\label@INGOne@GM}}
+\DeclareOption{ing2}     {\grade[\label@INGTwo@short]     {\label@INGTwo}}
+\DeclareOption{ing2-gsi} {\grade[\label@INGTwo@GSI@short] {\label@INGTwo@GSI}}
+\DeclareOption{ing2-mi}  {\grade[\label@INGTwo@MI@short]  {\label@INGTwo@MI}}
+\DeclareOption{ing2-sie} {\grade[\label@INGTwo@SIE@short] {\label@INGTwo@SIE}}
+\DeclareOption{ing3}     {\grade[\label@INGLast@short]    {\label@INGLast}}
+\DeclareOption{ing3-bi}  {\grade[\label@INGLast@BI@short] {\label@INGLast@BI}}
+\DeclareOption{ing3-erp} {\grade[\label@INGLast@ERP@short]{\label@INGLast@ERP}}
+\DeclareOption{ing3-gl}  {\grade[\label@INGLast@GL@short] {\label@INGLast@GL}}
+\DeclareOption{ing3-iad} {\grade[\label@INGLast@IAD@short]{\label@INGLast@IAD}}
+\DeclareOption{ing3-icc} {\grade[\label@INGLast@ICC@short]{\label@INGLast@ICC}}
+\DeclareOption{ing3-icom}{\grade[\label@INGLast@ICC@short]{\label@INGLast@ICO}}
+\DeclareOption{ing3-ifi} {\grade[\label@INGLast@IFI@short]{\label@INGLast@IFI}}
+\DeclareOption{ing3-i3}  {\grade[\label@INGLast@III@short]{\label@INGLast@III}}
+\DeclareOption{nograde  }{\ClassWarning{eisti-common}{No grade is provided.}}
+%    \end{macrocode}
+%
+% \subsubsection{Campus options}
+%
+%    \begin{macrocode}
+\DeclareOption{cergy}{\campus{Cergy}}
+\DeclareOption{pau  }{\campus{Pau}}
+\DeclareOption{all  }{}
+%    \end{macrocode}
+%
+% \pagebreak
+%
+% \subsection{Macros for display}
+%
+%\begin{macro}{\insertgrade}
+%\begin{macro}{\insertshortgrade}
+%\begin{macro}{\insertcampus}
+%~\vspace*{-1.05\baselineskip}
+%    \begin{macrocode}
+\newcommand{\insertgrade     }{\@grade      }
+\newcommand{\insertshortgrade}{\@grade@short}
+\newcommand{\insertcampus}
+  {
+    \ifthenelse{\isundefined{\@campus}}{}{\space (\label@campus{\@campus})}
+  }
+%    \end{macrocode}
+%\end{macro}
+%\end{macro}
+%\end{macro}
+
+%\Finale
+\endinput
+

@@ -1,0 +1,194 @@
+@(listeExos :List[Exercice], listeFeuiles: List[Feuille], listeExosCorriges: List[Exercice], nbExos: Int, nbFeuilles: Int, nbCorriges: Int, pourcentageCorriges: String)
+
+@main("Synthèse des activités"){
+
+    <div id="exo-userInfos">
+        <div class="col-lg-offset-1 col-lg-10" id="exo-userInfos-content">
+
+                <!-- Partie statistiques -->
+
+            <div class="row">
+                <h1 style="text-align: left;">Statistiques</h1>
+                <div class="col-lg-7" id="exo-panel-chart-exercises">
+                    <div class="panel panel-primary">
+                        <div class="panel panel-heading"><span><i class="fa fa-bar-chart-o"></i></span><span style="padding-left: 20px;">Répartition des fichiers mis en base de données</span></div>
+                        @*<h2>Pourcentage de fichiers mis en base de données</h2>*@
+                        <div class="panel-body">
+                            <div class="col-lg-6" id="exo-chart">
+                                <div id="pie_chart">
+                                    <ul>
+                                        <li id="c1_r"><p><span class="pie_left"></span></p></li>
+                                        <li id="c1_l"><p><span class="pie_right"></span></p></li>
+                                        <li id="c2_r"><p><span class="pie_left"></span></p></li>
+                                        <li id="c2_l"><p><span class="pie_right"></span></p></li>
+                                        <li id="c3_r"><p><span class="pie_left"></span></p></li>
+                                        <li id="c3_l"><p><span class="pie_right"></span></p></li>
+                                        <li id="c4_r"><p><span class="pie_left"></span></p></li>
+                                        <li id="c4_l"><p><span class="pie_right"></span></p></li>
+                                        <li id="c5_r"><p><span class="pie_left"></span></p></li>
+                                        <li id="c5_l"><p><span class="pie_right"></span></p></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" id="exo-labels">
+                                <div class="col-lg-8">
+                                    <div id="labels">
+                                        <ul>
+                                            <li><span></span>Internet Explorer</li>
+                                            <li><span></span>Mozilla Firefox</li>
+                                            <li><span></span>Google Chrome</li>
+                                            <li><span></span>Safari</li>
+                                            <li><span></span>Opera</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div id="percentage">
+                                        <ul>
+                                            <li>10.14%</li>
+                                            <li>30.98%</li>
+                                            <li>20.14%</li>
+                                            <li>25.10%</li>
+                                            <li>15.66%</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Fin diagramme exos -->
+                <div class="col-lg-5" id="exo-panel-resume-activity">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <span><i class="fa fa-bars"></i></span><span style="padding-left: 20px;">Résumé</span>
+                        </div>
+                        <div class="panel-body" style="padding: 0">
+                            <table class="table table-striped custab exo-table-stat">
+                                <tbody>
+                                    <tr>
+                                        <td class="exo-resume-name">Exercices publiés</td>
+                                        <td class="exo-resume-value">@nbExos</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="exo-resume-name">Feuilles générées</td>
+                                        <td class="exo-resume-value">@nbFeuilles</td>
+                                    </tr>
+                                    <tr>
+                                         <td class="exo-resume-name">Corrigés publiés</td>
+                                        <td class="exo-resume-value">@nbCorriges</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="exo-resume-name">Part d'exercices corrigés</td>
+                                        <td class="exo-resume-value">@pourcentageCorriges%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <!-- Partie activités récentes -->
+
+            <div class="row" style="padding-top: 30px">
+                <h1>Activités récentes</h1>
+                <div class="col-lg-offset-1 col-lg-5" id="exo-table-recap-uploads">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <span><i class="fa fa-list-alt"></i></span><span style="padding-left: 20px;">Derniers exercices uploadés</span>
+                        </div>
+                        <div class="panel-body" style="padding: 0">
+                            <table class="table table-striped custab exo-table-stat">
+                                <thead>
+                                    <tr>
+                                        <th>Titre Exercice</th>
+                                        <th>Module </th>
+                                        <th>Matière</th>
+                                        <th>Dernière modification</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                @for(exo <- listeExos) {
+                                    <tr>
+                                        <td><a href="@routes.ExerciceControllerBdd.update(exo._id.get.stringify)">@exo.titre</a></td>
+                                        <td>@exo.module</td>
+                                        <td>@exo.matiere</td>
+                                        <td>@exo.dateModification.dayOfMonth().get() / @exo.dateModification.monthOfYear().get() / @exo.dateModification.year().get()</td>
+                                    </tr>
+
+                                }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5" id="exo-table-recap-generation">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <span><i class="fa fa-file-text"></i></span><span style="padding-left: 20px;">Dernières feuilles générées</span>
+                        </div>
+                        <div class="panel-body" style="padding: 0">
+                            <table class="table table-striped custab exo-table-stat">
+                                <thead>
+                                    <tr>
+                                        <th>Titre Feuille</th>
+                                        <th>Module </th>
+                                        <th>Promo</th>
+                                        <th>Dernière modification</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                @for(feuille <- listeFeuiles) {
+                                    <tr>
+                                        <td><a href="@routes.ExerciceControllerBdd.update(feuille._id.get.stringify)">@feuille.titre</a></td>
+                                        <td>@feuille.module</td>
+                                        <td>@feuille.promo</td>
+                                        <td>@feuille.dateModification.dayOfMonth().get() / @feuille.dateModification.monthOfYear().get() / @feuille.dateModification.year().get()</td>
+                                    </tr>
+
+                                }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-offset-3 col-lg-6 col-lg-offset-3" id="exo-table-recap-corrige">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <span><i class="fa fa-check-circle"></i></span><span style="padding-left: 20px;">Derniers exercices corrigés</span>
+                        </div>
+                        <div class="panel-body" style="padding: 0">
+                            <table class="table table-striped custab exo-table-stat">
+                                <thead>
+                                    <tr>
+                                        <th>Titre Exercice</th>
+                                        <th>Module </th>
+                                        <th>Matière</th>
+                                        <th>Dernière modification</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                @for(exo <- listeExosCorriges) {
+                                    <tr>
+                                        <td><a href="@routes.ExerciceControllerBdd.update(exo._id.get.stringify)">@exo.titre</a></td>
+                                        <td>@exo.module</td>
+                                        <td>@exo.matiere</td>
+                                        <td>@exo.dateModification.dayOfMonth().get() / @exo.dateModification.monthOfYear().get() / @exo.dateModification.year().get()</td>
+                                    </tr>
+
+                                }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

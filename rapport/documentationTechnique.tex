@@ -1,0 +1,751 @@
+\include{preambule}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+\section{Introduction}
+Le but de ce projet était la réalisation d'un site web, à l'aide du framework Play! et du langage Scala, permettant la gestion d'exercices.
+Play! est un framework open source orienté web, dont la vocation est de permettre le développement simple et intuitif d'applications web en Java ou Scala. Pour la réalisation de ce projet, nous avons opté pour la solution basée sur Scala, étant donné que la version 2 de Play! a été réalisée pour utiliser ce langage. 
+
+Avant toute chose, il est essentiel de préciser que le projet a été réalisé à l'aide de Play v2 en version 2.2.1, et non de la première version du framework. Cette distinction est très importante, car les deux versions de Play! possèdent des incompatibilités sérieuses. Il faut également faire attention à la version courante du framework car il y a beaucoup de documentations différentes. Le site officiel est disponible à l'adresse suivante~:~\url{http://www.playframework.com/}.\\
+
+L'objectif du projet était de fournir une application web permettant la centralisation d'exercices ainsi qu'un outil de génération manuelle et automatique. Les fonctionnalités demandées par le client étaient~:
+\smallskip
+
+\begin{itemize}
+\item la centralisation des exercices et des feuilles d'exercices~;
+\item l'édition en ligne du contenu d'un exercice~;
+\item leur consultation en ligne~;
+\item la gestion des corrigés~;
+\item le suivi des exercices et des feuilles d'exercices~;
+\item la génération de feuilles d'exercices ainsi que de sujets d'examens.
+\end{itemize}
+
+\medskip
+Afin de ces répondre à ces attentes, nous avons dû tout d'abord choisir la manière dont les exercices seraient stockés. Un exercice peut être entré en base de données de deux manières~: 
+
+\begin{enumerate}
+\item une saisie interactive à travers un éditeur en ligne~;
+\item l'upload d'un fichier Latex respectant un certain formalisme. 
+\end{enumerate} 
+
+Nous avons fait le choix de conserver dans la base de données les exercices au format HTML car la visualisation, l'édition et la consultation de ces derniers sur le site web rendait le choix du HTML plus pertinent. Lors d'un upload, nous convertissons le contenu Latex en HTML. \\
+
+Le site web a été réalisé en HTML5, CSS3 mais aussi avec le framework Bootstrap. Afin de se concentrer sur le cœur du site plusieurs programmes open source ont été utilisés~:
+
+\smallskip
+\begin{itemize}
+\item CKEditor pour la saisie en ligne.
+\item TTH pour la conversion Latex $\rightarrow$ HTML.
+\item HtmlToLatex pour la transformation HTML $\rightarrow$ Latex.
+\end{itemize}
+
+\medskip
+Pour finir, l'installation du projet nécessite d'exporter plusieurs variables d'environnement dans le PATH~:
+
+\begin{itemize}
+\item exporter tout d'abord la variable 
+\begin{center}
+TEXINPUTS = "path/to/project/public/fichiersLatexEisti/"~;
+\end{center}
+\item exporter le chemin vers l'exécutable de TTH.
+\end{itemize}
+
+\medskip
+On trouvera, dans un premier, l'architecture technique et la présentation des fonctionnalités de l'application. Enfin nous décrirons nos choix d'implémentations en expliquant les outils que nous avons utilisés, les problèmes que nous avons rencontrés et la manière dont nous les avons résolus. La conclusion dressera un bilan de ce projet en statuant sur ce qui a été accompli et sur ce qu'il reste à faire. 
+
+\newpage
+\section{Architecture technique}
+La structure de l'application est la suivante, on détaillera les dossiers et les fichiers importants ci-dessous~:
+
+\begin{verbatim}
+projet-entreprise-exercices
+|_.idea
+|_.idea_modules
+|_app
+  |_controllers
+  |_models
+  |_views
+|_conf
+|_logs 
+|_project
+
+|_public
+  |_bootstrap
+  |_ckeditor
+    |_plugins
+  |_fichiersLatexEisti
+  |_generation
+  |_htmltolatex
+  |_javascripts
+    |_perso
+  |_stylesheets
+    |_font-awesome
+    |_images
+  |_tex
+  
+|_rapport
+|_target
+|_test
+|_.gitignore
+|_build.sbt
+|_config.xml
+|_config.xsd
+|_CONSIGNES UPLOAD LATEX
+|_README
+\end{verbatim}
+
+\subsection{Dossier app}
+
+Le dossier \enquote{app} contient le c\oe ur de l'application. Il s'appuie sur le pattern MVC en partageant l'application entre le modèle, la vue et le contrôleur. C'est dans ce dossier que se situent les sources du projet. 
+
+\subsection{Modèle}
+Le dossier \enquote{models} contient tous les fichiers qui gèrent l'accès aux données sauvegardées dans la base de données. On trouvera donc l'ensemble des \emph{case classes} ainsi que leurs \emph{companion objects}. Ils appellent la base de données NOSQL, MongoDB, à l'aide d'un driver ReactiveMongo. Le modèle réalise les requêtes traditionnelles comme la création, la modification, la suppression et la lecture des données.
+
+Notre modèle s'appuie sur deux classes principales, la classe \emph{Exercice} et la classe \emph{Feuille}~:
+
+\vspace{0.5cm}
+\lstset{style=customScala}
+\begin{minipage}[c]{8.5cm}
+\begin{center}
+	Exercice.scala
+\end{center}
+\vspace{-0.5cm}
+\begin{lstlisting}
+case class Exercice(
+	_id: Option[BSONObjectID],
+	titre: String,
+	module: String,
+	matiere: String,
+	chapitre: Option[String],
+	motsCles: Option[String],
+	typeExercice: String,
+	duree: Option[String],
+	dateCreation: DateTime,
+	dateModification: DateTime,
+	contenu: String,
+	corrige: Option[List[String]],
+	lastUsed: Option[DateTime]
+)
+
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[c]{8cm}
+
+\lstset{style=customScala, numbers=right}
+\begin{center}
+	Feuille.scala
+\end{center}	
+\vspace{-0.5cm}
+\begin{lstlisting}
+case class Feuille(
+	_id: Option[BSONObjectID],
+	prof :  Option[String],
+	titre : String,
+	module :String,
+	matiere: String,
+	promo : String,
+	option : Option[String],
+	typefeuille : String,
+	duree : Option[String],
+	dateCreation: DateTime,
+	dateModification: DateTime,
+	realDuree: Option[String],
+	dateExamen : Option[String],
+	listeExos : List[BSONObjectID] )
+\end{lstlisting}
+\end{minipage}
+
+Un exercice est composé d'un identifiant unique créé lors de l'insertion dans la base de données, du titre de l'exercice. Ce dernier est requis pour faciliter la recherche de cet exercice dans la page consultation. On trouve également un module, une matière, un chapitre, un certain nombre de mots-clés, le type de l'exercice (exercice, problème ou question de cours), la durée de l'exercice, la date de création et la date de modification, la date de dernière utilisation, le contenu au format HTML de l'exercice et la liste de ses corrigés (un exercice pouvant avoir plusieurs corrigés comme aucun), toujours sous forme HTML. 
+
+Certains champs étant optionnels (chapitre, durée, corrigé, \ldots), ils sont définis en tant qu'Option[T] qui est une classe de Scala qui permet de spécifier si l'attribut est requis ou optionnel. S'il a une valeur, il aura la valeur Some(\_), sinon la valeur None. Cette classe est très pratique pour récupérer des champs optionnels d'un formulaire. Le type DateTime est un type pour les dates gérées par la libraire JodaTime. Le type BSONObjectID est le type d'un ID dans la base MongoDB.\\ 
+
+Une feuille est composée d'un identifiant unique créé lors de l'insertion dans la base de données, le professeur qui a rédigé la feuille, le titre de la feuille. Ce champ est requis pour les mêmes raisons que celui de l'exercice. Elle se compose du module, de la matière, d'une promotion, d'une option (CPI1, CPI2, ING1, ING2-GSI, ING2-IFI, \ldots, ICC, IERP, \ldots), d'un type de feuille (exercice de cours, travaux dirigés ou examens), de la durée de la feuille (déterminée par l'utilisateur), de la durée réelle (somme des durées des exercices qui la composent), de la date de création, de la date de modification, de la date d'examen (si le type de feuille est un examen) et de la liste des identifiants des exercices qui la composent. \\
+
+Pour l'instant les informations comme matière, professeur ou module ne constituent pas encore une table à part entière. Nous avions souhaité au départ faire correspondre ces informations avec Arel ou Stratus mais par manque de temps, nous n'avons pas pu le faire. Ces champs sont donc des champs \enquote{simples} mais pourront faire l'objet d'une amélioration plus tard. 
+
+Pour certains champs, comme par exemple le champ option dans une feuille d'exercices, nous avions besoin de définir un certains nombre de constantes. Plutôt que de les stocker en base de données, ces informations étant de taille constante et peu volumineuse, nous avons créé un \emph{Object} (une classe avec un pattern Singleton) \enquote{FormulairesValeurs} qui contient des listes de valeurs prédéfinies. Par exemple, pour la liste des options, on trouvera~:
+
+\begin{lstlisting}
+val listoptions = List("","ICC","IERP","I3","ICOM","INEM","GL","IFI","IAD","SNHP","BI")
+\end{lstlisting} 
+
+\subsection{MongoDB et ReativeMongo}
+\emph{MongoDB} est une base de données orientée documents, répartissable sur un nombre quelconque d'ordinateurs, efficace pour les requêtes simples, et ne nécessitant pas de schéma prédéfini des données. Il nous a paru judicieux d'utiliser une telle base de données car l'objectif était de manipuler des exercices et des feuilles d'exercices, donc des documents. 
+
+\emph{Reactive Mongo} est un driver écrit en Scala qui permet de faire le lien entre les objets du modèle et la base de données de manière non bloquante et asynchrone. L'application est donc elle aussi asynchrone et permet potentiellement d'être scalable horizontalement. Le projet \emph{ReactiveMongo} est encore un peu jeune (version 0.10 au moment de l'écriture du rapport) mais profite d'une communauté grandissante. Il faut donc faire attention aux évolutions de ce driver en effectuant régulièrement les mises à jour. Il facilite, essentiellement, la conversion des objets Bson (formats des objets dans MongoDB) avec les objets Json (JavaScript Object Notation).\\
+
+Ainsi lors de l'écriture d'une requête, on créera un objet Json qui sera convertit par ReactiveMongo avant d'être exécué dans MongoDB. Voici un petit exemple ci-dessous dans le cas d'une mise à jour d'un exercice~:
+
+\begin{lstlisting}
+// création de l'objet JSON
+val modifier: JsObject = Json.obj(
+ 	"$set" -> Json.obj(
+		"titre" -> newExercice.titre,
+		"module" -> newExercice.module,
+		"matiere" -> newExercice.matiere,
+		"chapitre" -> newExercice.chapitre,
+		"motsCles" -> newExercice.motsCles,
+		"typeExercice" -> newExercice.typeExercice,
+		"duree" -> newExercice.duree,
+		"dateModification" -> new DateTime(),
+		"contenu" -> newExercice.contenu,
+		"corrige" -> newExercice.corrige
+ 	))
+// update de l'exercice, le premier argument est l'id, le second les nouvelles valeurs 
+collection.update(Json.obj("_id" -> BSONObjectID(id)), modifier) 	
+\end{lstlisting} 
+
+On fait correspondre chaque champ d'un exercice avec l'objet newExercice (type Exercice) passé en paramètre puis on appelle la méthode update fournie par ReactiveMongo. 
+
+\subsection{Vue}
+
+Le dossier \enquote{views} contient l'ensemble des fichiers permettant la visualisation de l'application. Ce sont des templates HTML fournis par le framework Play!. Ils permettent notamment d'insérer du code Scala dans du code HTML. Ces pages contiennent également les fichiers javaScript permettant de réaliser les traitements côté client. Pour la mise en page, nous utilisons un framework CSS qui s'intitule Twitter Bootstrap et jQuery, une librairie javaScript qui facilite la manipulation du DOM et la gestion des évènements. Nous utilisons également des plugins jQuery comme dataTables pour certains tableaux.
+
+Les vues se composent en grande majorité de formulaires qui permettent d'envoyer les données au serveur. La plupart des composants graphiques sont des composants Bootstrap auxquels nous avons apporté notre propre style. Pour les tableaux, dans les sections consultation et génération de l'application, nous avons combiné les tableaux dataTables et la mise en page de BootStrap. 
+
+Le framework Play! offre la possibilité de faire un template de notre page HTML. C'est une fonctionnalité très intéressante car elle permet de factoriser du code. Nous l'avons utilisée à plusieurs endroits dans le code. Une première fois pour le template global de la page et une deuxième fois pour les pages de création et d'édition. Dans ces dernières, une partie était commune, l'utilitaire mathématique, nous l'avons donc placé dans un autre fichier. Revenons sur le template global de la page. Plutôt que d'inclure dans chaque page l'entête et le pied de page, nous avons créé une page HTML intitulée \enquote{main.scala.html} qui contient l'entête et le footer. Nous ajoutons ensuite une annotation \enquote{@content} pour signifier que le contenu va changer. Ceci se traduit de la manière suivante~:
+
+\lstset{style=customXml}
+\begin{lstlisting}
+@(title: String)(content: Html)
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta>...</meta>
+        <title>@title</title> // titre de la page passé en paramètre 
+        Fichiers javascripts et css inclus 
+        </head>
+    <body>
+    	contenu header
+    	
+    	@content  // contenu de la page
+    	
+    	contenu du footer
+    </body>
+</html>    	 
+\end{lstlisting}   
+
+En réalité, le template est légèrement différent. En effet, nous avons en réalité deux pages d'accueil et donc deux entêtes, une lorsque l'utilisateur est authentifié et une lorsque l'utilisateur ne l'est pas. Néanmoins, nous avons un seul pied de page. Nous avons donc créé un fichier \enquote{footer.scala.html} qui contient le pied de page et qui est inclus dans le fichier main.scala.html ci-dessus. 
+
+\subsection{Contrôleur} 
+
+Le dossier \enquote{controllers} contient les fichiers qui lient la vue et le modèle. Ces fichiers se basent sur le fichier \enquote{routes} dans le dossier \enquote{conf}. Lorsqu'une route est appelée, elle fait appel à une méthode du contrôleur qui s'occupe du traitement de la requête en appelant le modèle et retournant la réponse à la vue. 
+
+Un aspect important du contrôleur est qu'il permet de définir un objet \enquote{Form} qui va faire le \emph{mapping} entre notre modèle et notre vue. C'est une des fonctionnalités les plus importantes et les plus utilisées du framework Play!. Cela rend plus facile la validation des formulaires car les champs de la vue sont automatiquement liés à ceux du modèle. Cette fonctionnalité gère également les champs requis et optionnels. Par exemple, prenons l'objet \enquote{creationForm} de la classe \enquote{ExerciceControllerBDD}. 
+
+\lstset{style=customScala}
+\begin{lstlisting}
+val creationForm = Form(
+    mapping(
+      "_id" -> ignored[Option[BSONObjectID]](None),
+      "inputtitle" -> nonEmptyText,
+      "inputmodule" -> nonEmptyText,
+      "inputmatiere" -> nonEmptyText,
+      "chapitre" -> optional(of[String]),
+      "motcles" -> optional(of[String]),
+      "inputtype"  -> nonEmptyText,
+      "inputduree"  -> optional(of[String]),
+      "contenu"  -> nonEmptyText,
+      "corrige" -> optional(list(of[String]))
+    ){
+      (_id,inputtitle,inputmodule, inputmatiere,chapitre, motcles, inputtype, 
+      								intputduree, contenu, listCorrige)
+      => Exercice(Some(BSONObjectID.generate), inputtitle, inputmodule,
+					inputmatiere, chapitre, motcles, inputtype, intputduree,
+					new DateTime(), new DateTime(), contenu, listCorrige, None)
+    } {
+      exo => Some(exo._id, exo.titre, exo.module, exo.matiere, exo.chapitre, 
+     		exo.motsCles, exo.typeExercice, exo.duree, exo.contenu.mkString(""), 
+     		exo.corrige)
+    }
+  )
+\end{lstlisting} 
+
+On définit ainsi un \emph{mapping} entre le modèle et la vue. Les lignes 2 à 12 correspondent aux champs dans la vue. On indique l'attribut \emph{name} de chaque champ ainsi que sa valeur. Par exemple, on indique nonEmptyText pour une chaîne non vide. Lorsque le champ peut ne pas être rempli, on précise dans le mapping que le champ est \enquote{optional}. Les lignes 14 à 18 appliquent l'opération \enquote{apply}, c'est-à-dire que les données du formulaire sont insérées dans les données de l'objet. Les lignes 20 à 22 appliquent l'opération \enquote{unapply}, les données de l'objet sont insérées dans les données du formulaire.
+
+Nous avons implémenté plusieurs contrôleurs~:
+\medskip
+\begin{itemize}
+\item \textbf{Application}~:~contient les méthodes de la page d'accueil et de la page de synthèse. 
+\item \textbf{ExerciceControllerBdd}~:~contient les méthodes de création, d'édition (exercice ou corrigés), de suppression et de consultation d'un exercice. 
+\item \textbf{FeuilleControllerBdd}~:~contient les méthodes de création, de modification, de suppression et de consultation d'une feuille d'exercices. 
+\item \textbf{UploadController}~:~contient les méthodes pour l'upload d'un exercice ou d'un corrigé.
+\item \textbf{DownloadController}~:~contient les méthodes pour le téléchargement d'une feuille d'exercices.
+\end{itemize}  
+
+\subsection{Dossier conf}
+
+Le second dossier principal se nomme \enquote{conf}, et contient plusieurs éléments essentiels au fonctionnement de l'application. Le fichier \enquote{application.conf} contient les différentes spécifications de l'application. Dans le cas présent, il s'agit, essentiellement, de l'endroit où les informations relatives à la base de données MongoDB sont spécifiées~:~nom de la base de données, adresse de celle-ci, collections (ligne 41, 42 du fichier). 
+
+Un autre fichier important est le fichier \enquote{routes}, qui définit les méthodes appelées dans les contrôleurs décrit précédemment à chaque redirection. Par exemple, étudions la ligne suivante~:
+
+\begin{verbatim}
+GET     /deletefeuille/:id  controllers.FeuilleControllerBdd.delete(id:String)
+\end{verbatim}
+
+Elle signifie simplement qu'une URL de type \enquote{GET}, vers l’adresse monApplication:portDeMonApplication/deleteFeuille/:id appellera la méthode \enquote{delete} de la classe FeuilleControllerBdd se situant dans le package \enquote{controllers}. Le \enquote{:id} est un paramètre représentant l'identifiant de la feuille à supprimer.
+
+Le fichier \enquote{play.plugins} est un fichier où l'on rajoute les plugins externes à l'application comme le plugin ReactiveMongo. 
+
+\subsection{Dossier public}
+
+Le dossier « public » contient plusieurs fichiers visibles de l'extérieur par l'application. Il contient les sous-dossiers suivants~:
+\medskip
+\begin{itemize}
+\item \textbf{bootstrap}~:~contient les dossiers et fichiers nécessaires à l'utilisation du framework Bootstrap.
+\item \textbf{ckeditor}~:~contient les fichiers de configuration, les plugins et les fichiers de style de l'outil CKEditor.
+\item \textbf{fichiersLatexEisti}~:~comporte l'ensemble des fichiers Latex des utilisateurs nécessaires à la compilation de Latex. C'est également dans ce dossier que se trouvera le fichier Latex utilisé pour la génération du pdf.
+\item \textbf{generation}~:~contient le fichier pdf résultant de la compilation par Latex. C'est donc à partir de ce dossier que sera téléchargé la feuille d'exercices ou de corrigés.
+\item \textbf{htmltolatex}~:~contient l'exécutable du programme htmltolatex servant à transformer du code HTML en Latex.
+\item \textbf{images}~:~contient les images du projet.
+\item \textbf{javascripts}~:~contient l'ensemble des fichiers javaScripts utilisés pour la conception du site. Il contient un sous dossier perso qui contient toutes les librairies que nous avons réalisées.
+\item \textbf{stylesheets}~:~contient l'ensemble des fichiers de mise en page. 
+\item \textbf{tex}~:~contient les fichiers temporaires utilisés pour l'upload d'un fichier tex.
+\end{itemize}
+
+\subsection{Autres fichiers importants}     
+
+D'autres fichiers importants sont présents à la racine du projet~:
+\medskip
+\begin{itemize}
+\item \textbf{.gitignore}~:~fichier git permettant d'ignorer certains fichiers ou dossiers. 
+\item \textbf{build.sbt}~:~fichier de configuration scala. C'est l'équivalent du fichier pom.xml pour un projet Maven.
+\item \textbf{config.xml}~:~fichier de configuration d'\emph{htmltolatex}. Il contient un mapping associant un contenu Latex à une balise HTML. Ce fichier peut être manipulé afin de rajouter d'autres règles.
+\item \textbf{config.xsd}~:~description du fichier config.xml.
+\item \textbf{A LIRE}~:~contient diverses recommandations importantes sur des points précis du projet.
+\end{itemize}
+
+\newpage
+\section{Fonctionnalités}
+
+Dans cette partie du rapport, nous présentons les fonctionnalités du site page par page.
+ 
+\subsection{Page d'accueil}
+La page d'accueil est divisée en deux parties distinctes~:
+
+\medskip
+\begin{itemize}
+\item la première partie est réservée à l'authentification (voir l'image ci-dessous). Même si cette dernière n'est pas implémentée, 
+le formulaire nécessaire est laissé pour la reprise du projet~;
+\item la seconde présente l'ensemble des services disponibles sous une brève description.
+\end{itemize}
+
+\begin{figure}[!hH]
+\begin{center}
+\includegraphics[scale=0.3]{images/pageAccueil}
+\caption{Page d'accueil}
+\end{center}
+\end{figure}
+\vspace{-0.7cm}
+Le bouton \enquote{Commencer} permet de simuler une authentification en allant à la page de synthèse.
+
+\subsection{Page de synthèse}
+
+La page de synthèse résume l'ensemble des activités effectuées sur le site. Elle fonctionne à la manière d'un dashboard, permettant à l'utilisateur de voir rapidement les informations du site. Plusieurs types de données sont disponibles~:
+
+\medskip
+\begin{itemize}
+\item la partie statistiques propose une vue d'ensemble de la base de données. Le camembert affiché (voir ci-dessous) n'est pas fonctionnel mais a été incorporé pour une éventuelle implémentation. Son but était d'afficher la répartition des exercices, corrigés et feuilles d'exercices.
+\item les activités récentes affichent les derniers documents apportés ou modifiés sur le site.
+\end{itemize}
+
+\newpage 
+\begin{figure}[!hH]
+\begin{center}
+\includegraphics[scale=0.35]{images/synthese}
+\caption{Page de synthèse - statistiques}
+\end{center}
+\end{figure}
+
+\begin{figure}[!hH]
+\begin{center}
+\includegraphics[scale=0.35]{images/activitesRecentes}
+\caption{Page de synthèse - activités récentes}
+\end{center}
+\end{figure}
+
+\subsection{Page création}
+
+La page de création d'exercices sert à rédiger, sur le site, exercices et corrigés. Cette dernière se découpe en trois parties avec, de gauche à droite~:
+\begin{itemize}
+\item la saisie des méta informations relatives à l'exercice correspondant au 1) sur le schéma ci dessous. Seuls le titre, le module et la matière sont obligatoires.
+\item la zone de saisie de l'éditeur sur lequel s'est basée la création, CKEditor, en 2) sur le schéma.
+\item l'utilitaire de saisie mathématique (point n°3 sur le schéma) qui contient un grand nombre de raccourcis intuitifs vers les balises Latex équivalentes. Le but de cet assistant est de permettre la saisie mathématique sans pour autant avoir de connaissances dans le langage Latex.
+\end{itemize}
+
+\begin{figure}[!hH]
+\includegraphics[scale=0.32]{images/creation}
+\caption{Page de création}
+\end{figure}
+
+Le 4) correspond au bouton de validation du formulaire et envoie les données au serveur. Il valide à la fois les données du formulaire et le contenu du CKEditor. Dans le cas d'une erreur, nous affichons les erreurs et l'exercice n'est pas ajouté. Dans le cas d'un succès, nous enregistrons l'exercice et nous restons sur cette page pour permettre à l'utilisateur de saisir d'autres exercices. Les champs du formulaires sont alors remplis avec les valeurs précédentes excepté le champ du titre pour éviter d'avoir plusieurs fois le même, même si en théorie rien ne l'empêche. Le bouton \enquote{save} de CKEditor fonctionne exactement de la même manière que le bouton cité précédemment. 
+
+\subsection{Page d'édition} 
+
+La page d'édition est sensiblement équivalente à celle de la page création à ceci près qu'elle permet d'éditer un exercice et ses corrigés. La page fonctionne à l'aide d'un système d'onglets où le premier onglet est un exercice et les autres sont ses corrigés. Le bouton \emph{save} permet de sauvegarder l'ensemble des informations, c'est-à-dire le formulaire de gauche, l'exercice et tous ses corrigés. Le bouton \enquote{supprimer} (icône poubelle) permet de supprimer l'onglet courant. Si celui-ci est celui de l'exercice, l'exercice et ses corrigés sont supprimés. Dans le cas contraire, seul le corrigé est supprimé. Il est également possible d'ajouter un corrigé depuis cette page en cliquant sur le bouton \enquote{ajout d'un corrigé} représenté par un icône stylo. Pour chaque onglet, un bouton \enquote{supprimer} est créé et seul celui de l'onglet courant est affiché. Un environnement CKEditor différent est créé pour chaque onglet. 
+
+\subsection{Page d'upload}
+
+La page d'upload d'exercices est un simple formulaire dans lequel l'utilisateur doit renseigner des méta-informations (seules les trois premières sont obligatoires) ainsi qu'un fichier. Le format de ce fichier doit obligatoirement être un fichier .tex suivant le formalisme du client. Pour chaque exercice présent dans le fichier en upload, une entrée sera créée sur le site. Le contenu mathématique est conservé dans le langage Latex.
+
+\subsection{Page de génération}
+
+La génération d'une feuille d'exercice permet à l'utilisateur de créer une feuille à partir d'exercices présents en base de données. Cette génération a été séparée en deux étapes. Cette séparation est due à un problème rencontré lorsque nous voulions le faire en une étape. Nous affichions tous les exercices choisis dans un tableau paginé à l'aide du plugin jQuery \emph{dataTablea} afin que l'affichage se fasse correctement même lorsque la base de données possède beaucoup d"exercices.
+
+Le souci réside dans le fait que pour des exercices choisis sur des pages différentes du tableau, le plugin n'envoie au serveur que les exercices choisis la dernière page consultée. Techniquement, le plugin ne charge que le contenu des exercices de la page actuelle du tableau 
+dans le DOM, les exercices sur les autres pages sont donc \enquote{cachés} et donc non récupérés au moment de la soumission du formulaire au serveur. Les deux étapes de la génération sont donc les suivantes~:
+\smallskip
+\begin{itemize}
+\item choix des exercices par l'utilisateur~;
+\item renseignement des différents éléments de la feuille et de l'ordre des exercices dans la feuille pour les exercices choisis.
+\end{itemize}
+
+\smallskip
+Lors de l'étape 1, nous affichions comme initialement, tous les exercices dans un tableau grâce à dataTable. A l'aide de javaScript, nous récupérons tous les exercices choisis (même ceux \enquote{cachés} dans les autres pages du tableau).
+
+\begin{figure}[!hH]
+\begin{center}
+\includegraphics[scale=0.5]{images/generation1}
+\caption{Génération - étape 1}
+\end{center}
+\end{figure}
+
+Une fois les exercices choisis, une fonction javaScript cache le tableau des exercices, ce qui permet de passer à l'étape 2. Lors de l'étape 2 nous recréons ensuite un tableau sans dataTable (construit cette fois-ci uniquement avec Bootstrap) qui fera partie du formulaire soumis au contrôleur du côté du serveur. Ce tableau est, logiquement, rempli avec les exercices choisis lors de l'étape 1. L'utilisateur remplit ensuite le formulaire avec les différentes informations à fournir pour une feuille. Il renseigne également, pour les exercices choisis, l'ordre dans lequel ces exercices apparaitront dans la feuille. Au moment de la soumission au serveur, une fonction de validation permet de s'assurer que l'utilisateur n'a pas rentré d'ordre incohérent.
+
+\begin{figure}[!hH]
+\begin{center}
+\includegraphics[scale=0.45]{images/generation2}
+\caption{Génération - étape 2}
+\end{center}
+\end{figure}
+
+\subsection{Page de consultation}
+\subsubsection{Consultation des exercices}
+
+Cette page est le centre de gestion des exercices et corrigés. L'utilisateur a accès à diverses opérations :
+\smallskip 
+
+\begin{itemize}
+\item modification (qui renvoie sur la page d'édition) ou suppression d'un exercice~;
+\item ajout ou upload d'un corrigé~; 
+\item affichage pour un exercice, de toutes ses données, de son contenu et de l'ensemble de ses corrigés via une \enquote{pop-up}. 
+\end{itemize}
+\medskip
+
+Il peut trier les éléments du tableau suivant chaque colonne (Titre, Module, Matière, Durée). Il peut également filtrer les entrées du tableau afin de n'afficher par exemple que les exercices ayant une certaine durée, un certain titre, un certain module \ldots
+\newpage
+\begin{figure}[!hH]
+\begin{center}
+\includegraphics[scale=0.37]{images/consultationExos}
+\caption{Consultation des exercices}
+\end{center}
+\end{figure}
+
+\begin{figure}[!hH]
+\begin{center}
+\includegraphics[scale=0.37]{images/consultationModal}
+\caption{Consultation des exercices, détail d'un exercice}
+\end{center}
+\end{figure}
+
+
+Il peut également filtrer les entrées du tableau afin de n'afficher par exemple que les exercices de Mathématiques, ou encore les exercices d'une durée de 20 minutes. Enfin il peut trier les entrées du tableau selon chaque colonne. Cela lui permet par exemple de classer les exercices suivant leur date de dernière utilisation dans une feuille d'exercices.
+
+\subsubsection{Consultation des feuilles d'exercices}
+
+Cette page, similaire à la gestion des exercices, permet les mêmes opérations. On peut ainsi modifier ou supprimer une feuille, publier son contenu ou encore uploader un corrigé. De la même manière, le détail d'une feuille d'exercices (ses informations et les exercices contenus dans celle-ci) est consultable via une \enquote{pop-up}. On peut également filtrer et trier le tableau contenant les feuilles d'exercices.
+
+\newpage
+\section{Choix et implémentations}
+
+\subsection{Programmes tiers utilisés}
+\subsubsection{HtmlToLatex}
+HtmlToLatex est un programme OpenSource, réalisé en Java, permettant la conversion d'une page HTML en fichier Latex. Ce dernier est distribué sous la license GNU/GPL.
+
+Il permet, via un mapping configuré dans un fichier xml, de faire le lien entre les balises HTML et leur remplacement en contenu Latex. Ce programme est par conséquent configurable et extensible pour les besoins du projet. Il ne gère néanmoins que les balises et non les classes potentiellemnt associées. Plus d'informations sont disponibles sur le site \url{http://htmltolatex.sourceforge.net/}
+
+\subsubsection{TTH}
+TTH est un programme OpenSource réalisé en C permettant de convertir un fichier Latex en page HTML. Il ne gère pas les fichiers sty et cls utilisés par le formalisme du client et ne sera donc utilisé que pour transformer le contenu non mathématique.
+Plus d'informations sont disponibles à l'adresse \url{http://hutchinson.belmont.ma.us/tth/}.
+
+
+\subsection{Upload d'un exercice}
+Lors de l'upload d'un exercice, l'\textit{UploadController} sera appelé. Il va créer, pour chaque exercice présent dans la feuille, un objet de type \textit{Exercice} en lui attribuant les méta-données du formulaire ainsi que le contenu adéquat de la feuille uploadée.
+
+Les méta-données sont: 
+\begin{itemize}
+\item Titre
+\item Module
+\item Matière
+\item Promotion
+\item Type de feuille
+\item Durée\\
+\end{itemize}
+
+Afin de récupérer le contenu des exercices le modèle LatexParser sera appelé et retournera une map contenant, pour chaque exercice, son contenu lié à son type.
+\begin{center}
+\textbf{Exemples d'un couple de la map:\\}
+clé: \{Contenu entier de l'exercice\} $\rightarrow$ valeur: \{Questions de cours\}
+\end{center}
+\vspace{-0.8cm}
+\begin{center}
+clé: \{Contenu entier d'un second exercice\} $\rightarrow$ valeur: \{Exercice\}
+\end{center}
+
+\subsubsection{LatexParser}
+
+Afin de faciliter la compréhension des mécanismes du parseur, voici une portion de code Latex qui pourrait être traitée~:
+\begin{center}
+\enquote{Pour tout entier naturel \$ $n$ \$ et tout \$ $x \in [-R,R]$ \$, on a ...}
+\end{center}
+
+Le programme \emph{tth} arrive à convertir de manière efficace un contenu Latex basique. Le problème majeur de la conversion Latex/HTML est la transformation des balises mathématiques, d'autant plus que le client possède des commandes personnalisées.
+Il était donc nécessaire de garder le contenu mathématique en Latex et de l'insérer dans la page HTML résultante.
+
+Le LatexParser contient deux méthodes principales~:
+\smallskip
+\begin{itemize}
+\item \textit{updateExercisesContentWithHTML} qui construit la map (contenuExercice, typeExercice)~;
+\item \textit{getFirstCorrigeContent} qui retourne le contenu du premier corrigé trouvé dans une feuille uploadée.
+\end{itemize}
+\smallskip
+
+Ces deux fonctions font appel à la méthode \textit{transformAllExercicesIntoHtml} qui va dans l'ordre~:
+
+\medskip
+\begin{itemize}
+\item isoler le contenu mathématique dans une liste afin de garder la relation d'ordre et renvoyer le contenu Latex filtré. Reprenons l'exemple~:
+
+\begin{Verbatim}[frame=single,fontsize=\scriptsize]
+ Pour tout entier naturel $n$ et tout $x \in [-R,R]$, on a...
+\end{Verbatim}
+
+Cette première étape va retourner deux listes~:
+\smallskip
+\begin{itemize}
+\item la première contiendra les différents environnements mathématiques~: \enquote{List("\$n\$","\$x \\in [-R,R]\$")}
+\item la seconde le contenu Latex initial marqué~: \enquote{Pour tout entier naturel //environementMath// et tout //environementMath//, on a}
+\end{itemize}
+\medskip
+
+Le choix d'\textit{//environementMath//} est subjectif, c'est seulement une chaîne de caractères qui permet de reconnaître l'endroit où placer le contenu mathématique.
+\medskip
+
+\item transformer le Latex généré ci-dessus à l'aide de \emph{tth}, donnant pour l'exemple~:
+ \begin{Verbatim}[frame=single,fontsize=\scriptsize]
+Pour tout entier naturel //environementMath// et tout //environementMath//, on a
+\end{Verbatim}
+\item insérer dans le HTML résultant le contenu mathématique (Latex). Cette insertion est en fait double comme on peut le voir pour l'exemple ~:
+
+\begin{Verbatim}[frame=single,fontsize=\scriptsize]
+Pour tout entier naturel  <span class="math-tex" data-latex="$n$">\( n \)</span>
+et tout <span class="math-tex" data-latex="$x \in [-R,R]$">\( x \in [-R,R] \)</span>, on a.
+\end{Verbatim}
+
+Pour chaque \textit{//environnementMath//} rencontré dans le Latex marqué, le contenu mathématique de la liste est inséré dans le template 
+\enquote{<span class="math-tex" data-latex="">()</span>}. L'attribut data-latex sert à récupérer le contenu Latex avec les dollars pour la génération de l'exercice en pdf. Celui entre parenthèses est affiché dans CKEditor et interprété grâce à la classe math-tex du span. La balise span est utilisée pour délimiter le contenu mathématique du texte avoisinant.
+\end{itemize}
+\medskip
+
+Ce dernier contenu fait donc partie de l'exercice présent dans la base de données.
+
+\subsubsection{ParserUtils}
+Cet objet contient différentes méthodes utilisées dans LatexParser et HtmlParser (détaillé dans la prochaine partie). On y trouve notamment:
+\smallskip
+\begin{itemize}
+\item les fonctions qui manipulent les chaînes de caractères~;
+\item les méthodes d'isolation et de remplacement du contenu mathématique.
+\end{itemize}
+
+\subsection{Génération d'un pdf}
+
+La génération d'un pdf va traiter deux contenus différents: les exercices et les corrigés. Dans les deux cas, d'un point de vue technique, il s'agit de transformer un contenu HTML en Latex. Les deux cas seront néanmoins traités de la même manière puisque seul le contenu diffère.\\
+La génération du pdf fait appel au controller \textit{FeuilleControllerBDD} qui va appeler le modèle \textit{HtmlParser} avec en argument les différentes valeurs saisies dans les méta-données. Une fois le contenu HTML récupéré, le controlleur appelera tout simplement la méthode \textit{generatepdf} de l'\textit{HtmlParser} avec le contenu adéquat.
+
+\subsubsection{HtmlParser}
+
+Reprenons l'exemple du \textit{LatexParser}, voici le contenu HTML qui sera traité~:
+
+\begin{Verbatim}[frame=single,fontsize=\scriptsize]
+Pour tout entier naturel  <span class="math-tex" data-latex="$n$">\( n \)</span>
+et tout <span class="math-tex" data-latex="$x \in [-R,R]$">\( x \in [-R,R] \)</span>, on a.
+\end{Verbatim}
+
+Ce modèle comprend deux fonctions principales:
+\smallskip
+
+\begin{itemize}
+\item \textit{parseHtmlExercisesIntoLatex} va s'occuper de transformer le contenu HTML passé en paramètre dans le langage Latex. Cette opération se découpe en plusieurs parties distinctes~:
+
+\begin{enumerate}
+\item isolation du contenu mathématique et marquage des environnements. Ce procédé est similaire à celui du \textit{LatexParser} à la différence qu'ici les marqueurs sont numérotés comme on le voit dans cet exemple~:
+\begin{center}
+\enquote{Pour tout entier naturel //environementMath8// et tout //environementMath140//.}
+\end{center}
+
+Cela est dû à la fonction qui remplace les contenus: en effet le premier paramètre passé est remplacé dans tout le texte par le second paramètre. Hors le premier paramètre dans ce cas est le marqueur, il était donc nécessaire de différencier les \enquote{//environnementMath//} en fonction du contenu mathématique associé.
+
+\item transformation du contenu HTML filtré avec le programme htmltolatex, qui donne ici~:~
+
+\enquote{Pour tout entier naturel //environementMath8// et tout //environementMath140//, on a \ldots}
+\item insertion du contenu mathématique dans le HTML généré~:~
+\enquote{Pour tout entier naturel \$n\$ et tout \$ $ x \in [-R,R] $ \$, on a}
+\item remplacement des caractères spéciaux incompatibles avec Latex, comme par exemple \enquote{\&nbsp;} correspondant à un espace~;
+\item chargement des méta-données dans le template header~;
+\item inclusion du contenu des exercices complet (en Latex) dans le template généré.
+\end{enumerate}
+Le résultat est envoyé dans le dossier fichiersLatexEisti.
+\smallskip
+
+\item \textit{generatePdf} s'occupe de générer le pdf via une double exécution de la commande \enquote{pdflatex}. Attention, cette commande nécessite d'avoir au préalable exporté la variable TEXINPUTS = "path/to/project/public/fichiersLatexEisti/".
+\end{itemize}
+
+\subsection{\'Edition}
+
+Cette partie du rapport décrit la manière dont nous avons pensé l'édition de textes. En effet, certaines personnes ne connaissent pas grand chose en Latex et il était nécessaire de proposer une autre manière de saisir du texte. Il fallait bien sûr tenir compte des environnements mathématiques qui sont une grande force de Latex. Nous avons utilisé l'outil \emph{CKEditor} pour la saisie de documents et la librairie javaScript \emph{MathJax} pour la gestion des mathématiques. 
+
+\subsubsection{CKEditor}
+
+Cet outil est un outil très complet comportant un très grand nombre de plugins de base et plusieurs plugins additionnels très intéressants. Sur leur site (\url{http://ckeditor.com/}), on trouvera tous les renseignements dont on a besoin. Leur site met à disposition un guide utilisateur, des documentations techniques pour les développeurs, une FAQ, une API et un forum. Cet outil permet de réaliser les opérations classiques d'un éditeur de texte (copier, coller, gras, italique, soulignement, \ldots). Il permet également des opérations plus complexes (changer la couleur du texte, ajout de caractères spéciaux, images, tableaux, \ldots).\\
+
+L'architecture de CKEditor est relativement simple. On trouve le dossier \enquote{lang} qui contient des fichiers javaScripts pour gérer l'internationalisation. Le dossier \enquote{plugins} contient l'ensemble des plugins que nous avons utilisés pour la réalisation du projet. Chaque sous-dossier est un dossier portant le nom du plugin avec ses fichiers sources (souvent javaScript). Pour les besoins du projet, nous avons conçu notre propre environnement CKEditor. Sur leur site, il est possible de créer son propre environnement. Nous sommes partis de l'environnement \enquote{Full Package} auquel nous avons retiré et ajouté certains plugins. Cela permet de télécharger une archive contenant l'ensemble des plugins. Le fichier le plus important de cette archive est le fichier ckeditor.js qui contient tout le code minifié des plugins. Il est très difficile d'effectuer des modifications dans ce fichier. C'est ce fichier qui est appelé dans l'application ce qui veut dire que même si l'on modifie des lignes des fichiers présents dans le dossier \enquote{plugin} cité ci-dessus, elles ne seront pas prises compte. Si l'on souhaite effectuer des modifications, comme par exemple ajouter un plugin externe, il faut créer son propre dossier dans le dossier plugin et réaliser un fichier javascript contenant le code de ce nouveau plugin. Il faudra ajouter manuellement une ligne dans le fichier de configuration (celui-ci est détaillé ci-après) pour pouvoir l'utiliser. 
+
+Le fichier build-config.js recense l'ensemble des plugins que nous avons utilisés pour le projet. Il est donc facile de comparer cette liste avec celle fournie par le site CKEditor dans la page \url{http://ckeditor.com/builder}.   
+
+Nous avons décidé de retirer le plugin \enquote{list.js} et de le construire nous-mêmes pour ajouter la possibilité d'insérer des environnements questions et sous-questions. En cas d'évolution et de mise à jour, il est nécessaire de garder ce fichier pour conserver l'utilisation de balises questions et sous-questions. Ces fonctionnalités se traduisent, graphiquement, par l'ajout de deux boutons dans CKEditor~:
+
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[scale=1.0]{images/questionlist.png}
+&
+\includegraphics[scale=1.0]{images/subquestionlist.png}
+\\
+Questions
+&
+Sous-questions
+\\
+\end{tabular}
+\end{center}
+
+Ces boutons fonctionnent de la même manière qu'une liste d'items ou une énumération. Le rendu graphique de ces deux boutons est spécifié dans le fichier list.js. Par défaut, la balise \enquote{question} commence les énumérations par une lettre minuscule. Voci un exemple~:
+ 
+\begin{enumerate}[a)]
+\item Question 1
+\item Question 2
+\item \ldots	
+\end{enumerate} 
+
+La balise \enquote{sous-question} commence les énumérations par un chiffre romain~:
+\begin{enumerate}[i)]
+\item Sous question 1
+\item Sous question 2
+\item \ldots
+\end{enumerate} 
+
+Un autre fichier important est le fichier de configuration. Pour ce projet, nous avons créé un fichier de configuration pour la page création (myConfig.js) et un pour la page édition (myConfigUpdate.js). La différence entre les deux est seulement la taille de l'éditeur qui change pour l'édition pour des raisons esthétiques. Dans ce fichier de configuration, on personnalise la barre des plugins, la taille de l'éditeur et sa couleur. Pour ajouter des plugins externes comme c'est le cas pour l'ajout de questions et sous-questions, il faut rajouter la ligne suivante~:
+\lstset{style=customJavaScript}
+\begin{lstlisting}
+config.extraPlugins = 'list,pbckcode';
+\end{lstlisting}
+
+Les paramètres sont les noms des dossiers, dans le dossier plugins, séparés par des virgules. Il suffit ensuite de les ajouter dans la barre d'outils dans le fichier de config avec le nom précisé dans le fichier javascript. Par exemple dans list.js, nous avons appelé \enquote{QuestionList}, la fonctionnalité permettant l'ajout de questions. On précisera donc dans le fichier myConfig.js, dans la barre d'outils (config.toolbar\_Full), le nom \enquote{QuestionList} à l'endroit où l'on souhaite le placer. \\ 
+
+Nous avons ajouté, depuis leur site, le plugin MathJax, qui permet de saisir du code Latex dans un \enquote{textarea} et de générer la formule correspondante avant de l'insérer dans l'éditeur. Nous avons repris ce principe en ajoutant plus de fonctionnalités, en fournissant des formules, des équations et des symboles Latex pré-calculés. Ceci correspond au volet de droite des pages création et édition. Ainsi, l'utilisation du plugin \enquote{MathJax} devenait inutile et nous l'avons retiré de la barre d'outils laissant à l'utilisateur le soin d'utiliser notre module mathématique. Cependant, nous utilisons ce plugin qui s'occupe d'interpréter la formule et de l'insérer correctement dans CKEditor. En effet, lorsqu'une formule est créée depuis le volet de gauche, nous créons une balise \enquote{<span>} entourant cette formule et qui possède un attribut \enquote{class} avec la valeur \enquote{math-tex}. Cette valeur signifie au plugin que le contenu de la balise \enquote{<span>} est une formule et qu'il doit être interprété. 
+
+Voici un exemple, nous voulons ajouter la formule suivante~:~$\frac{x}{y}$. Lorsque celle-ci sera ajoutée dans l'éditeur, elle sera transformée en~:
+\begin{Verbatim}[frame=single,fontsize=\scriptsize]
+<span class="math-tex" data-latex="$ \frac{x}{y} $"> \( \frac{x}{y} \) </span>}
+\end{Verbatim}
+
+Les autres attributs seront détaillés plus tard, pour l'instant seuls nous intéressent la valeur \enquote{math-tex} et le contenu de ce qui est présent entre parenthèses. Lors de l'ajout, la valeur comprise entre les parenthèses est interprétée. Ceci vient du plugin MathJax qui interprète le contenu et insère la formule de départ. Cette interprétation est réalisée grâce à la librairie MathJax qui a donné son nom au plugin. L'explication de cette librairie est donnée dans la section suivante.\\
+
+Enfin, le fichier content.css contient la mise en page du texte dans CKEditor. Nous avons effectué quelques ajouts dans ce fichier pour améliorer la mise en page de certains éléments, notamment les formules mathématiques. 
+     
+\subsubsection{MathJax et utilitaire mathématique}
+
+\emph{MathJax} est une librairie open source réalisée en javaScript qui permet de générer des formules mathématiques de bonne qualité. On trouvera plus de renseignements sur le site \url{http://www.mathjax.org/}. On inclut la librairie à travers le CDN (Content Delivery Network) puis on met en place le script suivant~:
+
+\begin{lstlisting} 
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+        <script type="text/x-mathjax-config">
+                      MathJax.Hub.Config({
+                        tex2jax: {
+                          inlineMath: [["$","$"],["\\(","\\)"]]
+                        }
+                      });
+                      MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+                      var TEX = MathJax.InputJax.TeX;
+                      var PREFILTER = TEX.prefilterMath;
+                      TEX.Augment({
+                        prefilterMath: function (math,displaymode,script) {
+                          math = "\\displaystyle{"+math+"}";
+                          return PREFILTER.call(TEX,math,displaymode,script);
+                        }
+                      });
+                    });
+		</script>
+\end{lstlisting}
+
+La ligne 1 inclut la librairie MathJax avec le CDN. Les lignes suivantes permettent d'exécuter un script qui pour la page courante va analyser le contenu HTML et va interpréter tout ce qui se trouve entre dollars ou entre parenthèses (ligne 5, inlineMath) et transformer le contenu en formule mathématique Latex. 
+
+Les lignes 8 à 16 permettent de convertir les formules mathématiques dans l'environnement displayStyle de Latex ce qui permettait d'avoir, par exemple, les bornes et les limites des intégrales au dessus~:~$\displaystyle{\int _0^\infty}$ au lieu de $\int_0^\infty$. \\
+
+Nous avons utilisé cette librairie pour construire notre utilitaire mathématique. Cet utilitaire correspond aux fichiers suivants~:
+\smallskip
+\begin{itemize}
+\item math.scala.html~:~la vue
+\item math.js~:~le fichier javaScript comportant la majorité des traitements
+\end{itemize}
+\medskip
+
+L'une des problématiques que nous avons dû traiter est que, face à la grande quantité de contenu mathématique, le chargement de la page devenait très lent. Il fallait une quinzaine de secondes pour qu'elle soit correctement chargée et utilisable. Nous avons donc décidé de charger les formules dynamiquement. En effet, les formules mathématiques sont contenues dans un système d'accordéons (voir l'image ci-dessous). Ainsi, nous chargeons uniquement le contenu d'un accordéon au moment où celui-ci est déplié. Par conséquent, le chargement de la page est rapide et les éléments mathématiques sont chargés lorsque l'utilisateur en a besoin. 
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{images/utilitaireMath}
+\caption{Utilitaire mathématique}
+\end{center}
+\end{figure}
+
+Pour ce faire, nous avons des écouteurs \enquote{onclick} sur chaque accordéon et lorsque cet écouteur est déclenché, nous construisons l'affichage avec javaScript et plus précisément avec jQuery. Nous manipulons le DOM pour pour ajouter les différents éléments. Une fois ceci fait, il faut recharger le processus de MathJax pour que ce dernier réinterprète les éléments mathématiques. Pour ce faire, nous utilisons la ligne suivante (fichier math.js)~:
+\begin{lstlisting}
+ MathJax.Hub.Queue(["Typeset", MathJax.Hub, "tableDivers"]);
+\end{lstlisting}  
+
+Cette ligne est appelée juste après l'insertion du contenu mathématique avec jQuery. Elle indique à MathJax de réinterpréter le contenu de la balise ayant pour id, \enquote{tableDivers}. Les éléments seront alors affichés au format Latex. 
+
+La textarea permet de saisir du contenu Latex qui sera automatiquement interprété et transformé en formule mathématique juste en dessous de ce composant. L'utilisateur pourra ensuite ajouter la formule en cliquant sur le bouton \enquote{Ajouter}. D'un point de vue technique, nous plaçons un écouteur \enquote{onkeyup} sur la textarea qui sera appelé à chaque fois que l'utilisateur presse une touche. On récupère le contenu et on rappelle l'environnement MathJax comme précédemment.   
+
+\newpage
+\section{Conclusion}
+
+Nous avons au final réalisé la majorité des fonctionnalités demandées. En raison du manque de temps, la priorité s'est portée sur le cœur fonctionnel du site qui permet à ce jour~:
+
+\smallskip
+\begin{itemize}
+\item de voir les statistiques ainsi que les dernières activités du site web~;
+\item de saisir en ligne un exercice et ses corrigés associés dans un environnement intuitif~;
+\item de consulter exercices, corrigés et feuilles~;
+\item de modifier ou supprimer un exercice, un corrigé ou une feuille~;
+\item d'uploader une feuille Latex contenant un ou plusieurs exercices suivant le formalisme de la classe eisti-exam~;
+\item d'uploader un corrigé associé à un exercice~;
+\item de générer manuellement une feuille d'exercices~;
+\item de prévisualiser une feuille directement sur le site~;
+\item de sauvegarder le pdf associé à cette prévisualisation.
+\end{itemize}
+
+\medskip 
+Concernant la conversion HTML $\rightarrow$ Latex, il faut garder à l'esprit qu'il s'agît du point le plus sensible à la casse du projet en raison de la nature même de ce dernier langage. De nombreuses modifications ont déjà été apportées à cette transformation mais il n'est pas exclu que d'autres problèmes soient révélés au fur et à mesure de l'utilisation par le client. Afin de délivrer le produit le plus fiable possible, nous avons préféré laisser de côté~:
+
+\smallskip
+\begin{itemize}
+\item la génération automatique d'une feuille~;
+\item l'authentification d'un utilisateur~;
+\item la sécurisation du site web~;
+\item la prévisualisation d'un corrigé d'une feuille d'exercices et sa sauvegarde en pdf. Il convient de noter que la fonction de génération en pdf est implémentée, la page permettant à l'utilisateur de choisir le corrigé à inclure pour chaque exercice aussi. Seule l'étape entre les deux manque (la récupération des corrigés choisis et l'affichage de la feuille corrigée avec ces derniers).
+\end{itemize}
+
+\end{document}
