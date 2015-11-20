@@ -19,8 +19,8 @@ $ play idea
 
 Maintenant le projet est reconnu par intelliJ.
 
-
 Base de données NoSQL : MongoDB
+
 6) Télécharger mongods à l'adresse :
 http://www.mongodb.org/dr/fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.4.9.tgz/download
 
@@ -40,5 +40,6 @@ les variables d'environnement soient prises en compte (surtout pour TTH)
 – par le shell : aller dans le dossier projet-entreprise-exercices
 $ play ~run
 – depuis intelliJ : faire la commande depuis le terminal
+
 11) Play utilise le port 9000, pour accéder à la page d'accueil une fois le serveur lancé :
 localhost:9000
