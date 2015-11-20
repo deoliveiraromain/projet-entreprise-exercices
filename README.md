@@ -1,3 +1,5 @@
+Technos : Scala,HTML, CSS, Twitter Bootstrap, Jquery, MongoDB, ReactiveMongo.
+
 Installation du projet
 Code source du projet :
 
