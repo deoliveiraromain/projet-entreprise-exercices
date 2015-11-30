@@ -1,3 +1,5 @@
+# Projet Entreprise - Exercices
+
 Application d'édition, de visualisation d'exercices, et de génération de feuilles d'exercices.
 
 Technos : Scala, Play Framework, HTML, CSS, Twitter Bootstrap, Jquery, MongoDB, ReactiveMongo.
