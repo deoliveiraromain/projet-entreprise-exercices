@@ -1,4 +1,6 @@
-Technos : Scala,HTML, CSS, Twitter Bootstrap, Jquery, MongoDB, ReactiveMongo.
+Application d'édition, de visualisation d'exercices, et de génération de feuilles d'exercices.
+
+Technos : Scala, Play Framework, HTML, CSS, Twitter Bootstrap, Jquery, MongoDB, ReactiveMongo.
 
 Installation du projet
 Code source du projet :
